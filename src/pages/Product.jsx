@@ -2,7 +2,7 @@ import '../styles/product.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
-import { use } from 'react';
+import ProductDetail from '../components/ProductDetail';
 
 function Product() {
     const dataMock = [
@@ -15,8 +15,23 @@ function Product() {
             name: "Rolex Submariner",
             brand: "Rolex",
             quantity: 5,
+            status: "On Stock",
             price: 8999,
-            madeIn: "Switzerland"
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 2,
@@ -27,8 +42,23 @@ function Product() {
             name: "Omega Speedmaster",
             brand: "Omega",
             quantity: 10,
+            status: "Suspended",
             price: 6499,
-            madeIn: "Switzerland"
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 3,
@@ -40,7 +70,22 @@ function Product() {
             brand: "Tag Heuer",
             quantity: 8,
             price: 4299,
-            madeIn: "Switzerland"
+            status: "Suspended",
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 4,
@@ -52,7 +97,22 @@ function Product() {
             brand: "Seiko",
             quantity: 15,
             price: 549,
-            madeIn: "Japan"
+            status: "Suspended",
+            madeIn: "Japan",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 5,
@@ -64,7 +124,22 @@ function Product() {
             brand: "Casio",
             quantity: 20,
             price: 199,
-            madeIn: "Japan"
+            status: "Suspended",
+            madeIn: "Japan",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 6,
@@ -76,7 +151,22 @@ function Product() {
             brand: "Breitling",
             quantity: 3,
             price: 7999,
-            madeIn: "Switzerland"
+            status: "Suspended",
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 7,
@@ -88,7 +178,22 @@ function Product() {
             brand: "Citizen",
             quantity: 12,
             price: 349,
-            madeIn: "Japan"
+            status: "On Stock",
+            madeIn: "Japan",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 8,
@@ -100,7 +205,22 @@ function Product() {
             brand: "Tissot",
             quantity: 7,
             price: 695,
-            madeIn: "Switzerland"
+            status: "Suspended",
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 9,
@@ -112,7 +232,22 @@ function Product() {
             brand: "Audemars Piguet",
             quantity: 2,
             price: 23999,
-            madeIn: "Switzerland"
+            status: "Suspended",
+            madeIn: "Switzerland",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         },
         {
             id: 10,
@@ -124,18 +259,34 @@ function Product() {
             brand: "Hamilton",
             quantity: 9,
             price: 595,
-            madeIn: "USA"
+            status: "Suspended",
+            madeIn: "USA",
+            relatedImage: [
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg==",
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
+                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
+                "0Y4OHwAAAABJRU5ErkJggg=="
+            ]
         }
     ];
 
-
+    const [products, setProducts] = useState(dataMock);
     const [page, setPage] = useState(1);
+    const [productSelected, setProductSelected] = useState(null);
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 11;
-        if (screenHeight >= 750) return 9;
-        if (screenHeight >= 600) return 7;
+        if (screenHeight >= 900) return 10;
+        if (screenHeight >= 750) return 8;
+        if (screenHeight >= 600) return 6;
         return 4;
     }
 
@@ -168,133 +319,150 @@ function Product() {
     const [productsSelected, setProductsSelected] = useState([]);
 
     return (
-        <div className="product">
-            <div className="product__feature">
-                <div className="product__feature__sortfilter">
-                    <div className="product__feature__item">
-                        <div className="product__feature__item__icon">
-                            <FontAwesomeIcon icon={faSort} className='icon__check' />
+        <>
+            {productSelected && <ProductDetail product={productSelected} setProductSelected={setProductSelected} products={products} setProducts={setProducts} />}
+            <div className="product">
+                <div className="product__feature">
+                    <div className="product__feature__sortfilter">
+                        <div className="product__feature__item">
+                            <div className="product__feature__item__icon">
+                                <FontAwesomeIcon icon={faSort} className='icon__check' />
+                            </div>
+                            <select>
+                                <option value="" disabled>Sort</option>
+                                <option value="name">Creation Time</option>
+                                <option value="price">Price</option>
+                                <option value="totalpurchase">Price</option>
+                            </select>
                         </div>
-                        <select>
-                            <option value="" disabled>Sort</option>
-                            <option value="name">Creation Time</option>
-                            <option value="price">Price</option>
-                            <option value="totalpurchase">Price</option>
-                        </select>
-                    </div>
-                    <div className="product__feature__item">
-                        <div className="product__feature__item__icon">
-                            <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                        <div className="product__feature__item">
+                            <div className="product__feature__item__icon">
+                                <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                            </div>
+                            <select>
+                                <option value="" disabled>Filter</option>
+                                <option value="brand">Brand</option>
+                                <option value="Nation">Nation</option>
+                            </select>
                         </div>
-                        <select>
-                            <option value="" disabled>Filter</option>
-                            <option value="brand">Brand</option>
-                            <option value="Nation">Nation</option>
-                        </select>
                     </div>
-                </div>
-                <div className="product__feature__search">
-                    <input type="text" placeholder="Search..." />
-                    <button>
-                        <FontAwesomeIcon icon={faSearch} className='icon__search' />
-                    </button>
-                </div>
-            </div>
-
-            <div className="product__table">
-                <div className="product__table__header">
-                    <div className="product__table__attribute">
+                    <div className="product__feature__search">
+                        <input type="text" placeholder="Search..." />
                         <button>
-                            <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
+                            <FontAwesomeIcon icon={faSearch} className='icon__search' />
                         </button>
                     </div>
-
-                    <div className="product__table__attribute">
-                        <span>ID</span>
-                    </div>
-                    <div className="product__table__attribute">
-                        <span>Image</span>
-                    </div>
-
-                    <div className="product__table__attribute">
-                        <span>Name</span>
-                    </div>
-
-                    <div className="product__table__attribute">
-                        <span>Brand</span>
-                    </div>
-
-                    <div className="product__table__attribute">
-                        <span>Made In</span>
-                    </div>
-
-                    <div className="product__table__attribute">
-                        <span>Price</span>
-                    </div>
-
-                    <div className="product__table__attribute">
-                        <span>Num</span>
-                    </div>
                 </div>
 
-                <div className="product__table__data">
-                    {dataMock.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product) => (
-                        <div key={product.id} className="product__table__row">
-                            <div className="product__table__attribute">
-                                <input
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setProductsSelected([...productsSelected, product]);
-                                        } else {
-                                            setProductsSelected(productsSelected.filter((item) => item.id !== product.id));
+                <div className="product__table">
+                    <div className="product__table__header">
+                        <div className="product__table__attribute">
+                            <button>
+                                <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
+                            </button>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>ID</span>
+                        </div>
+                        <div className="product__table__attribute">
+                            <span>Image</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Name</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Brand</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Made In</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Price</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Num</span>
+                        </div>
+
+                        <div className="product__table__attribute">
+                            <span>Status</span>
+                        </div>
+                    </div>
+
+                    <div className="product__table__data">
+                        {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product) => (
+                            <button
+                                onClick={() => {
+                                    setProductSelected(product)
+                                }}
+                                key={product.id}
+                                className="product__table__row">
+                                <div className="product__table__attribute">
+                                    <input
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setProductsSelected([...productsSelected, product]);
+                                            } else {
+                                                setProductsSelected(productsSelected.filter((item) => item.id !== product.id));
+                                            }
                                         }
-                                    }
-                                    }
-                                    type="checkbox" />
-                            </div>
-                            <div className="product__table__attribute">{product.id}</div>
-                            <div className="product__table__attribute">
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    style={{ width: "50px", height: "50px" }}
-                                />
-                            </div>
-                            <div className="product__table__attribute">{product.name}</div>
-                            <div className="product__table__attribute">{product.brand}</div>
-                            <div className="product__table__attribute">{product.madeIn}</div>
-                            <div className="product__table__attribute">${product.price}</div>
-                            <div className="product__table__attribute">{product.quantity}</div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="product__table__footer">
-                    <div className="product__table__selected">
-                        <span>{productsSelected.length} selected</span>
-                        <button>
-                            <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
-                        </button>
+                                        }
+                                        type="checkbox" />
+                                </div>
+                                <div className="product__table__attribute">{product.id}</div>
+                                <div className="product__table__attribute">
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        style={{ width: "50px", height: "50px" }}
+                                    />
+                                </div>
+                                <div className="product__table__attribute">{product.name}</div>
+                                <div className="product__table__attribute">{product.brand}</div>
+                                <div className="product__table__attribute">{product.madeIn}</div>
+                                <div className="product__table__attribute">${product.price}</div>
+                                <div className="product__table__attribute">{product.quantity}</div>
+                                <div className="product__table__attribute">
+                                    <div
+                                        style={{ backgroundColor: product.status === "On Stock" ? "green" : (product.status === "Out of Stock" ? "red" : "yellow") }}
+                                        className="product__table__status"></div>
+                                </div>
+                            </button>
+                        ))}
                     </div>
 
-                    <div className="product__table__paging">
-                        <div className="product__table__paging__page">
-                            <span>{page}</span>|
-                            <span>{Math.ceil(dataMock.length / amountItem)}</span>
+                    <div className="product__table__footer">
+                        <div className="product__table__selected">
+                            <span>{productsSelected.length} selected</span>
+                            <button>
+                                <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
+                            </button>
                         </div>
 
-                        <div className="product__table__paging__button">
-                            <button onClick={decreasePage}>
-                                <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
-                            </button>
-                            <button onClick={increasePage}>
-                                <FontAwesomeIcon icon={faArrowRight} className='icon__paging' />
-                            </button>
+                        <div className="product__table__paging">
+                            <div className="product__table__paging__page">
+                                <span>{page}</span>|
+                                <span>{Math.ceil(dataMock.length / amountItem)}</span>
+                            </div>
+
+                            <div className="product__table__paging__button">
+                                <button onClick={decreasePage}>
+                                    <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
+                                </button>
+                                <button onClick={increasePage}>
+                                    <FontAwesomeIcon icon={faArrowRight} className='icon__paging' />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

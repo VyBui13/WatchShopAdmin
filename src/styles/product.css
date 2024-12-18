@@ -1,7 +1,6 @@
 /* */
 .product {
     width: 100%;
-    background-color: var(--item-color);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -43,8 +42,16 @@
 
 .product__table .product__table__attribute:first-child,
 .product__table .product__table__attribute:nth-child(2),
+.product__table .product__table__attribute:nth-last-child(2),
 .product__table .product__table__attribute:last-child {
-    flex: 1;
+    flex: 2;
+}
+
+.product__table .product__table__row .product__table__attribute .product__table__status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: aqua;
 }
 
 .product__table .product__table__attribute:nth-child(4) {
@@ -70,13 +77,22 @@
 
 .product__table__data {
     width: 100%;
+    background-color: var(--item-color);
     flex: 1;
 }
 
 .product__table__data .product__table__row {
     padding: 10px 20px;
     width: 100%;
+    border: none;
     display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--item-color);
+}
+
+.product__table__data .product__table__row:hover {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .product__table .product__table__attribute img {
@@ -171,7 +187,7 @@
     padding: 5px 10px;
     border: none;
     outline: nones;
-    background-color: var(--item-color);
+    background-color: transparent;
     color: var(--main-color);
     font-weight: 700;
     cursor: pointer;
@@ -187,7 +203,7 @@
     padding: 5px 10px;
     border: none;
     outline: none;
-    background-color: var(--item-color);
+    background-color: transparent;
     color: var(--main-color);
     border-bottom: 2px solid var(--main-color);
     font-weight: 700;
