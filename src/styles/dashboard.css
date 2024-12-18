@@ -1,13 +1,21 @@
 #dashboard {
     display: flex;
+    height: 100vh;
 }
 
 .dashboard__left {
-    background-color: red;
     width: 200px;
 }
 
 .dashboard__right {
-    background-color: blue;
     flex: 1;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard__data {
+    padding: 20px;
+    height: 100%;
 }

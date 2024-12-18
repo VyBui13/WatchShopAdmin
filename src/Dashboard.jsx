@@ -1,5 +1,6 @@
 import App from './App'
 import Header from './Header'
+import SubHeader from './SubHeader'
 import './styles/dashboard.css'
 
 function Dashboard() {
@@ -11,7 +12,10 @@ function Dashboard() {
                 </div>
 
                 <div className="dashboard__right">
-                    <App />
+                    <SubHeader />
+                    <div className="dashboard__data">
+                        <App />
+                    </div>
                 </div>
             </div>
         </>
