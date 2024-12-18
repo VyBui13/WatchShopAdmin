@@ -1,7 +1,7 @@
 import '../styles/product.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight, faTrash, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
 import { use } from 'react';
 
 function Product() {
@@ -15,7 +15,8 @@ function Product() {
             name: "Rolex Submariner",
             brand: "Rolex",
             quantity: 5,
-            price: 8999
+            price: 8999,
+            madeIn: "Switzerland"
         },
         {
             id: 2,
@@ -26,7 +27,8 @@ function Product() {
             name: "Omega Speedmaster",
             brand: "Omega",
             quantity: 10,
-            price: 6499
+            price: 6499,
+            madeIn: "Switzerland"
         },
         {
             id: 3,
@@ -37,7 +39,8 @@ function Product() {
             name: "Tag Heuer Carrera",
             brand: "Tag Heuer",
             quantity: 8,
-            price: 4299
+            price: 4299,
+            madeIn: "Switzerland"
         },
         {
             id: 4,
@@ -48,7 +51,8 @@ function Product() {
             name: "Seiko Presage",
             brand: "Seiko",
             quantity: 15,
-            price: 549
+            price: 549,
+            madeIn: "Japan"
         },
         {
             id: 5,
@@ -59,7 +63,8 @@ function Product() {
             name: "Casio G-Shock",
             brand: "Casio",
             quantity: 20,
-            price: 199
+            price: 199,
+            madeIn: "Japan"
         },
         {
             id: 6,
@@ -70,7 +75,8 @@ function Product() {
             name: "Breitling Navitimer",
             brand: "Breitling",
             quantity: 3,
-            price: 7999
+            price: 7999,
+            madeIn: "Switzerland"
         },
         {
             id: 7,
@@ -81,7 +87,8 @@ function Product() {
             name: "Citizen Eco-Drive",
             brand: "Citizen",
             quantity: 12,
-            price: 349
+            price: 349,
+            madeIn: "Japan"
         },
         {
             id: 8,
@@ -92,7 +99,8 @@ function Product() {
             name: "Tissot PRX",
             brand: "Tissot",
             quantity: 7,
-            price: 695
+            price: 695,
+            madeIn: "Switzerland"
         },
         {
             id: 9,
@@ -103,7 +111,8 @@ function Product() {
             name: "Audemars Piguet Royal Oak",
             brand: "Audemars Piguet",
             quantity: 2,
-            price: 23999
+            price: 23999,
+            madeIn: "Switzerland"
         },
         {
             id: 10,
@@ -114,9 +123,11 @@ function Product() {
             name: "Hamilton Khaki Field",
             brand: "Hamilton",
             quantity: 9,
-            price: 595
+            price: 595,
+            madeIn: "USA"
         }
     ];
+
 
     const [page, setPage] = useState(1);
 
@@ -125,7 +136,7 @@ function Product() {
         if (screenHeight >= 900) return 11;
         if (screenHeight >= 750) return 9;
         if (screenHeight >= 600) return 7;
-        return 5;
+        return 4;
     }
 
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
@@ -158,6 +169,38 @@ function Product() {
 
     return (
         <div className="product">
+            <div className="product__feature">
+                <div className="product__feature__sortfilter">
+                    <div className="product__feature__item">
+                        <div className="product__feature__item__icon">
+                            <FontAwesomeIcon icon={faSort} className='icon__check' />
+                        </div>
+                        <select>
+                            <option value="" disabled>Sort</option>
+                            <option value="name">Creation Time</option>
+                            <option value="price">Price</option>
+                            <option value="totalpurchase">Price</option>
+                        </select>
+                    </div>
+                    <div className="product__feature__item">
+                        <div className="product__feature__item__icon">
+                            <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                        </div>
+                        <select>
+                            <option value="" disabled>Filter</option>
+                            <option value="brand">Brand</option>
+                            <option value="Nation">Nation</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="product__feature__search">
+                    <input type="text" placeholder="Search..." />
+                    <button>
+                        <FontAwesomeIcon icon={faSearch} className='icon__search' />
+                    </button>
+                </div>
+            </div>
+
             <div className="product__table">
                 <div className="product__table__header">
                     <div className="product__table__attribute">
@@ -179,6 +222,10 @@ function Product() {
 
                     <div className="product__table__attribute">
                         <span>Brand</span>
+                    </div>
+
+                    <div className="product__table__attribute">
+                        <span>Made In</span>
                     </div>
 
                     <div className="product__table__attribute">
@@ -215,6 +262,7 @@ function Product() {
                             </div>
                             <div className="product__table__attribute">{product.name}</div>
                             <div className="product__table__attribute">{product.brand}</div>
+                            <div className="product__table__attribute">{product.madeIn}</div>
                             <div className="product__table__attribute">${product.price}</div>
                             <div className="product__table__attribute">{product.quantity}</div>
                         </div>
