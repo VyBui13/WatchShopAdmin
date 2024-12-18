@@ -1,0 +1,134 @@
+.productimport {
+    width: 100%;
+}
+
+.productimport__header h1 {
+    width: 100%;
+    color: var(--main-color);
+}
+
+.productimport__header p {
+    width: 100%;
+    color: var(--text-color);
+}
+
+.productimport__form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.productimport__form__item {
+    width: calc(100%/2 - 10px);
+    margin: 5px 0;
+    position: relative;
+}
+
+.detail__information__form {
+    position: absolute;
+    top: 100%;
+    display: flex;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: var(--item-color);
+    color: var(--text-color);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.productimport__form__item__icon {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    cursor: pointer;
+}
+
+.productimport__form__item__icon .icon__item {
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+.detail__information__form .detail__information__form__item {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.productimport__form__item input {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    background-color: var(--item-color);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--text-color);
+    font-weight: 700;
+}
+
+.productimport__form__item input[type="file"] {
+    cursor: pointer;
+}
+
+.productimport__form__item input[type="file"]::-webkit-file-upload-button {
+    display: none;
+}
+
+.productimport__form__item select {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    background-color: var(--item-color);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--text-color);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.productimport__form__item select option:first-child {}
+
+.add-new-item {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.add-new-item button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 5px;
+    background-color: var(--item-color);
+    color: var(--text-color);
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    border: 2px solid var(--text-color);
+}
+
+.productimport__form__footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.productimport__form__button button {
+    padding: 10px 20px;
+    background-color: var(--text-color);
+    color: var(--item-color);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 700;
+    margin: 0 5px;
+    transition: all 0.3s;
+}
