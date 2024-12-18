@@ -21,7 +21,7 @@ html {
 :root {
   --border-radius: 10px;
   --main-color: #80002a;
-  --main-scroll-color: #3b3b3b93;
+  --main-scroll-color: #3b3b3b84;
   --background-color: #fff;
   --item-color: #f2f2f2;
   --text-color: #000;
@@ -51,6 +51,6 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(65, 63, 63);
   z-index: 100;
 }

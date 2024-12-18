@@ -13,6 +13,7 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
+    background-color: var(--background-color);
 }
 
 .dashboard__data {
