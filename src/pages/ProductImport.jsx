@@ -24,15 +24,13 @@ function ProductImport() {
         },
         brand: "",
         madeIn: "",
-        mainImage: null,
-        additionalImages: [],
     });
 
     const handleAddBrand = () => {
         if (newBrand && !brands.includes(newBrand)) {
             setBrands([...brands, newBrand]);
             setProduct({ ...product, brand: newBrand });
-            setNewBrand(""); // Reset input
+            setNewBrand("");
         }
     };
 
@@ -41,19 +39,67 @@ function ProductImport() {
         if (newMadeIn && !madeInList.includes(newMadeIn)) {
             setMadeInList([...madeInList, newMadeIn]);
             setProduct({ ...product, madeIn: newMadeIn });
-            setNewMadeIn(""); // Reset input
+            setNewMadeIn("");
         }
     };
 
-    const handleMainImageChange = (e) => {
-        const file = e.target.files[0]; // Lấy ảnh đầu tiên người dùng chọn
-        setProduct({ ...product, mainImage: file });
+    const fetchUrl = "https://api.cloudinary.com/v1_1/di98tgjbr/image/upload";
+    const [mainImage, setMainImage] = useState(null);
+    const [relatedImages, setRelatedImages] = useState([]);
+
+    const handleRelatedImagesChange = (e) => {
+        setRelatedImages(e.target.files);
     };
 
-    const handleAdditionalImagesChange = (e) => {
-        const files = Array.from(e.target.files); // Chuyển đổi FileList thành mảng
-        setProduct({ ...product, additionalImages: files });
+    const handleMainImageChange = (e) => {
+        setMainImage(e.target.files[0]);
     };
+
+    const handleUpload = async () => {
+        // if (!image) {
+        //     alert("Please select an image first!");
+        //     return;
+        // }
+
+        const uploadImage = async (image) => {
+            const formData = new FormData();
+            formData.append("file", image);
+            formData.append("upload_preset", "firsttime");
+            formData.append("cloud_name", "di98tgjbr");
+
+            const response = await fetch(fetchUrl, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to upload ${image.name}`);
+            }
+
+            const data = await response.json();
+            return data.url; // Trả về URL của ảnh đã tải lên
+        };
+
+        try {
+            const mainImageUrl = await uploadImage(mainImage);
+            const relatedImagesUrls = [];
+            for (const image of relatedImages) {
+                const url = await uploadImage(image);
+                relatedImagesUrls.push(url);
+            }
+
+            console.log("Main Image URL:", mainImageUrl);
+            console.log("Related Images URLs:", relatedImagesUrls);
+
+        } catch (error) {
+            alert(error.message);
+        }
+
+    };
+
+    function handleSubmit() {
+
+    }
 
     return (
         <>
@@ -92,28 +138,26 @@ function ProductImport() {
 
                     <div className="productimport__form__item">
                         <input
-                            value={`${product.detail.size ? "Size: " + product.detail.size : ""}${product.detail.material ? " Material: " + product.detail.material : ""}`}
+                            value={product.madeIn}
                             type="text"
-                            placeholder="Detail Information" disabled />
-                        <div className="productimport__form__item__icon">
-                            <FontAwesomeIcon icon={faPencil} className="icon__item" onClick={() => setIsDetail(!isDetail)} />
-                        </div>
-                        {isDetail && <div className="detail__information__form">
-                            <div className="detail__information__form__item">
-                                <input
-                                    value={product.detail.size}
-                                    onChange={(e) => setProduct({ ...product, detail: { ...product.detail, size: e.target.value } })}
-                                    type="text"
-                                    placeholder="Size" />
-                            </div>
-                            <div className="detail__information__form__item">
-                                <input
-                                    value={product.detail.material}
-                                    onChange={(e) => setProduct({ ...product, detail: { ...product.detail, material: e.target.value } })}
-                                    type="text"
-                                    placeholder="Material" />
-                            </div>
-                        </div>}
+                            onChange={(e) => setProduct({ ...product, madeIn: e.target.value })}
+                            placeholder="Origin" />
+                    </div>
+
+                    <div className="productimport__form__item">
+                        <input
+                            value={product.detail.size}
+                            type="text"
+                            onChange={(e) => setProduct({ ...product, detail: { ...product.detail, size: e.target.value } })}
+                            placeholder="Size" />
+                    </div>
+
+                    <div className="productimport__form__item">
+                        <input
+                            value={product.detail.material}
+                            type="text"
+                            onChange={(e) => setProduct({ ...product, detail: { ...product.detail, material: e.target.value } })}
+                            placeholder="Material" />
                     </div>
 
                     <div className="productimport__form__item">
@@ -153,7 +197,7 @@ function ProductImport() {
                             onChange={(e) => setProduct({ ...product, madeIn: e.target.value })}
                         >
                             <option value="" disabled>
-                                Select Made In
+                                Select Category
                             </option>
                             {madeInList.map((madeIn, index) => (
                                 <option key={index} value={madeIn}>
@@ -181,7 +225,9 @@ function ProductImport() {
                             type="file"
                             accept="image/*"
                             onChange={handleMainImageChange}
+                            id='mainimage__product__import'
                         />
+                        <label htmlFor="mainimage__product__import">Upload Main Image</label>
                         {/* {product.mainImage && <p>Selected Main Image: {product.mainImage.name}</p>} */}
                     </div>
 
@@ -191,8 +237,10 @@ function ProductImport() {
                             type="file"
                             accept="image/*"
                             multiple
-                            onChange={handleAdditionalImagesChange}
+                            onChange={handleRelatedImagesChange}
+                            id='relatedimage__product__import'
                         />
+                        <label htmlFor="relatedimage__product__import">Upload Related Images</label>
                         {/* {product.additionalImages.length > 0 && (
                             <div>
                                 <p>Selected Additional Images:</p>
@@ -209,7 +257,7 @@ function ProductImport() {
                 <div className="productimport__form__footer">
                     <div className="productimport__form__button">
                         <button>Reset</button>
-                        <button>Import</button>
+                        <button onClick={handleUpload}>Import</button>
                     </div>
                 </div>
             </div>

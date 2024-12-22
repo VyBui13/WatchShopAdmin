@@ -278,7 +278,9 @@ function Product() {
         }
     ];
 
-    const [products, setProducts] = useState(dataMock);
+
+
+    const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [productSelected, setProductSelected] = useState(null);
 
@@ -291,6 +293,25 @@ function Product() {
     }
 
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch('http://localhost:3000/product');
+                const data = await res.json();
+                console.log(data);
+                if (data.status !== 'success') {
+                    console.log('Error fetching data');
+                    return;
+                }
+                setProducts(data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -395,7 +416,7 @@ function Product() {
                     </div>
 
                     <div className="product__table__data">
-                        {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product) => (
+                        {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product, index) => (
                             <button
                                 onClick={() => {
                                     setProductSelected(product)
@@ -414,19 +435,19 @@ function Product() {
                                         }
                                         type="checkbox" />
                                 </div>
-                                <div className="product__table__attribute">{product.id}</div>
+                                <div className="product__table__attribute">{product._id.slice(-4)}</div>
                                 <div className="product__table__attribute">
                                     <img
-                                        src={product.image}
-                                        alt={product.name}
+                                        src={product.productMainImage}
+                                        alt={product.productName}
                                         style={{ width: "50px", height: "50px" }}
                                     />
                                 </div>
-                                <div className="product__table__attribute">{product.name}</div>
-                                <div className="product__table__attribute">{product.brand}</div>
-                                <div className="product__table__attribute">{product.madeIn}</div>
-                                <div className="product__table__attribute">${product.price}</div>
-                                <div className="product__table__attribute">{product.quantity}</div>
+                                <div className="product__table__attribute">{product.productName}</div>
+                                <div className="product__table__attribute">{product.productBrand}</div>
+                                <div className="product__table__attribute">{product.productMadeIn}</div>
+                                <div className="product__table__attribute">${product.productPrice}</div>
+                                <div className="product__table__attribute">{product.productQuantity}</div>
                                 <div className="product__table__attribute">
                                     <div
                                         style={{ backgroundColor: product.status === "On Stock" ? "green" : (product.status === "Out of Stock" ? "red" : "yellow") }}

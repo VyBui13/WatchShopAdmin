@@ -1,0 +1,81 @@
+/* Container chính */
+.form {
+    padding: 20px;
+    background-color: var(--item-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+}
+
+.form__header {
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+/* Tiêu đề form */
+.form__header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.form__header p {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form form .form__line {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form form .form__line .form__group {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+}
+
+.form form .form__line .form__group label {
+    min-width: 150px;
+    font-weight: 700;
+}
+
+.form form .form__line .form__group input,
+.form form .form__line .form__group select {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #333;
+}
+
+.form form .form__line .form__group input[type="file"] {
+    cursor: pointer;
+}
+
+.form form .form__line .form__group input[type="file"]::-webkit-file-upload-button {
+    display: none;
+}
+
+.form__button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.form__button button {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+}

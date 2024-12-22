@@ -6,7 +6,8 @@
   box-sizing: border-box;
 }
 
-input {
+input,
+select {
   font-family: "Varela Round";
 }
 
