@@ -1,0 +1,79 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom right, var(--main-color), #000);
+    padding: 20px;
+}
+
+.login {
+    padding: 30px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.6);
+    background-color: #fff;
+    border-radius: var(--border-radius);
+}
+
+.login .login__title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login .login__title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    color: var(--main-color);
+    text-transform: uppercase;
+}
+
+.login .login__title p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+.login .login__body {}
+
+.login .login__body .login__input {
+    display: flex;
+    margin: 10px 0;
+    border: 2px solid var(--main-color);
+}
+
+.login .login__body .login__input .icon__login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 5px;
+}
+
+.login .login__body .login__input input {
+    border: none;
+    outline: none;
+    padding: 0 10px;
+}
+
+.login .login__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.login .login__button button {
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0 10px;
+}
+
+.login .login__button button:hover {
+    background-color: var(--main-color);
+    color: #fff;
+    border-color: #fff;
+}
