@@ -41,18 +41,30 @@
     align-items: center;
 }
 
+.form form .form__line .form__group textarea {
+    width: 100%;
+    color: var(--text-color);
+    background: transparent;
+    outline: none;
+    padding: 5px 10px;
+    border: 2px solid var(--text-color);
+}
+
 .form form .form__line .form__group label {
     min-width: 150px;
     font-weight: 700;
+    color: var(--text-color);
 }
 
 .form form .form__line .form__group input,
 .form form .form__line .form__group select {
     width: 100%;
+    color: var(--text-color);
     padding: 5px 10px;
     border: none;
     outline: none;
-    border-bottom: 2px solid #333;
+    background: transparent;
+    border-bottom: 2px solid var(--text-color);
 }
 
 .form form .form__line .form__group input[type="file"] {

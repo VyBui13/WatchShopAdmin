@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faList, faRightFromBracket, faClock, faPen, faFilter, faClipboard, faBell } from '@fortawesome/free-solid-svg-icons'
 import './styles/header.css'
+import { Link } from 'react-router-dom'
 
 function Header() {
     return (
@@ -15,12 +16,14 @@ function Header() {
                     <div className="header__nav__items__title">
                         Dashboard
                     </div>
-                    <div className="header__nav__items__content">
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faHome} className='icon__item' />
-                            <span>Home</span>
+                    <Link to='/'>
+                        <div className="header__nav__items__content">
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faHome} className='icon__item' />
+                                <span>Home</span>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
 
                 <div className="header__nav__items">
@@ -28,14 +31,18 @@ function Header() {
                         Product
                     </div>
                     <div className="header__nav__items__content">
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faList} className='icon__item' />
-                            <span>Management</span>
-                        </div>
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faPen} className='icon__item' />
-                            <span>Creation</span>
-                        </div>
+                        <Link to='/product'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faList} className='icon__item' />
+                                <span>Management</span>
+                            </div>
+                        </Link>
+                        <Link to='/product/import'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faPen} className='icon__item' />
+                                <span>Creation</span>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 
@@ -45,17 +52,35 @@ function Header() {
                         Account
                     </div>
                     <div className="header__nav__items__content">
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faList} className='icon__item' />
-                            <span>Management</span>
-                        </div>
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faFilter} className='icon__item' />
-                            <span>Blacklist</span>
-                        </div>
+                        <Link to='/account'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faList} className='icon__item' />
+                                <span>Management</span>
+                            </div>
+                        </Link>
+                        <Link to='/'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faClipboard} className='icon__item' />
+                                <span>Order</span>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+
+                <div className="header__nav__items">
+                    <div className="header__nav__items__title">
+                        Kind
+                    </div>
+                    <div className="header__nav__items__content">
+                        <Link to='/category'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faList} className='icon__item' />
+                                <span>Category</span>
+                            </div>
+                        </Link>
                         <div className="header__nav__item">
                             <FontAwesomeIcon icon={faClipboard} className='icon__item' />
-                            <span>Order</span>
+                            <span>Manufacturer</span>
                         </div>
                     </div>
                 </div>
