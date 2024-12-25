@@ -1,63 +1,147 @@
 import '../styles/product_detail.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
-import { handleFileChange } from '../utils/ImageConverter';
+import { uploadImage } from '../utils/UploadImageProvider';
 
 function ProductDetail({ product, setProductSelected, products, setProducts }) {
     const [productInfo, setProductInfo] = useState(product);
     const [isEditName, setIsEditName] = useState(false);
     const [isEditPrice, setIsEditPrice] = useState(false);
-    const [isEditMadeIn, setIsEditMadeIn] = useState(false);
+    const [isEditCategory, setIsEditCategory] = useState(false);
     const [isEditBrand, setIsEditBrand] = useState(false);
     const [isEditStatus, setIsEditStatus] = useState(false);
 
-    const availableBrands = ["Rolex", "Omega", "Tag Heuer", "Seiko", "Casio"];
-    const availableMadeIn = ["Switzerland", "Japan", "USA"];
-    const availableStatus = ["On Stock", "Out of Stock", "Suspended", "Discontinued"];
+    const [brandList, setBrandList] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+    const productStatus = ["On Stock", "Out Of Stock", "Suspended"];
+
+
+    const [mainImageReview, setMainImageReview] = useState(product.productMainImage);
+    const [relatedImagesReview, setRelatedImagesReview] = useState(product.productRelatedImages);
+    const [addRelatedImages, setAddRelatedImages] = useState([]);
+    const [addMainImage, setAddMainImage] = useState('');
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/category");
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to fetch categories:", data.message);
+                    return;
+                }
+                setCategoryList(data.data);
+            }
+            catch (error) {
+                console.error("Failed to fetch categories:", error);
+            }
+        }
+
+        const fetchBrands = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/brand");
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to fetch brandList:", data.message);
+                    return;
+                }
+                setBrandList(data.data);
+            }
+            catch (error) {
+                console.error("Failed to fetch brandList:", error);
+            }
+        }
+
+        fetchCategories();
+        fetchBrands();
+    }, []);
 
     function handleCancel() {
         setProductSelected(null);
     }
 
     function handleRemoveRelatedImage(index) {
-        const newRelatedImage = productInfo.relatedImage.filter((image, i) => i !== index);
-        setProductInfo({ ...productInfo, relatedImage: newRelatedImage });
+        const newRelatedImage = productInfo.productRelatedImages.filter((image, i) => i !== index);
+        const newRelatedImageReview = relatedImagesReview.filter((image, i) => i !== index);
+        setRelatedImagesReview(newRelatedImageReview);
+        setProductInfo({ ...productInfo, productRelatedImages: newRelatedImage });
     }
 
     async function handleChangeMainImage(e) {
         const file = e.target.files[0];
-        const base64String = await handleFileChange(file);
-        setProductInfo({ ...productInfo, image: base64String });
+        setMainImageReview(URL.createObjectURL(file));
+        setAddMainImage(file);
     }
 
     async function handleAddRelatedImage(e) {
         const files = Array.from(e.target.files);
-        const relatedImages = [...productInfo.relatedImage];
-
+        const relatedImages = [...addRelatedImages];
+        const relatedImagesUrl = [...relatedImagesReview];
         for (const file of files) {
-            const base64String = await handleFileChange(file);
-            relatedImages.push(base64String);
+            const imageUrl = URL.createObjectURL(file);
+            relatedImagesUrl.push(imageUrl);
+            relatedImages.push(file);
         }
 
-        setProductInfo({ ...productInfo, relatedImage: relatedImages });
-    }
-
-    function handleAddNewOption(field, newValue) {
-        if (field === 'brand' && !availableBrands.includes(newValue)) {
-            availableBrands.push(newValue);
-            setProductInfo({ ...productInfo, brand: newValue });
-        }
-
-        if (field === 'madeIn' && !availableMadeIn.includes(newValue)) {
-            availableMadeIn.push(newValue);
-            setProductInfo({ ...productInfo, madeIn: newValue });
-        }
+        setRelatedImagesReview(relatedImagesUrl);
+        setAddRelatedImages(relatedImages);
     }
 
     async function handleSave() {
+        const updateProduct = async () => {
+            let mainImageUrlUpload = '';
+            let relatedImageUrlUpload = [];
+            if (addMainImage !== '') {
+                try {
+                    const imageUrl = await uploadImage(addMainImage);
+                    mainImageUrlUpload = imageUrl;
+                }
+                catch (error) {
+                    console.error("Failed to upload main image:", error);
+                }
+            }
+            if (addRelatedImages.length > 0) {
+                const relatedImages = await Promise.all(addRelatedImages.map(async (image) => {
+                    try {
+                        const imageUrl = await uploadImage(image);
+                        return imageUrl;
+                    }
+                    catch (error) {
+                        console.error("Failed to upload related image:", error);
+                    }
+                }));
+                relatedImageUrlUpload = relatedImages;
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/product/${productInfo._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...productInfo,
+                        productMainImage: mainImageUrlUpload !== '' ? mainImageUrlUpload : productInfo.productMainImage,
+                        productRelatedImages: relatedImageUrlUpload.length > 0 ? [...productInfo.productRelatedImages, ...relatedImageUrlUpload] : productInfo.productRelatedImages
+                    }),
+                });
+
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to update product:", data.message);
+                    return;
+                }
+                console.log("Product updated successfully");
+            }
+            catch (error) {
+                console.error("Failed to update product:", error);
+            }
+        }
+
+        await updateProduct();
+
         const newProducts = [...products];
-        const index = newProducts.findIndex((p) => p.id === product.id);
+        const index = newProducts.findIndex((p) => p._id === productInfo._id);
         newProducts[index] = productInfo;
         setProducts(newProducts);
         setProductSelected(null);
@@ -76,13 +160,13 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                                 accept="image/*"
                             />
                             <label htmlFor="product_main_image">
-                                <img src={productInfo.image} alt={product.name} />
+                                <img src={mainImageReview} alt={product.productName} />
                             </label>
                         </div>
                         <div className="productdetail__related__image">
-                            {productInfo.relatedImage.slice(0, 3).map((image, index) => (
+                            {relatedImagesReview.slice(0, 3).map((image, index) => (
                                 <button key={index} onClick={() => handleRemoveRelatedImage(index)}>
-                                    <img key={index} src={image} alt={product.name} />
+                                    <img key={index} src={image} alt={product.productName} />
                                 </button>
                             ))}
                         </div>
@@ -109,9 +193,9 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                             <div className="productdetail__info__item">
                                 <span>Name</span>
                                 <input
-                                    value={productInfo.name}
+                                    value={productInfo.productName}
                                     type="text"
-                                    onChange={(e) => setProductInfo({ ...productInfo, name: e.target.value })}
+                                    onChange={(e) => setProductInfo({ ...productInfo, productName: e.target.value })}
                                     disabled={!isEditName} />
                                 <button onClick={() => setIsEditName(!isEditName)}>
                                     <FontAwesomeIcon icon={faPen} />
@@ -121,9 +205,9 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                             <div className="productdetail__info__item">
                                 <span>Price</span>
                                 <input
-                                    value={productInfo.price}
+                                    value={productInfo.productPrice}
                                     type="text"
-                                    onChange={(e) => setProductInfo({ ...productInfo, price: e.target.value })}
+                                    onChange={(e) => setProductInfo({ ...productInfo, productPrice: e.target.value })}
                                     disabled={!isEditPrice} />
                                 <button onClick={() => setIsEditPrice(!isEditPrice)}>
                                     <FontAwesomeIcon icon={faPen} />
@@ -131,16 +215,16 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                             </div>
 
                             <div className="productdetail__info__item">
-                                <span>From</span>
+                                <span>Category</span>
                                 <select
-                                    value={productInfo.madeIn}
-                                    onChange={(e) => setProductInfo({ ...productInfo, madeIn: e.target.value })}
-                                    disabled={!isEditMadeIn}>
-                                    {availableMadeIn.map((country, index) => (
-                                        <option key={index} value={country}>{country}</option>
+                                    value={productInfo.productCategory}
+                                    onChange={(e) => setProductInfo({ ...productInfo, productCategory: e.target.value })}
+                                    disabled={!isEditCategory}>
+                                    {categoryList.map((category, index) => (
+                                        <option key={index} value={category._id}>{category.categoryName}</option>
                                     ))}
                                 </select>
-                                <button onClick={() => setIsEditMadeIn(!isEditMadeIn)}>
+                                <button onClick={() => setIsEditCategory(!isEditCategory)}>
                                     <FontAwesomeIcon icon={faPen} />
                                 </button>
 
@@ -149,11 +233,12 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                             <div className="productdetail__info__item">
                                 <span>Brand</span>
                                 <select
-                                    value={productInfo.brand}
-                                    onChange={(e) => setProductInfo({ ...productInfo, brand: e.target.value })}
+                                    value={productInfo.productBrand}
+                                    onChange={(e) => setProductInfo({ ...productInfo, productBrand: e.target.value })}
                                     disabled={!isEditBrand}>
-                                    {availableBrands.map((brand, index) => (
-                                        <option key={index} value={brand}>{brand}</option>
+
+                                    {brandList.map((brand, index) => (
+                                        <option key={index} value={brand._id}>{brand.brandName}</option>
                                     ))}
                                 </select>
                                 <button onClick={() => setIsEditBrand(!isEditBrand)}>
@@ -164,10 +249,10 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                             <div className="productdetail__info__item">
                                 <span>Status</span>
                                 <select
-                                    value={productInfo.status}
-                                    onChange={(e) => setProductInfo({ ...productInfo, status: e.target.value })}
+                                    value={productInfo.productStatus}
+                                    onChange={(e) => setProductInfo({ ...productInfo, productStatus: e.target.value })}
                                     disabled={!isEditStatus}>
-                                    {availableStatus.map((status, index) => (
+                                    {productStatus.map((status, index) => (
                                         <option key={index} value={status}>{status}</option>
                                     ))}
                                 </select>

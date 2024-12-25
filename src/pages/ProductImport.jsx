@@ -1,49 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/product_import.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { uploadImage } from '../utils/UploadImageProvider';
 
 function ProductImport() {
-    const initialBrands = ["Rolex", "Omega", "Seiko", "Casio", "Tissot"];
-    const initialMadeIn = ["Switzerland", "Japan", "USA"];
 
-    const [brands, setBrands] = useState(initialBrands);
-    const [madeInList, setMadeInList] = useState(initialMadeIn);
-    const [newBrand, setNewBrand] = useState("");
-    const [newMadeIn, setNewMadeIn] = useState("");
+    const [brands, setBrands] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+    const productStatus = ["On Stock", "Out Of Stock", "Suspended"];
 
-    const [isDetail, setIsDetail] = useState(false);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/category");
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to fetch categories:", data.message);
+                    return;
+                }
+                setCategoryList(data.data);
+            }
+            catch (error) {
+                console.error("Failed to fetch categories:", error);
+            }
+        }
+
+        const fetchBrands = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/brand");
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to fetch brands:", data.message);
+                    return;
+                }
+                setBrands(data.data);
+            }
+            catch (error) {
+                console.error("Failed to fetch brands:", error);
+            }
+        }
+
+        fetchCategories();
+        fetchBrands();
+    }, []);
 
     const [product, setProduct] = useState({
-        name: "",
-        price: "",
-        quantity: "",
-        detail: {
-            size: "",
-            material: "",
+        productName: "",
+        productPrice: "",
+        productQuantity: "",
+        productDetail: {
+            productSize: "",
+            productMaterial: "",
         },
-        brand: "",
-        madeIn: "",
+        productBrand: "",
+        productCategory: "",
+        productStatus: "",
+        productDescription: "",
+        productMainImage: "",
+        productRelatedImages: [],
     });
 
-    const handleAddBrand = () => {
-        if (newBrand && !brands.includes(newBrand)) {
-            setBrands([...brands, newBrand]);
-            setProduct({ ...product, brand: newBrand });
-            setNewBrand("");
-        }
-    };
-
-    // Xử lý thêm madeIn mới
-    const handleAddMadeIn = () => {
-        if (newMadeIn && !madeInList.includes(newMadeIn)) {
-            setMadeInList([...madeInList, newMadeIn]);
-            setProduct({ ...product, madeIn: newMadeIn });
-            setNewMadeIn("");
-        }
-    };
-
-    const fetchUrl = "https://api.cloudinary.com/v1_1/di98tgjbr/image/upload";
     const [mainImage, setMainImage] = useState(null);
     const [relatedImages, setRelatedImages] = useState([]);
 
@@ -56,30 +73,6 @@ function ProductImport() {
     };
 
     const handleUpload = async () => {
-        // if (!image) {
-        //     alert("Please select an image first!");
-        //     return;
-        // }
-
-        const uploadImage = async (image) => {
-            const formData = new FormData();
-            formData.append("file", image);
-            formData.append("upload_preset", "firsttime");
-            formData.append("cloud_name", "di98tgjbr");
-
-            const response = await fetch(fetchUrl, {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to upload ${image.name}`);
-            }
-
-            const data = await response.json();
-            return data.url; // Trả về URL của ảnh đã tải lên
-        };
-
         try {
             const mainImageUrl = await uploadImage(mainImage);
             const relatedImagesUrls = [];
@@ -87,9 +80,8 @@ function ProductImport() {
                 const url = await uploadImage(image);
                 relatedImagesUrls.push(url);
             }
-
-            console.log("Main Image URL:", mainImageUrl);
-            console.log("Related Images URLs:", relatedImagesUrls);
+            console.log(mainImageUrl, relatedImagesUrls);
+            setProduct({ ...product, productMainImage: mainImageUrl, productRelatedImages: relatedImagesUrls });
 
         } catch (error) {
             alert(error.message);
@@ -97,8 +89,31 @@ function ProductImport() {
 
     };
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        await handleUpload();
+        const addData = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/product", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(product),
+                });
 
+                const data = await response.json();
+                if (data.status !== "success") {
+                    console.error("Failed to add product:", data.message);
+                    return;
+                }
+                console.log("Product added successfully:", data.data);
+            }
+            catch (error) {
+                console.error("Failed to add product:", error);
+            }
+        }
+        await addData();
+        console.log(product);
     }
 
     return (
@@ -113,8 +128,8 @@ function ProductImport() {
                     {/* Input Name */}
                     <div className="productimport__form__item">
                         <input
-                            value={product.name}
-                            onChange={(e) => setProduct({ ...product, name: e.target.value })}
+                            value={product.productName}
+                            onChange={(e) => setProduct({ ...product, productName: e.target.value })}
                             type="text"
                             placeholder="Name" />
                     </div>
@@ -122,104 +137,93 @@ function ProductImport() {
                     {/* Input Price */}
                     <div className="productimport__form__item">
                         <input
-                            value={product.price}
-                            onChange={(e) => setProduct({ ...product, price: e.target.value })}
+                            value={product.productPrice}
+                            onChange={(e) => setProduct({ ...product, productPrice: e.target.value })}
                             type="text"
                             placeholder="Price" />
                     </div>
 
                     <div className="productimport__form__item">
                         <input
-                            value={product.quantity}
-                            onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
+                            value={product.productQuantity}
+                            onChange={(e) => setProduct({ ...product, productQuantity: e.target.value })}
                             type="text"
                             placeholder="Quantity" />
                     </div>
 
                     <div className="productimport__form__item">
-                        <input
-                            value={product.madeIn}
+                        <select
+                            value={product.productStatus}
+                            onChange={(e) => setProduct({ ...product, productStatus: e.target.value })}
+                        >
+                            <option value="" disabled>
+                                Status
+                            </option>
+                            {productStatus.map((item, index) => (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
+
+                        {/* <input
+                            value={product.productStatus}
                             type="text"
-                            onChange={(e) => setProduct({ ...product, madeIn: e.target.value })}
-                            placeholder="Origin" />
+                            onChange={(e) => setProduct({ ...product, productCategory: e.target.value })}
+                            placeholder="Origin" /> */}
                     </div>
 
                     <div className="productimport__form__item">
                         <input
-                            value={product.detail.size}
+                            value={product.productDetail.productSize}
                             type="text"
-                            onChange={(e) => setProduct({ ...product, detail: { ...product.detail, size: e.target.value } })}
+                            onChange={(e) => setProduct({ ...product, productDetail: { ...product.productDetail, productSize: e.target.value } })}
                             placeholder="Size" />
                     </div>
 
                     <div className="productimport__form__item">
                         <input
-                            value={product.detail.material}
+                            value={product.productDetail.productMaterial}
                             type="text"
-                            onChange={(e) => setProduct({ ...product, detail: { ...product.detail, material: e.target.value } })}
+                            onChange={(e) => setProduct({ ...product, productDetail: { ...product.productDetail, productMaterial: e.target.value } })}
                             placeholder="Material" />
                     </div>
 
                     <div className="productimport__form__item">
                         <select
-                            value={product.brand}
-                            onChange={(e) => setProduct({ ...product, brand: e.target.value })}
+                            value={product.productBrand}
+                            onChange={(e) => setProduct({ ...product, productBrand: e.target.value })}
                         >
                             <option value="" disabled>
                                 Select Brand
                             </option>
-                            {brands.map((brand, index) => (
-                                <option key={index} value={brand}>
-                                    {brand}
+                            {brands.map((productBrand, index) => (
+                                <option key={index} value={productBrand._id}>
+                                    {productBrand.brandName}
                                 </option>
                             ))}
-                            <option value="add-new">Add New Brand</option>
                         </select>
 
-                        {/* Hiển thị input thêm brand mới nếu "Add New" được chọn */}
-                        {product.brand === "add-new" && (
-                            <div className="add-new-item">
-                                <input
-                                    type="text"
-                                    placeholder="New Brand"
-                                    value={newBrand}
-                                    onChange={(e) => setNewBrand(e.target.value)}
-                                />
-                                <button onClick={handleAddBrand}>+</button>
-                            </div>
-                        )}
                     </div>
 
-                    {/* Dropdown Made In */}
+
                     <div className="productimport__form__item">
                         <select
-                            value={product.madeIn}
-                            onChange={(e) => setProduct({ ...product, madeIn: e.target.value })}
+                            value={product.productCategory}
+                            onChange={(e) => setProduct({ ...product, productCategory: e.target.value })}
                         >
                             <option value="" disabled>
                                 Select Category
                             </option>
-                            {madeInList.map((madeIn, index) => (
-                                <option key={index} value={madeIn}>
-                                    {madeIn}
+                            {categoryList.map((productCategory, index) => (
+                                <option key={index} value={productCategory._id}>
+                                    {productCategory.categoryName}
                                 </option>
                             ))}
-                            <option value="add-new">Add New Made In</option>
                         </select>
 
-                        {/* Hiển thị input thêm madeIn mới nếu "Add New" được chọn */}
-                        {product.madeIn === "add-new" && (
-                            <div className="add-new-item">
-                                <input
-                                    type="text"
-                                    placeholder="New Made In"
-                                    value={newMadeIn}
-                                    onChange={(e) => setNewMadeIn(e.target.value)}
-                                />
-                                <button onClick={handleAddMadeIn}>Add</button>
-                            </div>
-                        )}
                     </div>
+
                     <div className="productimport__form__item">
                         <input
                             type="file"
@@ -227,11 +231,10 @@ function ProductImport() {
                             onChange={handleMainImageChange}
                             id='mainimage__product__import'
                         />
-                        <label htmlFor="mainimage__product__import">Upload Main Image</label>
-                        {/* {product.mainImage && <p>Selected Main Image: {product.mainImage.name}</p>} */}
+                        <label htmlFor="mainimage__product__import">{mainImage === null ? "Upload Main Image" : "1 Main Image"}</label>
+                        {/* {product.mainImage && <p>Selected Main Image: {product.mainImage.productName}</p>} */}
                     </div>
 
-                    {/* Input Additional Images */}
                     <div className="productimport__form__item">
                         <input
                             type="file"
@@ -240,24 +243,14 @@ function ProductImport() {
                             onChange={handleRelatedImagesChange}
                             id='relatedimage__product__import'
                         />
-                        <label htmlFor="relatedimage__product__import">Upload Related Images</label>
-                        {/* {product.additionalImages.length > 0 && (
-                            <div>
-                                <p>Selected Additional Images:</p>
-                                <ul>
-                                    {product.additionalImages.map((image, index) => (
-                                        <li key={index}>{image.name}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )} */}
+                        <label htmlFor="relatedimage__product__import">{relatedImages.length === 0 ? "Upload Related Images" : (relatedImages.length + " Related Image" + relatedImages.length === 1 ? "" : "s")}</label>
                     </div>
                 </div>
 
                 <div className="productimport__form__footer">
                     <div className="productimport__form__button">
                         <button>Reset</button>
-                        <button onClick={handleUpload}>Import</button>
+                        <button onClick={handleSubmit}>Import</button>
                     </div>
                 </div>
             </div>

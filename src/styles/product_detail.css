@@ -176,6 +176,7 @@
     margin: 0 10px;
     color: var(--text-color);
     border-bottom: 1px solid var(--text-color);
+    width: 300px;
     background-color: transparent;
 }
 

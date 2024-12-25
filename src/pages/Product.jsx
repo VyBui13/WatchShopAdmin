@@ -5,285 +5,12 @@ import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, 
 import ProductDetail from '../components/ProductDetail';
 
 function Product() {
-    const dataMock = [
-        {
-            id: 1,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Rolex Submariner",
-            brand: "Rolex",
-            quantity: 5,
-            status: "On Stock",
-            price: 8999,
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 2,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Omega Speedmaster",
-            brand: "Omega",
-            quantity: 10,
-            status: "Suspended",
-            price: 6499,
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 3,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Tag Heuer Carrera",
-            brand: "Tag Heuer",
-            quantity: 8,
-            price: 4299,
-            status: "Suspended",
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 4,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Seiko Presage",
-            brand: "Seiko",
-            quantity: 15,
-            price: 549,
-            status: "Suspended",
-            madeIn: "Japan",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 5,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Casio G-Shock",
-            brand: "Casio",
-            quantity: 20,
-            price: 199,
-            status: "Suspended",
-            madeIn: "Japan",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 6,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Breitling Navitimer",
-            brand: "Breitling",
-            quantity: 3,
-            price: 7999,
-            status: "Suspended",
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 7,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Citizen Eco-Drive",
-            brand: "Citizen",
-            quantity: 12,
-            price: 349,
-            status: "On Stock",
-            madeIn: "Japan",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 8,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Tissot PRX",
-            brand: "Tissot",
-            quantity: 7,
-            price: 695,
-            status: "Suspended",
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 9,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Audemars Piguet Royal Oak",
-            brand: "Audemars Piguet",
-            quantity: 2,
-            price: 23999,
-            status: "Suspended",
-            madeIn: "Switzerland",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        },
-        {
-            id: 10,
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-            name: "Hamilton Khaki Field",
-            brand: "Hamilton",
-            quantity: 9,
-            price: 595,
-            status: "Suspended",
-            madeIn: "USA",
-            relatedImage: [
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg==",
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" +
-                "AAAFCAYAAACNbyblAAAAHElEQVQI12P4" +
-                "//8/w38GIAXDIBKE0DHxgljNBAAO9TXL" +
-                "0Y4OHwAAAABJRU5ErkJggg=="
-            ]
-        }
-    ];
-
-
 
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [productSelected, setProductSelected] = useState(null);
 
+    const [brands, setBrands] = useState([]);
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 10;
@@ -305,6 +32,14 @@ function Product() {
                     return;
                 }
                 setProducts(data.data);
+
+                const resBrand = await fetch('http://localhost:3000/brand');
+                const dataBrand = await resBrand.json();
+                if (dataBrand.status !== 'success') {
+                    console.log('Error fetching data');
+                    return;
+                }
+                setBrands(dataBrand.data);
             } catch (error) {
                 console.log(error);
             }
@@ -326,7 +61,7 @@ function Product() {
     }, []);
 
     function increasePage() {
-        if (page < Math.ceil(dataMock.length / amountItem)) {
+        if (page < Math.ceil(products.length / amountItem)) {
             setPage(page + 1);
         }
     }
@@ -421,7 +156,7 @@ function Product() {
                                 onClick={() => {
                                     setProductSelected(product)
                                 }}
-                                key={product.id}
+                                key={product._id}
                                 className="product__table__row">
                                 <div className="product__table__attribute">
                                     <input
@@ -444,13 +179,13 @@ function Product() {
                                     />
                                 </div>
                                 <div className="product__table__attribute">{product.productName}</div>
-                                <div className="product__table__attribute">{product.productBrand}</div>
-                                <div className="product__table__attribute">{product.productMadeIn}</div>
+                                <div className="product__table__attribute">{brands.find((brand) => brand._id === product.productBrand)?.brandName || "Unknown Brand"}</div>
+                                <div className="product__table__attribute">{product.productCategory}</div>
                                 <div className="product__table__attribute">${product.productPrice}</div>
                                 <div className="product__table__attribute">{product.productQuantity}</div>
                                 <div className="product__table__attribute">
                                     <div
-                                        style={{ backgroundColor: product.status === "On Stock" ? "green" : (product.status === "Out of Stock" ? "red" : "yellow") }}
+                                        style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
                                         className="product__table__status"></div>
                                 </div>
                             </button>
@@ -468,7 +203,7 @@ function Product() {
                         <div className="product__table__paging">
                             <div className="product__table__paging__page">
                                 <span>{page}</span>|
-                                <span>{Math.ceil(dataMock.length / amountItem)}</span>
+                                <span>{Math.ceil(products.length / amountItem)}</span>
                             </div>
 
                             <div className="product__table__paging__button">
