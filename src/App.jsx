@@ -1,10 +1,12 @@
-import './styles/App.css'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Product from './pages/Product'
 import ProductImport from './pages/ProductImport'
 import Account from './pages/Account'
 import Category from './pages/Category'
+import Manufacturer from './pages/Manufacturer'
+import CategoryAddition from './pages/CategoryAddition'
+import ManufacturerAddition from './pages/ManufacturerAddition'
 import User from './pages/User'
 
 function App() {
@@ -17,6 +19,10 @@ function App() {
         <Route path="/product" element={<Product />} />
         <Route path="/product/import" element={<ProductImport />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/category/addition" element={<CategoryAddition />} />
+        <Route path="/manufacturer" element={<Manufacturer />} />
+        <Route path="/manufacturer/addition" element={<ManufacturerAddition />} />
+
         <Route path="/user" element={<User />} />
       </Routes>
     </>

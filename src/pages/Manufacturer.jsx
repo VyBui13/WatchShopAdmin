@@ -1,15 +1,15 @@
-import '../styles/category.css';
+import '../styles/manufacturer.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 
-function Category() {
+function Manufacturer() {
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
 
-    const [categories, setCategories] = useState([]);
+    const [manufacturers, setManufacturers] = useState([]);
     const [page, setPage] = useState(1);
     // const [productSelected, setProductSelected] = useState(null);
 
@@ -26,13 +26,13 @@ function Category() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('http://localhost:3000/category');
+                const res = await fetch('http://localhost:3000/brand');
                 const data = await res.json();
                 if (data.status !== 'success') {
                     console.log('Error fetching data');
                     return;
                 }
-                setCategories(data.data);
+                setManufacturers(data.data);
 
             } catch (error) {
                 console.log(error);
@@ -52,7 +52,7 @@ function Category() {
     }, []);
 
     function increasePage() {
-        if (page < Math.ceil(categories.length / amountItem)) {
+        if (page < Math.ceil(manufacturers.length / amountItem)) {
             setPage(page + 1);
         }
     }
@@ -67,7 +67,7 @@ function Category() {
         try {
             const fetchData = async () => {
                 try {
-                    const res = await fetch(`http://localhost:3000/category/${id}`, {
+                    const res = await fetch(`http://localhost:3000/manufacturer/${id}`, {
                         method: 'DELETE',
                     });
                     const data = await res.json();
@@ -76,7 +76,7 @@ function Category() {
                         return;
                     }
                     notify({ type: data.status, msg: data.message });
-                    setCategories(categories.filter(category => category._id !== id));
+                    setManufacturers(manufacturers.filter(manufacturer => manufacturer._id !== id));
                 }
                 catch (error) {
                     console.log(error);
@@ -92,11 +92,11 @@ function Category() {
 
     return (
         <>
-            <div className="category">
-                <div className="category__feature">
-                    <div className="category__feature__sortfilter">
-                        <div className="category__feature__item">
-                            <div className="category__feature__item__icon">
+            <div className="manufacturer">
+                <div className="manufacturer__feature">
+                    <div className="manufacturer__feature__sortfilter">
+                        <div className="manufacturer__feature__item">
+                            <div className="manufacturer__feature__item__icon">
                                 <FontAwesomeIcon icon={faSort} className='icon__check' />
                             </div>
                             <select>
@@ -106,8 +106,8 @@ function Category() {
                                 <option value="totalpurchase">Price</option>
                             </select>
                         </div>
-                        <div className="category__feature__item">
-                            <div className="category__feature__item__icon">
+                        <div className="manufacturer__feature__item">
+                            <div className="manufacturer__feature__item__icon">
                                 <FontAwesomeIcon icon={faFilter} className='icon__check' />
                             </div>
                             <select>
@@ -117,7 +117,7 @@ function Category() {
                             </select>
                         </div>
                     </div>
-                    <div className="category__feature__search">
+                    <div className="manufacturer__feature__search">
                         <input type="text" placeholder="Search..." />
                         <button>
                             <FontAwesomeIcon icon={faSearch} className='icon__search' />
@@ -125,72 +125,69 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="category__table">
-                    <div className="category__table__header">
-                        <div className="category__table__attribute">
+                <div className="manufacturer__table">
+                    <div className="manufacturer__table__header">
+                        <div className="manufacturer__table__attribute">
                             <span>X</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="manufacturer__table__attribute">
                             <span>ID</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="manufacturer__table__attribute">
+                            <span>Image</span>
+                        </div>
+
+                        <div className="manufacturer__table__attribute">
                             <span>Name</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="manufacturer__table__attribute">
                             <span>Description</span>
                         </div>
 
-                        <div className="category__table__attribute">
-                            <span>Size</span>
-                        </div>
-
-                        <div className="category__table__attribute">
-                            <span>Status</span>
+                        <div className="manufacturer__table__attribute">
+                            <span>Country</span>
                         </div>
 
                     </div>
 
-                    <div className="category__table__data">
-                        {categories.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((category, index) => (
+                    <div className="manufacturer__table__data">
+                        {manufacturers.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((manufacturer, index) => (
                             <button
-                                key={category._id}
-                                className="category__table__row">
-                                <div className="category__table__attribute">
+                                key={manufacturer._id}
+                                className="manufacturer__table__row">
+                                <div className="manufacturer__table__attribute">
                                     <button onClick={() => {
-                                        handleRemove(category._id);
+                                        handleRemove(manufacturer._id);
                                     }}>X</button>
                                 </div>
-                                <div className="category__table__attribute">{category._id.slice(-4)}</div>
-                                <div className="category__table__attribute">{category.categoryName}</div>
-                                <div className="category__table__attribute">{category.categoryDescription}</div>
-                                <div className="category__table__attribute">1</div>
-                                <div className="category__table__attribute">
-                                    <div
-                                        // style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
-                                        className="category__table__status"></div>
-                                </div>
+                                <div className="manufacturer__table__attribute">{manufacturer._id.slice(-4)}</div>
+                                <div className="manufacturer__table__attribute"> <img src={manufacturer.brandImage} alt="manufacturer" /></div>
+                                <div className="manufacturer__table__attribute">{manufacturer.brandName}</div>
+                                <div className="manufacturer__table__attribute">{manufacturer.brandDescription}</div>
+                                <div className="manufacturer__table__attribute">{manufacturer.brandCountry}</div>
+
                             </button>
                         ))}
                     </div>
 
-                    <div className="category__table__footer">
-                        <div className="category__table__selected">
+                    <div className="manufacturer__table__footer">
+                        <div className="manufacturer__table__selected">
                             <span>1 selected</span>
                             <button>
                                 <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                             </button>
                         </div>
 
-                        <div className="category__table__paging">
-                            <div className="category__table__paging__page">
+                        <div className="manufacturer__table__paging">
+                            <div className="manufacturer__table__paging__page">
                                 <span>{page}</span>|
-                                <span>{Math.ceil(categories.length / amountItem)}</span>
+                                <span>{Math.ceil(manufacturers.length / amountItem)}</span>
                             </div>
 
-                            <div className="category__table__paging__button">
+                            <div className="manufacturer__table__paging__button">
                                 <button onClick={decreasePage}>
                                     <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
                                 </button>
@@ -206,4 +203,4 @@ function Category() {
     );
 }
 
-export default Category;
+export default Manufacturer;
