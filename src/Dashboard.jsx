@@ -13,8 +13,8 @@ function Dashboard() {
     const { setUser } = useAuthorizations();
     useEffect(() => {
         const fetchData = async () => {
+            console.log('fetching data');
             try {
-
                 const resUser = await fetch('http://localhost:3000/user/auth', {
                     method: 'GET',
                     credentials: 'include',
@@ -23,10 +23,12 @@ function Dashboard() {
                         // 'Authorization': 'Bearer ' + Cookies.get('accessToken')
                     },
                 });
+                console.log(resUser);
 
 
                 const dataUser = await resUser.json();
-                if (dataUser.status === 'error') {
+                console.log(dataUser);
+                if (dataUser.status !== 'success') {
                     setIsAuthenticated(false);
                     navigate('/login');
                     return;

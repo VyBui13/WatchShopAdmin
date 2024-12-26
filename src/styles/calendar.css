@@ -1,0 +1,102 @@
+.calendar .calendar__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ccc;
+}
+
+.calendar .calendar__header .month {
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--main-color);
+}
+
+.calendar .calendar__header .btns {
+    display: flex;
+
+}
+
+.calendar .calendar__header .btns .btn {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.calendar .calendar__header .btns .btn .icon__calendar {
+    font-size: 14px;
+}
+
+.calendar .calendar__header .btns .btn:hover {
+    background-color: var(--main-color);
+    color: var(--text-in-background-color);
+    transform: scale(1.05);
+}
+
+.calendar__weekdays {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.calendar__weekdays .day {
+    width: calc(100% / 7 - 10px);
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0 5px;
+    background-color: var(--main-color);
+    padding: 5px;
+    color: var(--text-in-background-color);
+    border-radius: var(--border-radius);
+}
+
+.calendar__days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar__days .day {
+    margin: 5px 5px;
+    width: calc(100% / 7 - 10px);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.calendar__days .day {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.calendar__days .day:not(.next):not(.prev):hover {
+    transform: scale(1.05);
+    background-color: var(--main-color);
+    color: var(--text-in-background-color);
+}
+
+.calendar__days .today {
+    color: var(--text-in-background-color);
+    background-color: var(--main-color);
+}
+
+.calendar__days .day.next,
+.calendar__days .day.prev {
+    font-weight: 300;
+    color: var(--text-color);
+}

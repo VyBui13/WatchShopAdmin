@@ -2,6 +2,7 @@ import './styles/sub_header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon, faBell, faUser, faGear } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function SubHeader() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -53,7 +54,9 @@ function SubHeader() {
                     <FontAwesomeIcon icon={faGear} className='icon__feature' />
                 </div>
                 <div className="subheader__feature">
-                    <FontAwesomeIcon icon={faUser} className='icon__feature' />
+                    <Link to='/user'>
+                        <FontAwesomeIcon icon={faUser} className='icon__feature' />
+                    </Link>
                 </div>
             </div>
         </div>

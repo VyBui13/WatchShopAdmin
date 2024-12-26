@@ -1,0 +1,295 @@
+.user {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.user .user__left {
+    width: 50%;
+}
+
+.user .user__left .user__general {
+    padding: 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    background: var(--item-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+}
+
+.user__general .user__general__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user__general .user__general__header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.user__general .user__general__header p {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.user__general .user__general__avatar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.user__general .user__general__avatar .user__general__avatar__wrapper {
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-color);
+}
+
+.user__general__avatar__wrapper .icon__user {
+    font-size: 28px;
+    color: var(--text-in-background-color);
+}
+
+.user__general .user__general__body {}
+
+.user__general .user__general__body .user__general__name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user__general .user__general__body .user__general__name input {
+    font-family: 'Varela Round';
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.user__general .user__general__body .user__general__name button {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    font-weight: 700;
+    color: var(--text-color);
+    cursor: pointer;
+    background-color: var(--item-color);
+}
+
+.user__general .user__general__body .user__general__role {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 5px 0;
+}
+
+.user__general .user__general__body .user__general__role span {
+    color: var(--main-color);
+    margin: 0 5px;
+}
+
+.user__general__name button .icon__edit {
+    margin: 0 5px;
+}
+
+.user__left .user__detail {
+    padding: 10px 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    background: var(--item-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    height: calc(100vh - 310px);
+    margin-top: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user__left .user__detail::-webkit-scrollbar {
+    width: 0px;
+}
+
+.user__detail .user__detail__item {
+    margin: 5px 0;
+}
+
+.user__detail__item .user__detail__item__title {
+    margin-bottom: 10px;
+}
+
+.user__detail .user__detail__item h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.user__detail .user__detail__item>p {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 5px;
+    color: var(--main-color);
+}
+
+.user__detail .user__detail__item .user__detail__item__content {}
+
+.user__detail__item .user__detail__item__content .user__detail__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+
+.user__detail__item__content .user__detail__info input,
+.user__detail__item__content .user__detail__info span {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.user__detail__item__content .user__detail__info input[type="date"] {
+    flex: unset;
+}
+
+.user__detail__item__content .user__detail__info button {
+    padding: 5px 10px;
+    border: none;
+    font-weight: 700;
+    color: var(--text-color);
+    cursor: pointer;
+    background-color: var(--item-color);
+}
+
+.user__detail__item .user__detail__item__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.user__detail__item .user__detail__item__btn span {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 5px;
+    color: var(--text-color);
+}
+
+.user__detail__item .user__detail__item__btn button {
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-color);
+    cursor: pointer;
+    background-color: var(--item-color);
+    margin: 0 10px;
+}
+
+.user .user__right {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.user__activity {
+    padding: 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    background: var(--item-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    height: 320px;
+    overflow: auto;
+}
+
+.user__activity::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* .user__activity::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    border-radius: var(--border-radius);
+    background: var(--main-scroll-color);
+} */
+
+.user__option {
+    padding: 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    background: var(--item-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    height: calc(100vh - 443px);
+    margin-top: 20px;
+}
+
+.user__option .user__option__header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.user__option .user__option__btn {
+    height: calc(100% - 30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.user__option .user__option__btn button {
+    padding: 5px 10px;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-in-background-color);
+    cursor: pointer;
+    background-color: var(--main-color);
+    border-radius: var(--border-radius);
+    margin: 0 10px;
+}
+
+
+@media (max-width: 900px) {
+    .user {
+        flex-direction: column;
+    }
+
+    .user .user__left {
+        width: 100%;
+    }
+
+    .user__left .user__detail {
+        height: auto;
+    }
+
+    .user .user__right {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .user__activity {
+        height: auto;
+    }
+
+    .user__option {
+        height: auto;
+    }
+}
