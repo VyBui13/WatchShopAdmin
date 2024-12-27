@@ -6,17 +6,17 @@ function Loading() {
             <div className="loading__wrapper">
 
                 <div className="loading">
-                    <div class="loader">
-                        <div class="book-wrapper">
+                    <div className="loader">
+                        <div className="book-wrapper">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="white"
                                 viewBox="0 0 126 75"
-                                class="book-icon"
+                                className="book-icon"
                             >
                                 <rect
                                     className='book-rect'
-                                    stroke-width="5"
+                                    strokeWidth="5"
                                     rx="7.5"
                                     height="70"
                                     width="121"
@@ -25,7 +25,7 @@ function Loading() {
                                 ></rect>
                                 <line
                                     className='book-line'
-                                    stroke-width="5"
+                                    strokeWidth="5"
                                     stroke="#e05452"
                                     y2="75"
                                     x2="63.5"
@@ -33,26 +33,26 @@ function Loading() {
                                 ></line>
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M25 20H50"
                                 ></path>
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M101 20H76"
                                 ></path>
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M16 30L50 30"
                                 ></path>
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M110 30L76 30"
                                 ></path>
                             </svg>
@@ -61,23 +61,23 @@ function Loading() {
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="#ffffff74"
                                 viewBox="0 0 65 75"
-                                class="book-page"
+                                className="book-page"
                             >
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M40 20H15"
                                 ></path>
                                 <path
                                     className='book-path'
-                                    stroke-linecap="round"
-                                    stroke-width="4"
+                                    strokeLinecap="round"
+                                    strokeWidth="4"
                                     d="M49 30L15 30"
                                 ></path>
                                 <path
                                     className='book-path'
-                                    stroke-width="5"
+                                    strokeWidth="5"
                                     d="M2.5 2.5H55C59.1421 2.5 62.5 5.85786 62.5 10V65C62.5 69.1421 59.1421 72.5 55 72.5H2.5V2.5Z"
                                 ></path>
                             </svg>

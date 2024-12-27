@@ -185,7 +185,7 @@ function Product() {
                                 <div className="product__table__attribute">{product.productQuantity}</div>
                                 <div className="product__table__attribute">
                                     <div
-                                        style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
+                                        style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out Of Stock" ? "yellow" : "red") }}
                                         className="product__table__status"></div>
                                 </div>
                             </button>

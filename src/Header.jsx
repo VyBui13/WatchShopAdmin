@@ -78,10 +78,12 @@ function Header() {
                                 <span>Category</span>
                             </div>
                         </Link>
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faClipboard} className='icon__item' />
-                            <span>Manufacturer</span>
-                        </div>
+                        <Link to='/manufacturer'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faClipboard} className='icon__item' />
+                                <span>Manufacturer</span>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 

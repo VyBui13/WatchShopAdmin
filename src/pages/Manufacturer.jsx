@@ -1,11 +1,13 @@
 import '../styles/manufacturer.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faTrash, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
+import { useNavigate } from 'react-router-dom';
 
 function Manufacturer() {
+    const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
 
@@ -25,6 +27,7 @@ function Manufacturer() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
                 const res = await fetch('http://localhost:3000/brand');
                 const data = await res.json();
@@ -36,6 +39,9 @@ function Manufacturer() {
 
             } catch (error) {
                 console.log(error);
+            } finally {
+                clearTimeout(loadingRef);
+                setIsLoading(false);
             }
         }
 
@@ -66,8 +72,9 @@ function Manufacturer() {
     async function handleRemove(id) {
         try {
             const fetchData = async () => {
+                const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const res = await fetch(`http://localhost:3000/manufacturer/${id}`, {
+                    const res = await fetch(`http://localhost:3000/brand/${id}`, {
                         method: 'DELETE',
                     });
                     const data = await res.json();
@@ -80,6 +87,9 @@ function Manufacturer() {
                 }
                 catch (error) {
                     console.log(error);
+                } finally {
+                    clearTimeout(loadingRef);
+                    setIsLoading(false);
                 }
             }
 
@@ -94,28 +104,11 @@ function Manufacturer() {
         <>
             <div className="manufacturer">
                 <div className="manufacturer__feature">
-                    <div className="manufacturer__feature__sortfilter">
-                        <div className="manufacturer__feature__item">
-                            <div className="manufacturer__feature__item__icon">
-                                <FontAwesomeIcon icon={faSort} className='icon__check' />
-                            </div>
-                            <select>
-                                <option value="" disabled>Sort</option>
-                                <option value="name">Creation Time</option>
-                                <option value="price">Price</option>
-                                <option value="totalpurchase">Price</option>
-                            </select>
-                        </div>
-                        <div className="manufacturer__feature__item">
-                            <div className="manufacturer__feature__item__icon">
-                                <FontAwesomeIcon icon={faFilter} className='icon__check' />
-                            </div>
-                            <select>
-                                <option value="" disabled>Filter</option>
-                                <option value="brand">Brand</option>
-                                <option value="Nation">Nation</option>
-                            </select>
-                        </div>
+                    <div className="manufacturer__feature__add">
+                        <button onClick={() => navigate('/manufacturer/addition')}>
+                            <FontAwesomeIcon icon={faPlus} className='icon__add' />
+                            Add
+                        </button>
                     </div>
                     <div className="manufacturer__feature__search">
                         <input type="text" placeholder="Search..." />

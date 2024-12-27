@@ -3,13 +3,10 @@ import '../styles/category_addition.css';
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { uploadImage } from '../utils/UploadImageProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Category() {
-    // const [name, setName] = useState('');
-    // const [description, setDescription] = useState('');
-    // const [parentCategory, setParentCategory] = useState('');
-    // const [image, setImage] = useState(null);
-    // const [status, setStatus] = useState(true);
+    const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const [categoryList, setCategoryList] = useState([]);
@@ -73,6 +70,7 @@ function Category() {
                 } finally {
                     clearTimeout(loadingRef);
                     setIsLoading(false);
+                    navigate('/category');
                 }
             }
 
@@ -80,6 +78,10 @@ function Category() {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function handleCancel() {
+        navigate('/category');
     }
 
     return (
@@ -139,7 +141,7 @@ function Category() {
                 </div>
 
                 <div className="form__button">
-                    <button type="button" className="cancel-button">Cancel</button>
+                    <button onClick={handleCancel}>Cancel</button>
                     <button onClick={handleSubmit}>Add</button>
                 </div>
             </div>

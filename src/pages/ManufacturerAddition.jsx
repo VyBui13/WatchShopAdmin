@@ -3,8 +3,10 @@ import '../styles/manufacturer_addition.css';
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { uploadImage } from '../utils/UploadImageProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Category() {
+    const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const [image, setImage] = useState(null);
@@ -44,6 +46,7 @@ function Category() {
                 } finally {
                     clearTimeout(loadingRef);
                     setIsLoading(false);
+                    navigate("/manufacturer");
                 }
             }
 
@@ -51,6 +54,10 @@ function Category() {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function handleCancel() {
+        navigate("/manufacturer");
     }
 
     return (
@@ -119,7 +126,7 @@ function Category() {
                 </div>
 
                 <div className="form__button">
-                    <button type="button" className="cancel-button">Cancel</button>
+                    <button onClick={handleCancel}>Cancel</button>
                     <button onClick={handleSubmit}>Add</button>
                 </div>
             </div>

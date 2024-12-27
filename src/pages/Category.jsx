@@ -1,11 +1,13 @@
 import '../styles/category.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faTrash, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
+import { useNavigate } from 'react-router-dom';
 
 function Category() {
+    const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
 
@@ -15,9 +17,9 @@ function Category() {
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 10;
-        if (screenHeight >= 750) return 8;
-        if (screenHeight >= 600) return 6;
+        if (screenHeight >= 900) return 9;
+        if (screenHeight >= 750) return 7;
+        if (screenHeight >= 600) return 5;
         return 4;
     }
 
@@ -25,6 +27,7 @@ function Category() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
                 const res = await fetch('http://localhost:3000/category');
                 const data = await res.json();
@@ -32,10 +35,29 @@ function Category() {
                     console.log('Error fetching data');
                     return;
                 }
-                setCategories(data.data);
+
+                const res2 = await fetch('http://localhost:3000/product/category');
+                const data2 = await res2.json();
+                if (data2.status !== 'success') {
+                    console.log('Error fetching data');
+                    return;
+                }
+
+                const newArray = data.data.map(category => {
+                    const productsEachCategory = data2.data.find(item => item._id === category._id);
+                    if (!productsEachCategory) return { ...category, products: [] };
+                    const newObject = { ...category, products: productsEachCategory.products };
+                    return newObject;
+                })
+
+
+                setCategories(newArray);
 
             } catch (error) {
                 console.log(error);
+            } finally {
+                clearTimeout(loadingRef);
+                setIsLoading(false);
             }
         }
 
@@ -63,11 +85,16 @@ function Category() {
         }
     }
 
-    async function handleRemove(id) {
+    async function handleRemove(category) {
+        if (category.products.length > 0) {
+            notify({ type: 'error', msg: 'Category must not contain any products when deleting' });
+            return;
+        }
         try {
             const fetchData = async () => {
+                const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const res = await fetch(`http://localhost:3000/category/${id}`, {
+                    const res = await fetch(`http://localhost:3000/category/${category._id}`, {
                         method: 'DELETE',
                     });
                     const data = await res.json();
@@ -76,10 +103,14 @@ function Category() {
                         return;
                     }
                     notify({ type: data.status, msg: data.message });
-                    setCategories(categories.filter(category => category._id !== id));
+                    setCategories(categories.filter(category => category._id !== category._id));
                 }
                 catch (error) {
                     console.log(error);
+                }
+                finally {
+                    clearTimeout(loadingRef);
+                    setIsLoading(false);
                 }
             }
 
@@ -94,28 +125,11 @@ function Category() {
         <>
             <div className="category">
                 <div className="category__feature">
-                    <div className="category__feature__sortfilter">
-                        <div className="category__feature__item">
-                            <div className="category__feature__item__icon">
-                                <FontAwesomeIcon icon={faSort} className='icon__check' />
-                            </div>
-                            <select>
-                                <option value="" disabled>Sort</option>
-                                <option value="name">Creation Time</option>
-                                <option value="price">Price</option>
-                                <option value="totalpurchase">Price</option>
-                            </select>
-                        </div>
-                        <div className="category__feature__item">
-                            <div className="category__feature__item__icon">
-                                <FontAwesomeIcon icon={faFilter} className='icon__check' />
-                            </div>
-                            <select>
-                                <option value="" disabled>Filter</option>
-                                <option value="brand">Brand</option>
-                                <option value="Nation">Nation</option>
-                            </select>
-                        </div>
+                    <div className="category__feature__add">
+                        <button onClick={() => navigate('/category/addition')}>
+                            <FontAwesomeIcon icon={faPlus} className='icon__add' />
+                            Add
+                        </button>
                     </div>
                     <div className="category__feature__search">
                         <input type="text" placeholder="Search..." />
@@ -155,24 +169,24 @@ function Category() {
 
                     <div className="category__table__data">
                         {categories.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((category, index) => (
-                            <button
+                            <div
                                 key={category._id}
                                 className="category__table__row">
                                 <div className="category__table__attribute">
                                     <button onClick={() => {
-                                        handleRemove(category._id);
+                                        handleRemove(category);
                                     }}>X</button>
                                 </div>
                                 <div className="category__table__attribute">{category._id.slice(-4)}</div>
                                 <div className="category__table__attribute">{category.categoryName}</div>
                                 <div className="category__table__attribute">{category.categoryDescription}</div>
-                                <div className="category__table__attribute">1</div>
+                                <div className="category__table__attribute">{category.products.length}</div>
                                 <div className="category__table__attribute">
                                     <div
                                         // style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
                                         className="category__table__status"></div>
                                 </div>
-                            </button>
+                            </div>
                         ))}
                     </div>
 
