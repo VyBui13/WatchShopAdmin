@@ -14,7 +14,7 @@ function Login() {
     function handleSubmit() {
         const fetchData = async () => {
             try {
-                const res = await fetch('http://localhost:3000/user/login', {
+                const res = await fetch('http://localhost:5000/api/user/login', {
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },

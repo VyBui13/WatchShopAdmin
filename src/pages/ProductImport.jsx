@@ -13,7 +13,7 @@ function ProductImport() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch("http://localhost:3000/category");
+                const response = await fetch("http://localhost:5000/api/category");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch categories:", data.message);
@@ -28,7 +28,7 @@ function ProductImport() {
 
         const fetchBrands = async () => {
             try {
-                const response = await fetch("http://localhost:3000/brand");
+                const response = await fetch("http://localhost:5000/api/brand");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch brands:", data.message);
@@ -93,7 +93,7 @@ function ProductImport() {
         await handleUpload();
         const addData = async () => {
             try {
-                const response = await fetch("http://localhost:3000/product", {
+                const response = await fetch("http://localhost:5000/api/product", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

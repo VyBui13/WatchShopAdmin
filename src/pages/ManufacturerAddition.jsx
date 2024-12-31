@@ -27,7 +27,7 @@ function Category() {
             const fetchData = async () => {
                 const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const response = await fetch("http://localhost:3000/brand", {
+                    const response = await fetch("http://localhost:5000/api/brand", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

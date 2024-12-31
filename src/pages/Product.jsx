@@ -3,14 +3,18 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
 import ProductDetail from '../components/ProductDetail';
+import { useLoading } from '../components/LoadingContext';
 
 function Product() {
-
+    const { setIsLoading } = useLoading();
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [productSelected, setProductSelected] = useState(null);
-
+    const [theChosenBrand, setTheChosenBrand] = useState("");
+    const [theChosenCategory, setTheChosenCategory] = useState("");
+    const [sortType, setSortType] = useState("");
     const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 10;
@@ -23,8 +27,9 @@ function Product() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const loadingRef = setTimeout(() => { setIsLoading(true); }, 500);
             try {
-                const res = await fetch('http://localhost:3000/product');
+                const res = await fetch('http://localhost:5000/api/product');
                 const data = await res.json();
                 console.log(data);
                 if (data.status !== 'success') {
@@ -33,15 +38,26 @@ function Product() {
                 }
                 setProducts(data.data);
 
-                const resBrand = await fetch('http://localhost:3000/brand');
+                const resBrand = await fetch('http://localhost:5000/api/brand');
                 const dataBrand = await resBrand.json();
                 if (dataBrand.status !== 'success') {
                     console.log('Error fetching data');
                     return;
                 }
                 setBrands(dataBrand.data);
+
+                const resCategory = await fetch('http://localhost:5000/api/category');
+                const dataCategory = await resCategory.json();
+                if (dataCategory.status !== 'success') {
+                    console.log('Error fetching data');
+                    return;
+                }
+                setCategories(dataCategory.data);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setIsLoading(false);
+                clearTimeout(loadingRef);
             }
         }
 
@@ -84,21 +100,61 @@ function Product() {
                             <div className="product__feature__item__icon">
                                 <FontAwesomeIcon icon={faSort} className='icon__check' />
                             </div>
-                            <select>
+                            <select
+                                value={sortType}
+                                onChange={(e) => {
+                                    setSortType(e.target.value);
+                                    if (e.target.value === "name") {
+                                        setProducts([...products].sort((a, b) => a.productName.localeCompare(b.productName)));
+                                    }
+                                    if (e.target.value === "price") {
+                                        setProducts([...products].sort((a, b) => a.productPrice - b.productPrice));
+                                    }
+                                    if (e.target.value === "totalpurchase") {
+                                        setProducts([...products].sort((a, b) => b.productTotalPurchase - a.productTotalPurchase));
+                                    }
+                                }}
+                            >
                                 <option value="" disabled>Sort</option>
                                 <option value="name">Creation Time</option>
                                 <option value="price">Price</option>
-                                <option value="totalpurchase">Price</option>
+                                <option value="totalpurchase">Total Purchase</option>
+                                <option value="">None</option>
                             </select>
                         </div>
                         <div className="product__feature__item">
                             <div className="product__feature__item__icon">
                                 <FontAwesomeIcon icon={faFilter} className='icon__check' />
                             </div>
-                            <select>
-                                <option value="" disabled>Filter</option>
-                                <option value="brand">Brand</option>
-                                <option value="Nation">Nation</option>
+                            <select
+                                value={theChosenCategory}
+                                onChange={(e) => {
+                                    setTheChosenCategory(e.target.value);
+                                }}
+                            >
+                                <option value="" disabled>Category</option>
+                                {categories.map((category) => (
+                                    <option key={category._id} value={category._id}>{category.categoryName}</option>
+                                ))}
+                                <option value="">None</option>
+                            </select>
+                        </div>
+
+                        <div className="product__feature__item">
+                            <div className="product__feature__item__icon">
+                                <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                            </div>
+                            <select
+                                value={theChosenBrand}
+                                onChange={(e) => {
+                                    setTheChosenBrand(e.target.value);
+                                }}
+                            >
+                                <option value="" disabled>Brand</option>
+                                {brands.map((brand) => (
+                                    <option key={brand._id} value={brand._id}>{brand.brandName}</option>
+                                ))}
+                                <option value="">None</option>
                             </select>
                         </div>
                     </div>
@@ -134,7 +190,7 @@ function Product() {
                         </div>
 
                         <div className="product__table__attribute">
-                            <span>Made In</span>
+                            <span>Category</span>
                         </div>
 
                         <div className="product__table__attribute">
@@ -180,7 +236,7 @@ function Product() {
                                 </div>
                                 <div className="product__table__attribute">{product.productName}</div>
                                 <div className="product__table__attribute">{brands.find((brand) => brand._id === product.productBrand)?.brandName || "Unknown Brand"}</div>
-                                <div className="product__table__attribute">{product.productCategory}</div>
+                                <div className="product__table__attribute">{categories.find((category) => category._id === product.productCategory)?.categoryName || "Unknown Category"}</div>
                                 <div className="product__table__attribute">${product.productPrice}</div>
                                 <div className="product__table__attribute">{product.productQuantity}</div>
                                 <div className="product__table__attribute">

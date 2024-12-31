@@ -36,7 +36,7 @@ function User() {
     }
 
     function handleSaveInfo(type, data, setFunction) {
-        const url = `http://localhost:3000/users/edit?type=${type}&data=${data}`;
+        const url = `http://localhost:5000/api/users/edit?type=${type}&data=${data}`;
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
