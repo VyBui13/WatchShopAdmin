@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { uploadImage } from '../utils/UploadImageProvider';
+import { useNotification } from './NotificationContext';
 
 function ProductDetail({ product, setProductSelected, products, setProducts }) {
+    const { notify } = useNotification();
     const [productInfo, setProductInfo] = useState(product);
     const [isEditName, setIsEditName] = useState(false);
     const [isEditPrice, setIsEditPrice] = useState(false);
@@ -25,7 +27,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch("http://localhost:3000/category");
+                const response = await fetch("http://localhost:5000/api/category");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch categories:", data.message);
@@ -40,7 +42,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
 
         const fetchBrands = async () => {
             try {
-                const response = await fetch("http://localhost:3000/brand");
+                const response = await fetch("http://localhost:5000/api/brand");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch brandList:", data.message);
@@ -114,7 +116,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 relatedImageUrlUpload = relatedImages;
             }
             try {
-                const response = await fetch(`http://localhost:3000/product/${productInfo._id}`, {
+                const response = await fetch(`http://localhost:5000/api/product/${productInfo._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -127,6 +129,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 });
 
                 const data = await response.json();
+                notify({ type: data.status, msg: data.message });
                 if (data.status !== "success") {
                     console.error("Failed to update product:", data.message);
                     return;

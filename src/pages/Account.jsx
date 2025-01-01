@@ -1,85 +1,88 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { getDateTime } from '../utils/DateConverter'
 import '../styles/account.css'
+import { useLoading } from '../components/LoadingContext';
+import { useNotification } from '../components/NotificationContext';
 
 function Account() {
-    const dataMock = [
-        {
-            id: 1,
-            name: "John Doe",
-            email: "john.doe@example.com",
-            registerTime: new Date(2023, 11, 1, 10, 0).toString(), // Converted to string
-            status: "Active",
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            email: "jane.smith@example.com",
-            registerTime: new Date(2023, 11, 2, 11, 30).toString(), // Converted to string
-            status: "Inactive",
-        },
-        {
-            id: 3,
-            name: "Michael Johnson",
-            email: "michael.johnson@example.com",
-            registerTime: new Date(2023, 11, 3, 9, 45).toString(), // Converted to string
-            status: "Active",
-        },
-        {
-            id: 4,
-            name: "Emily Davis",
-            email: "emily.davis@example.com",
-            registerTime: new Date(2023, 11, 4, 13, 15).toString(), // Converted to string
-            status: "Pending",
-        },
-        {
-            id: 5,
-            name: "Chris Brown",
-            email: "chris.brown@example.com",
-            registerTime: new Date(2023, 11, 5, 15, 0).toString(), // Converted to string
-            status: "Inactive",
-        },
-        {
-            id: 6,
-            name: "Sophia Wilson",
-            email: "sophia.wilson@example.com",
-            registerTime: new Date(2023, 11, 6, 10, 30).toString(), // Converted to string
-            status: "Active",
-        },
-        {
-            id: 7,
-            name: "David Miller",
-            email: "david.miller@example.com",
-            registerTime: new Date(2023, 11, 7, 12, 45).toString(), // Converted to string
-            status: "Pending",
-        },
-        {
-            id: 8,
-            name: "Olivia Martinez",
-            email: "olivia.martinez@example.com",
-            registerTime: new Date(2023, 11, 8, 14, 0).toString(), // Converted to string
-            status: "Active",
-        },
-        {
-            id: 9,
-            name: "Ethan Taylor",
-            email: "ethan.taylor@example.com",
-            registerTime: new Date(2023, 11, 9, 16, 15).toString(), // Converted to string
-            status: "Inactive",
-        },
-        {
-            id: 10,
-            name: "Ava Anderson",
-            email: "ava.anderson@example.com",
-            registerTime: new Date(2023, 11, 10, 17, 30).toString(), // Converted to string
-            status: "Active",
-        },
-    ];
-
+    // const customer = [
+    //     {
+    //         id: 1,
+    //         name: "John Doe",
+    //         email: "john.doe@example.com",
+    //         registerTime: new Date(2023, 11, 1, 10, 0).toString(), // Converted to string
+    //         status: "Active",
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Jane Smith",
+    //         email: "jane.smith@example.com",
+    //         registerTime: new Date(2023, 11, 2, 11, 30).toString(), // Converted to string
+    //         status: "Inactive",
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Michael Johnson",
+    //         email: "michael.johnson@example.com",
+    //         registerTime: new Date(2023, 11, 3, 9, 45).toString(), // Converted to string
+    //         status: "Active",
+    //     },
+    //     {
+    //         id: 4,
+    //         name: "Emily Davis",
+    //         email: "emily.davis@example.com",
+    //         registerTime: new Date(2023, 11, 4, 13, 15).toString(), // Converted to string
+    //         status: "Pending",
+    //     },
+    //     {
+    //         id: 5,
+    //         name: "Chris Brown",
+    //         email: "chris.brown@example.com",
+    //         registerTime: new Date(2023, 11, 5, 15, 0).toString(), // Converted to string
+    //         status: "Inactive",
+    //     },
+    //     {
+    //         id: 6,
+    //         name: "Sophia Wilson",
+    //         email: "sophia.wilson@example.com",
+    //         registerTime: new Date(2023, 11, 6, 10, 30).toString(), // Converted to string
+    //         status: "Active",
+    //     },
+    //     {
+    //         id: 7,
+    //         name: "David Miller",
+    //         email: "david.miller@example.com",
+    //         registerTime: new Date(2023, 11, 7, 12, 45).toString(), // Converted to string
+    //         status: "Pending",
+    //     },
+    //     {
+    //         id: 8,
+    //         name: "Olivia Martinez",
+    //         email: "olivia.martinez@example.com",
+    //         registerTime: new Date(2023, 11, 8, 14, 0).toString(), // Converted to string
+    //         status: "Active",
+    //     },
+    //     {
+    //         id: 9,
+    //         name: "Ethan Taylor",
+    //         email: "ethan.taylor@example.com",
+    //         registerTime: new Date(2023, 11, 9, 16, 15).toString(), // Converted to string
+    //         status: "Inactive",
+    //     },
+    //     {
+    //         id: 10,
+    //         name: "Ava Anderson",
+    //         email: "ava.anderson@example.com",
+    //         registerTime: new Date(2023, 11, 10, 17, 30).toString(), // Converted to string
+    //         status: "Active",
+    //     },
+    // ];
+    const { notify } = useNotification();
+    const { setIsLoading } = useLoading();
     const [page, setPage] = useState(1);
-
+    const [customer, setCustomer] = useState([]);
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 15;
@@ -91,6 +94,27 @@ function Account() {
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
 
     useEffect(() => {
+        const fetchData = async () => {
+            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+            try {
+                const res = await fetch('http://localhost:5000/api/customer');
+                const data = await res.json();
+                console.log(data);
+                if (data.status !== 'success') {
+                    console.log('Error fetching data');
+                    return;
+                }
+                setCustomer(data.data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                clearTimeout(loadingRef);
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
         };
@@ -103,7 +127,7 @@ function Account() {
     }, []);
 
     function increasePage() {
-        if (page < Math.ceil(dataMock.length / amountItem)) {
+        if (page < Math.ceil(customer.length / amountItem)) {
             setPage(page + 1);
         }
     }
@@ -114,7 +138,33 @@ function Account() {
         }
     }
 
-    const [productsSelected, setProductsSelected] = useState([]);
+    async function updateAccount(id) {
+        setIsLoading(true);
+        try {
+            const res = await fetch(`http://localhost:5000/api/customer/${id}`, {
+                method: 'PUT',
+            });
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                console.log('Error deleting data');
+                return;
+            }
+            const newArray = customer.map(account => {
+                if (account._id === id) {
+                    account.customerAccountStatus = account.customerAccountStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+                }
+                return account;
+            });
+            setCustomer(newArray);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+
+    }
 
     return (
         <div className="account">
@@ -179,32 +229,29 @@ function Account() {
                 </div>
 
                 <div className="account__table__data">
-                    {dataMock.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
+                    {customer.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
                         <div key={account.id} className="account__table__row">
                             <div className="account__table__attribute">
-                                <input
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setProductsSelected([...productsSelected, account]);
-                                        } else {
-                                            setProductsSelected(productsSelected.filter((item) => item.id !== account.id));
-                                        }
-                                    }
-                                    }
-                                    type="checkbox" />
+                                <button onClick={() => {
+                                    updateAccount(account._id);
+                                }}>
+                                    <FontAwesomeIcon icon={faPencil} className='icon__edit' />
+                                </button>
                             </div>
-                            <div className="account__table__attribute">{account.id}</div>
-                            <div className="account__table__attribute">{account.name}</div>
-                            <div className="account__table__attribute">{account.email}</div>
-                            <div className="account__table__attribute">{getDateTime(new Date(account.registerTime))}</div>
-                            <div className="account__table__attribute">{account.status}</div>
+                            <div className="account__table__attribute">{account._id.slice(-4)}</div>
+                            <div className="account__table__attribute">{account.customerName}</div>
+                            <div className="account__table__attribute">{account.customerEmail}</div>
+                            <div className="account__table__attribute">{getDateTime(new Date(account.customerRegisterDateTime))}</div>
+                            <div className="account__table__attribute" >
+                                <div className="account__table__attribute__status" style={{ backgroundColor: account.customerAccountStatus === 'ACTIVE' ? 'green' : 'red' }}></div>
+                            </div>
                         </div>
                     ))}
                 </div>
 
                 <div className="account__table__footer">
                     <div className="account__table__selected">
-                        <span>{productsSelected.length} selected</span>
+                        <span>{customer.length} account</span>
                         <button>
                             <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                         </button>
@@ -213,7 +260,7 @@ function Account() {
                     <div className="account__table__paging">
                         <div className="account__table__paging__page">
                             <span>{page}</span>|
-                            <span>{Math.ceil(dataMock.length / amountItem)}</span>
+                            <span>{Math.ceil(customer.length / amountItem)}</span>
                         </div>
 
                         <div className="account__table__paging__button">
@@ -227,7 +274,7 @@ function Account() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

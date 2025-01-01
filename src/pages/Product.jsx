@@ -1,7 +1,7 @@
 import '../styles/product.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faCartShopping, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
 import ProductDetail from '../components/ProductDetail';
 import { useLoading } from '../components/LoadingContext';
 
@@ -12,7 +12,7 @@ function Product() {
     const [productSelected, setProductSelected] = useState(null);
     const [theChosenBrand, setTheChosenBrand] = useState("");
     const [theChosenCategory, setTheChosenCategory] = useState("");
-    const [sortType, setSortType] = useState("");
+    const [sortBy, setSortBy] = useState("");
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
     function calculateItemsPerPage() {
@@ -88,7 +88,34 @@ function Product() {
         }
     }
 
-    const [productsSelected, setProductsSelected] = useState([]);
+    async function handleFilter() {
+        setIsLoading(true);
+        try {
+            const query = {
+                brands: theChosenBrand,
+                categories: theChosenCategory,
+                sortBy: sortBy === "creation-time" ? "productUpdatedDateTime" : sortBy === "price" ? "productPrice" : sortBy === "total-purchase" ? "productTotalPurchase" : "",
+                sortType: "asc"
+            };
+            console.log(query);
+
+            const res = await fetch(`http://localhost:5000/api/product/filter?brands=${query.brands}&categories=${query.categories}&sortBy=${query.sortBy}&sortType=${query.sortType}`);
+            const data = await res.json();
+            if (data.status !== 'success') {
+                console.log('Error fetching data');
+                return;
+            }
+            setProducts(data.data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        handleFilter();
+    }, [theChosenBrand, theChosenCategory, sortBy]);
 
     return (
         <>
@@ -101,24 +128,15 @@ function Product() {
                                 <FontAwesomeIcon icon={faSort} className='icon__check' />
                             </div>
                             <select
-                                value={sortType}
+                                value={sortBy}
                                 onChange={(e) => {
-                                    setSortType(e.target.value);
-                                    if (e.target.value === "name") {
-                                        setProducts([...products].sort((a, b) => a.productName.localeCompare(b.productName)));
-                                    }
-                                    if (e.target.value === "price") {
-                                        setProducts([...products].sort((a, b) => a.productPrice - b.productPrice));
-                                    }
-                                    if (e.target.value === "totalpurchase") {
-                                        setProducts([...products].sort((a, b) => b.productTotalPurchase - a.productTotalPurchase));
-                                    }
+                                    setSortBy(e.target.value);
                                 }}
                             >
                                 <option value="" disabled>Sort</option>
-                                <option value="name">Creation Time</option>
+                                <option value="creation-time">Creation Time</option>
                                 <option value="price">Price</option>
-                                <option value="totalpurchase">Total Purchase</option>
+                                <option value="total-purchase">Total Purchase</option>
                                 <option value="">None</option>
                             </select>
                         </div>
@@ -202,7 +220,7 @@ function Product() {
                         </div>
 
                         <div className="product__table__attribute">
-                            <span>Status</span>
+                            <div className="product__table__status"></div>
                         </div>
                     </div>
 
@@ -215,16 +233,7 @@ function Product() {
                                 key={product._id}
                                 className="product__table__row">
                                 <div className="product__table__attribute">
-                                    <input
-                                        onChange={(e) => {
-                                            if (e.target.checked) {
-                                                setProductsSelected([...productsSelected, product]);
-                                            } else {
-                                                setProductsSelected(productsSelected.filter((item) => item.id !== product.id));
-                                            }
-                                        }
-                                        }
-                                        type="checkbox" />
+                                    {(page - 1) * amountItem + index + 1}
                                 </div>
                                 <div className="product__table__attribute">{product._id.slice(-4)}</div>
                                 <div className="product__table__attribute">
@@ -250,9 +259,9 @@ function Product() {
 
                     <div className="product__table__footer">
                         <div className="product__table__selected">
-                            <span>{productsSelected.length} selected</span>
+                            <span>{products.length} products</span>
                             <button>
-                                <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
+                                <FontAwesomeIcon icon={faCartShopping} className='icon__deleted' />
                             </button>
                         </div>
 

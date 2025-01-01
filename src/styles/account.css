@@ -41,6 +41,18 @@
     color: var(--text-color);
 }
 
+.account__table .account__table__row .account__table__attribute button {
+    color: var(--main-color);
+    font-weight: 700;
+}
+
+.account__table .account__table__row .account__table__attribute .account__table__attribute__status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: aqua;
+}
+
 .account__table .account__table__attribute:first-child,
 .account__table .account__table__attribute:nth-child(2),
 .account__table .account__table__attribute:last-child {
