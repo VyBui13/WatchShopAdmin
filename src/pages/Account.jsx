@@ -82,6 +82,8 @@ function Account() {
     const { notify } = useNotification();
     const { setIsLoading } = useLoading();
     const [page, setPage] = useState(1);
+    const [sortBy, setSortBy] = useState('');
+    const [search, setSearch] = useState('');
     const [customer, setCustomer] = useState([]);
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
@@ -94,26 +96,26 @@ function Account() {
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
 
     useEffect(() => {
-        const fetchData = async () => {
-            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
-            try {
-                const res = await fetch('http://localhost:5000/api/customer');
-                const data = await res.json();
-                console.log(data);
-                if (data.status !== 'success') {
-                    console.log('Error fetching data');
-                    return;
-                }
-                setCustomer(data.data);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                clearTimeout(loadingRef);
-                setIsLoading(false);
-            }
-        }
+        // const fetchData = async () => {
+        //     const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+        //     try {
+        //         const res = await fetch('http://localhost:5000/api/customer');
+        //         const data = await res.json();
+        //         console.log(data);
+        //         if (data.status !== 'success') {
+        //             console.log('Error fetching data');
+        //             return;
+        //         }
+        //         setCustomer(data.data);
+        //     } catch (error) {
+        //         console.log(error);
+        //     } finally {
+        //         clearTimeout(loadingRef);
+        //         setIsLoading(false);
+        //     }
+        // }
 
-        fetchData();
+        // fetchData();
 
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
@@ -166,6 +168,32 @@ function Account() {
 
     }
 
+    async function handleFilter() {
+        setIsLoading(true);
+        const query = {
+            sortBy: sortBy === 'name' ? 'customerName' : sortBy === 'email' ? 'customerEmail' : sortBy === 'register-time' ? 'customerRegisterDateTime' : '',
+            sortType: 'asc',
+            keySearch: search,
+        }
+        try {
+            const res = await fetch('http://localhost:5000/api/customer/filter?' + new URLSearchParams(query));
+            const data = await res.json();
+            if (data.status !== 'success') {
+                console.log('Error fetching data');
+                return;
+            }
+            setCustomer(data.data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        handleFilter();
+    }, [sortBy]);
+
     return (
         <div className="account">
             <div className="account__feature">
@@ -174,7 +202,10 @@ function Account() {
                         <div className="account__feature__item__icon">
                             <FontAwesomeIcon icon={faSort} className='icon__check' />
                         </div>
-                        <select>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                        >
                             <option value="" disabled>Sort</option>
                             <option value="name">Name</option>
                             <option value="email">Email</option>
@@ -193,8 +224,11 @@ function Account() {
                     </div>
                 </div>
                 <div className="account__feature__search">
-                    <input type="text" placeholder="Search..." />
-                    <button>
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        type="text" placeholder="Search..." />
+                    <button onClick={handleFilter}>
                         <FontAwesomeIcon icon={faSearch} className='icon__search' />
                     </button>
                 </div>
