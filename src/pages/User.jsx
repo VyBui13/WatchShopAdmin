@@ -36,7 +36,7 @@ function User() {
     }
 
     function handleSaveInfo(type, data, setFunction) {
-        const url = `http://localhost:5000/api/users/edit?type=${type}&data=${data}`;
+        const url = `http://localhost:5000/api/user/edit?type=${type}&data=${data}`;
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
@@ -215,9 +215,6 @@ function User() {
                     </div>
 
                     <div className="user__option">
-                        <div className="user__option__header">
-                            <h3>Option</h3>
-                        </div>
 
                         <div className="user__option__btn">
                             <button>Change password</button>

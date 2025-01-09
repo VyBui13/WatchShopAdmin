@@ -1,6 +1,6 @@
 import "../styles/role_management.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faUserTie, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUserTie, faUserSecret, faX } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import { useNotification } from "./NotificationContext";
 import { useConfirmPrompt } from "./ConfirmPromptContext";
@@ -16,11 +16,12 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const res = await fetch('http://localhost:5000/users/' + userInfo._id, {
+                const res = await fetch('http://localhost:5000/api/user/' + userInfo._id, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify({
                         type: 'role',
                         data: userInfo.userRole,
@@ -47,14 +48,18 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
         fetchData();
     }
 
+    function handleCancel() {
+        setTheChosenUser({});
+    }
+
     return (
         <>
             <div className="staffrole-wrapper">
                 <div className="staffrole">
-                    <span>
+                    <div className="staffrole__button__submit">
                         {userInfo.userRole.toLowerCase() === 'admin' && <FontAwesomeIcon icon={faUserSecret} className="icon__staffrole" />}
                         {userInfo.userRole.toLowerCase() === 'manager' && <FontAwesomeIcon icon={faUserTie} className="icon__staffrole" />}
-                        {userInfo.userRole.toLowerCase() === 'staff' && <FontAwesomeIcon icon={faUser} className="icon__staffrole" />}
+                        {userInfo.userRole.toLowerCase() === 'shipper' && <FontAwesomeIcon icon={faUser} className="icon__staffrole" />}
                         <button onClick={() => {
                             setConfirmPromptData({
                                 message: 'Are you sure you want to change this user role?',
@@ -65,7 +70,13 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
                         }}>
                             Submit
                         </button>
-                    </span>
+                    </div>
+
+                    <div className="staffrole__button__cancel">
+                        <button onClick={handleCancel}>
+                            <FontAwesomeIcon icon={faX} className="icon__staffrole" />
+                        </button>
+                    </div>
                     <div className="staffrole__info">
                         <h1>
                             {userInfo.userName}
@@ -73,21 +84,21 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
                     </div>
 
                     <div className="staffrole__cardwrapper">
-                        <input type="radio" name="role" id="roleStaff" checked={userInfo.userRole.toLowerCase() === 'staff'} />
+                        <input type="radio" name="role" id="roleStaff" checked={userInfo.userRole.toLowerCase() === 'shipper'} />
                         <label onClick={() =>
                             setUserInfo({
                                 ...userInfo,
-                                userRole: 'Staff'
+                                userRole: 'Shipper'
                             })
                         } htmlFor="roleStaff" className="staffrole__card">
                             <div className="staffrole__card__icon">
                                 <FontAwesomeIcon icon={faUser} />
                             </div>
                             <div className="staffrole__card__title">
-                                Staff
+                                Shipper
                             </div>
                             <div className="staffrole__card__description">
-                                Staff can only view books, add books to cart, and checkout books.
+                                Shipper can only get order and deliver them to customers.
                             </div>
                         </label>
 
@@ -105,7 +116,7 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
                                 Manager
                             </div>
                             <div className="staffrole__card__description">
-                                Manager can view books, add books to cart, checkout books, and manage staff.
+                                Manager can manage product, category, manufacturer, ... but can't manage shipper account.
                             </div>
                         </label>
 
@@ -123,7 +134,7 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
                                 Admin
                             </div>
                             <div className="staffrole__card__description">
-                                Admin can view books, add books to cart, checkout books, manage staff, and manage users.
+                                Admin can do all things, it means admin is King.
                             </div>
                         </label>
                     </div>

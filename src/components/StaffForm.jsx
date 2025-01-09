@@ -23,7 +23,7 @@ function StaffForm({ setIsForm, setUsers }) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const response = await fetch('http://localhost:5000/users/', {
+                const response = await fetch('http://localhost:5000/api/user/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function StaffForm({ setIsForm, setUsers }) {
                     setIsForm(false);
                     return;
                 }
-                const responseUsers = await fetch('http://localhost:5000/users/list');
+                const responseUsers = await fetch('http://localhost:5000/api/user');
                 const dataUsers = await responseUsers.json();
                 if (dataUsers.status !== 'success') {
                     console.log(dataUsers.message);
@@ -119,9 +119,9 @@ function StaffForm({ setIsForm, setUsers }) {
                                     required
                                 >
                                     <option value="" disabled>SELECT ROLE</option>
-                                    <option value="staff">STAFF</option>
-                                    <option value="admin">ADMIN</option>
-                                    <option value="manager">MANAGER</option>
+                                    <option value="Manager">MANAGER</option>
+                                    <option value="Admin">ADMIN</option>
+                                    <option value="Shipper">Shipper</option>
                                 </select>
                             </div>
 

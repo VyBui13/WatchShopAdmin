@@ -10,6 +10,8 @@ import { LoadingProvider } from './components/LoadingContext.jsx';
 import Notify from './components/Notify.jsx';
 import Loading from './components/Loading.jsx';
 import { useLoading } from './components/LoadingContext.jsx';
+import { ConfirmPromptProvider } from './components/ConfirmPromptContext.jsx';
+import ConfirmPrompt from './components/ConfirmPrompt.jsx';
 
 function MainApp() {
   const { isLoading } = useLoading();
@@ -17,6 +19,7 @@ function MainApp() {
   return (
     <>
       <Notify />
+      <ConfirmPrompt />
       {isLoading && <Loading />}
       <BrowserRouter>
         <Routes>
@@ -31,11 +34,13 @@ function MainApp() {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <LoadingProvider>
-      <NotificationProvider>
-        <AuthorizationProvider>
-          <MainApp />
-        </AuthorizationProvider>
-      </NotificationProvider>
+      <ConfirmPromptProvider>
+        <NotificationProvider>
+          <AuthorizationProvider>
+            <MainApp />
+          </AuthorizationProvider>
+        </NotificationProvider>
+      </ConfirmPromptProvider>
     </LoadingProvider>
   </StrictMode>
 );

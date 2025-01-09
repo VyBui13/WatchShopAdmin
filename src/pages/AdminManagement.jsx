@@ -23,11 +23,10 @@ function StaffManagement({ setIsHide }) {
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 16;
-        if (screenHeight >= 800) return 14;
-        if (screenHeight >= 768) return 12;
-        if (screenHeight >= 600) return 10;
-        return 8;
+        if (screenHeight >= 900) return 12;
+        if (screenHeight >= 750) return 10;
+        if (screenHeight >= 600) return 8;
+        return 6;
     }
 
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
@@ -70,6 +69,7 @@ function StaffManagement({ setIsHide }) {
 
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
+            setPage(1);
         };
 
         window.addEventListener("resize", handleResize);
@@ -79,51 +79,51 @@ function StaffManagement({ setIsHide }) {
         };
     }, [])
 
-    function handleFilterByRole(role) {
-        const fetchData = async () => {
-            const loadingRef = setTimeout(() => {
-                setIsLoading(true);
-            }, 500);
-            try {
-                const response = await fetch('http://localhost:5000/api/user/role=' + role);
-                const data = await response.json();
-                if (data.status === 'error') {
-                    console.log(data.message);
-                    return;
-                }
-                setUsers(data.data);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                clearTimeout(loadingRef);
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }
+    // function handleFilterByRole(role) {
+    //     const fetchData = async () => {
+    //         const loadingRef = setTimeout(() => {
+    //             setIsLoading(true);
+    //         }, 500);
+    //         try {
+    //             const response = await fetch('http://localhost:5000/api/user/role=' + role);
+    //             const data = await response.json();
+    //             if (data.status === 'error') {
+    //                 console.log(data.message);
+    //                 return;
+    //             }
+    //             setUsers(data.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         } finally {
+    //             clearTimeout(loadingRef);
+    //             setIsLoading(false);
+    //         }
+    //     }
+    //     fetchData();
+    // }
 
-    function handleReset() {
-        const fetchData = async () => {
-            const loadingRef = setTimeout(() => {
-                setIsLoading(true);
-            }, 500);
-            try {
-                const response = await fetch('http://localhost:5000/api/user');
-                const data = await response.json();
-                if (data.status === 'error') {
-                    console.log(data.message);
-                    return;
-                }
-                setUsers(data.data);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                clearTimeout(loadingRef);
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }
+    // function handleReset() {
+    //     const fetchData = async () => {
+    //         const loadingRef = setTimeout(() => {
+    //             setIsLoading(true);
+    //         }, 500);
+    //         try {
+    //             const response = await fetch('http://localhost:5000/api/user');
+    //             const data = await response.json();
+    //             if (data.status === 'error') {
+    //                 console.log(data.message);
+    //                 return;
+    //             }
+    //             setUsers(data.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         } finally {
+    //             clearTimeout(loadingRef);
+    //             setIsLoading(false);
+    //         }
+    //     }
+    //     fetchData();
+    // }
 
     function handleDeleteStaff(id) {
         const fetchData = async () => {
@@ -161,66 +161,19 @@ function StaffManagement({ setIsHide }) {
                 {theChosenUserCard._id && <Card theChosenUserCard={theChosenUserCard} setTheChosenUserCard={setTheChosenUserCard} />}
                 {/* {isPrompt && <ConfirmPrompt message="Delete Staff" action="Delete" onConfirm={() => { console.log("hehehe") }} onCancel={() => setIsPrompt(false)} />} */}
                 {isForm && <StaffForm setIsForm={setIsForm} setUsers={setUsers} />}
+
                 {theChosenUser._id && <StaffRole theChosenUser={theChosenUser} setTheChosenUser={setTheChosenUser} setUsers={setUsers} />}
-                <div className="management__left">
-                    <div className="management__role">
-                        <button onClick={() => handleFilterByRole("admin")} className="management__card">
-                            <div className="management__card-icon">
-                                <FontAwesomeIcon icon={faScrewdriverWrench} />
-                            </div>
-
-                            <div className="management__card-title">
-                                <p>Admin</p>
-                            </div>
-                        </button>
-
-                        <button onClick={() => handleFilterByRole("manager")} className="management__card">
-                            <div className="management__card-icon">
-                                <FontAwesomeIcon icon={faScrewdriverWrench} />
-                            </div>
-
-                            <div className="management__card-title">
-                                <p>Manager</p>
-                            </div>
-                        </button>
-
-                        <button onClick={() => handleFilterByRole("staff")} className="management__card">
-                            <div className="management__card-icon">
-                                <FontAwesomeIcon icon={faScrewdriverWrench} />
-                            </div>
-
-                            <div className="management__card-title">
-                                <p>Staff</p>
-                            </div>
-                        </button>
-
-
-                        <button onClick={() => setIsForm(true)} className="management__card">
-                            <div className="management__card-icon">
-                                <FontAwesomeIcon icon={faScrewdriverWrench} />
-                            </div>
-
-                            <div className="management__card-title">
-                                <p>Add new</p>
-                            </div>
-                        </button>
-
-                        <button className="management__card" onClick={handleReset}>
-                            <div className="management__card-icon">
-                                <FontAwesomeIcon icon={faScrewdriverWrench} />
-                            </div>
-
-                            <div className="management__card-title">
-                                <p>Reset</p>
-                            </div>
+                <div className="management__header">
+                    <div className="management__header__button">
+                        <button onClick={() => setIsForm(true)} className="management__header__button__add">
+                            <FontAwesomeIcon icon={faScrewdriverWrench} className='icon__button' />
+                            <span>Add Staff</span>
                         </button>
                     </div>
                 </div>
-
-                <div className="management__right">
+                <div className="management__body">
                     <div className="management__list">
                         <div className="management__listwrapper">
-
                             {users.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map(user => (
                                 <div className="management__card" key={user._id}>
                                     <button onClick={() => {
@@ -228,7 +181,7 @@ function StaffManagement({ setIsHide }) {
                                     }} className="management__card__avatar">
                                         {user.userRole.toLowerCase() === 'admin' && <FontAwesomeIcon icon={faUserSecret} className='icon__card' />}
                                         {user.userRole.toLowerCase() === 'manager' && <FontAwesomeIcon icon={faUserTie} className='icon__card' />}
-                                        {user.userRole.toLowerCase() === 'staff' && <FontAwesomeIcon icon={faUser} className='icon__card' />}
+                                        {user.userRole.toLowerCase() === 'shipper' && <FontAwesomeIcon icon={faUser} className='icon__card' />}
                                     </button>
                                     <div className="clone1">
                                         <span>Export card</span>
@@ -285,6 +238,7 @@ function StaffManagement({ setIsHide }) {
                     <div className="management__button">
                         <PagingButton decreasePage={decreasePage} increasePage={increasePage} currentPage={page} numberPage={Math.ceil(users.length / amountItem)} />
                     </div>
+
                 </div>
             </div>
         </>

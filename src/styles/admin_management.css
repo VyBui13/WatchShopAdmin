@@ -3,103 +3,44 @@
     height: 100%;
     background-color: var(--item-color);
     display: flex;
-}
-
-.management .management__left {
-    width: 15%;
-    height: 100%;
-    margin: 0 20px;
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
 }
 
-.management__role {
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
-
-.management__role .management__card {
-    padding: 20px;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    border-radius: var(--border-radius);
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    color: var(--text-color);
-    background: var(--item-color);
-    margin: 5px;
-}
-
-.management__role .management__card .management__card-icon {
-    width: 35px;
-    height: 35px;
-    background-color: var(--main-color);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-    color: var(--text-in-background-color);
-    position: relative;
-}
-
-.management__role .management__card .management__card-icon::before {
-    content: "";
-    position: absolute;
+.management__header {
     width: 100%;
-    height: 100%;
-    background-color: var(--main-color);
-    border-radius: 50%;
-    z-index: -1;
-    transition: all 0.4s;
-}
-
-.management__role .management__card:hover {
-    color: var(--text-in-background-color);
-}
-
-.management__role .management__card:hover .management__card-icon::before {
-    width: 450px;
-    height: 450px;
-}
-
-
-.management__role .management__card .management__card-title {
-    font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
-    min-width: 120px;
-    flex: 1;
-}
-
-.management .management__right {
-    flex: 1;
-    height: 100%;
     display: flex;
-    flex-direction: column;
+    margin-bottom: 10px;
     align-items: center;
+}
+
+.management__header__button {}
+
+.management__header__button button {
+    border: 2px solid var(--main-color);
+    padding: 2px 10px;
+    margin: 0 10px;
+    display: flex;
     justify-content: center;
-    margin-left: 20px;
-    position: relative;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--item-color);
+    color: var(--main-color);
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    transition: all 0.3s;
+}
+
+.management__header__button button .icon__button {
+    margin-right: 5px;
+}
+
+.management__body {
+    height: 100%;
 }
 
 .management__list {
     width: 100%;
     height: calc(100% - 30px);
-
 }
 
 .management__listwrapper {

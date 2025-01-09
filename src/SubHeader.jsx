@@ -51,7 +51,9 @@ function SubHeader() {
                     <FontAwesomeIcon icon={faBell} className='icon__feature' />
                 </div>
                 <div className="subheader__feature">
-                    <FontAwesomeIcon icon={faGear} className='icon__feature' />
+                    <Link to='/admin'>
+                        <FontAwesomeIcon icon={faGear} className='icon__feature' />
+                    </Link>
                 </div>
                 <div className="subheader__feature">
                     <Link to='/user'>

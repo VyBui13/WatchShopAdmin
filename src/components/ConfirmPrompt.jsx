@@ -1,4 +1,4 @@
-import "../styles/ConfirmPrompt.css";
+import "../styles/confirm_prompt.css";
 import { useConfirmPrompt } from "./ConfirmPromptContext";
 
 function Prompt({ message, action, onConfirm, onCancel }) {

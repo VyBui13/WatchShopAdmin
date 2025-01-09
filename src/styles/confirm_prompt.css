@@ -1,0 +1,103 @@
+.confirmprompt-layout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirmprompt {
+    width: 400px;
+    border-radius: var(--border-radius);
+    background-color: var(--item-color);
+    padding: 20px;
+    margin: 20px;
+    overflow: hidden;
+    border: 2px solid var(--main-color);
+    transform: translateY(calc(-100% - 20px));
+    animation: slideDown 0.5s forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(calc(-100% - 20px));
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.confirmprompt .confirmprompt__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+.confirmprompt .confirmprompt__header h3 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.confirmprompt .confirmprompt__header p {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--main-color);
+}
+
+.confirmprompt .confirmprompt__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.confirmprompt .confirmprompt__body p {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.confirmprompt .confirmprompt__body .confirmprompt__body-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.confirmprompt .confirmprompt__body .confirmprompt__body-actions button {
+    width: 100px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--main-color);
+    color: var(--item-color);
+    border: 2px solid var(--main-color);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 10px;
+    text-transform: capitalize;
+}
+
+.confirmprompt .confirmprompt__body .confirmprompt__body-actions button:first-child {
+    color: var(--main-color);
+    background-color: var(--item-color);
+    border: 2px solid var(--main-color);
+}
