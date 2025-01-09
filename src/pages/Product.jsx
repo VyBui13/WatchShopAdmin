@@ -1,4 +1,5 @@
 import '../styles/product.css';
+import '../styles/board.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faCartShopping, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
@@ -67,6 +68,7 @@ function Product() {
     useEffect(() => {
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
+            setPage(1);
         };
 
         window.addEventListener("resize", handleResize);
@@ -120,11 +122,11 @@ function Product() {
     return (
         <>
             {productSelected && <ProductDetail product={productSelected} setProductSelected={setProductSelected} products={products} setProducts={setProducts} />}
-            <div className="product">
-                <div className="product__feature">
-                    <div className="product__feature__sortfilter">
-                        <div className="product__feature__item">
-                            <div className="product__feature__item__icon">
+            <div className="board board--product">
+                <div className="board__feature">
+                    <div className="board__feature__sortfilter">
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
                                 <FontAwesomeIcon icon={faSort} className='icon__check' />
                             </div>
                             <select
@@ -140,8 +142,8 @@ function Product() {
                                 <option value="">None</option>
                             </select>
                         </div>
-                        <div className="product__feature__item">
-                            <div className="product__feature__item__icon">
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
                                 <FontAwesomeIcon icon={faFilter} className='icon__check' />
                             </div>
                             <select
@@ -158,8 +160,8 @@ function Product() {
                             </select>
                         </div>
 
-                        <div className="product__feature__item">
-                            <div className="product__feature__item__icon">
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
                                 <FontAwesomeIcon icon={faFilter} className='icon__check' />
                             </div>
                             <select
@@ -176,7 +178,7 @@ function Product() {
                             </select>
                         </div>
                     </div>
-                    <div className="product__feature__search">
+                    <div className="board__feature__search">
                         <input type="text" placeholder="Search..." />
                         <button>
                             <FontAwesomeIcon icon={faSearch} className='icon__search' />
@@ -184,94 +186,94 @@ function Product() {
                     </div>
                 </div>
 
-                <div className="product__table">
-                    <div className="product__table__header">
-                        <div className="product__table__attribute">
+                <div className="board__table">
+                    <div className="board__table__header">
+                        <div className="board__table__attribute">
                             <button>
                                 <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
                             </button>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>ID</span>
                         </div>
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Image</span>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Name</span>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Brand</span>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Category</span>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Price</span>
                         </div>
 
-                        <div className="product__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Num</span>
                         </div>
 
-                        <div className="product__table__attribute">
-                            <div className="product__table__status"></div>
+                        <div className="board__table__attribute">
+                            <div className="board__table__status"></div>
                         </div>
                     </div>
 
-                    <div className="product__table__data">
+                    <div className="board__table__data">
                         {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product, index) => (
                             <button
                                 onClick={() => {
                                     setProductSelected(product)
                                 }}
                                 key={product._id}
-                                className="product__table__row">
-                                <div className="product__table__attribute">
+                                className="board__table__row">
+                                <div className="board__table__attribute">
                                     {(page - 1) * amountItem + index + 1}
                                 </div>
-                                <div className="product__table__attribute">{product._id.slice(-4)}</div>
-                                <div className="product__table__attribute">
+                                <div className="board__table__attribute">{product._id.slice(-4)}</div>
+                                <div className="board__table__attribute">
                                     <img
                                         src={product.productMainImage}
                                         alt={product.productName}
                                         style={{ width: "50px", height: "50px" }}
                                     />
                                 </div>
-                                <div className="product__table__attribute">{product.productName}</div>
-                                <div className="product__table__attribute">{brands.find((brand) => brand._id === product.productBrand)?.brandName || "Unknown Brand"}</div>
-                                <div className="product__table__attribute">{categories.find((category) => category._id === product.productCategory)?.categoryName || "Unknown Category"}</div>
-                                <div className="product__table__attribute">${product.productPrice}</div>
-                                <div className="product__table__attribute">{product.productQuantity}</div>
-                                <div className="product__table__attribute">
+                                <div className="board__table__attribute">{product.productName}</div>
+                                <div className="board__table__attribute">{brands.find((brand) => brand._id === product.productBrand)?.brandName || "Unknown Brand"}</div>
+                                <div className="board__table__attribute">{categories.find((category) => category._id === product.productCategory)?.categoryName || "Unknown Category"}</div>
+                                <div className="board__table__attribute">${product.productPrice}</div>
+                                <div className="board__table__attribute">{product.productQuantity}</div>
+                                <div className="board__table__attribute">
                                     <div
                                         style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out Of Stock" ? "yellow" : "red") }}
-                                        className="product__table__status"></div>
+                                        className="board__table__status"></div>
                                 </div>
                             </button>
                         ))}
                     </div>
 
-                    <div className="product__table__footer">
-                        <div className="product__table__selected">
+                    <div className="board__table__footer">
+                        <div className="board__table__selected">
                             <span>{products.length} products</span>
                             <button>
                                 <FontAwesomeIcon icon={faCartShopping} className='icon__deleted' />
                             </button>
                         </div>
 
-                        <div className="product__table__paging">
-                            <div className="product__table__paging__page">
+                        <div className="board__table__paging">
+                            <div className="board__table__paging__page">
                                 <span>{page}</span>|
                                 <span>{Math.ceil(products.length / amountItem)}</span>
                             </div>
 
-                            <div className="product__table__paging__button">
+                            <div className="board__table__paging__button">
                                 <button onClick={decreasePage}>
                                     <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
                                 </button>
@@ -283,6 +285,7 @@ function Product() {
                     </div>
                 </div>
             </div>
+
         </>
     );
 }

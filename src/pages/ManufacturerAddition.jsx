@@ -61,15 +61,15 @@ function Category() {
     }
 
     return (
-        <div className="form">
-            <div className="form__header">
+        <div className="addform">
+            <div className="addform__header">
                 <h1>Brand</h1>
                 <p>Manage manufacturer</p>
             </div>
-            <div className="form__data">
+            <div className="addform__data">
 
-                <div className="form__line">
-                    <div className="form__group">
+                <div className="addform__line">
+                    <div className="addform__group">
                         <label>Name:</label>
                         <input
                             type="text"
@@ -80,8 +80,8 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="form__line">
-                    <div className="form__group">
+                <div className="addform__line">
+                    <div className="addform__group">
                         <label>Country:</label>
                         <input
                             type="text"
@@ -92,8 +92,8 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="form__line">
-                    <div className="form__group">
+                <div className="addform__line">
+                    <div className="addform__group">
                         <label>Image:</label>
                         <input
                             type="file"
@@ -103,8 +103,8 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="form__line">
-                    <div className="form__group">
+                <div className="addform__line">
+                    <div className="addform__group">
                         <label>Official website:</label>
                         <input
                             type="text"
@@ -115,8 +115,8 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="form__line">
-                    <div className="form__group">
+                <div className="addform__line">
+                    <div className="addform__group">
                         <label>Description:</label>
                         <textarea
                             value={brand.brandDescription}
@@ -125,12 +125,13 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="form__button">
+                <div className="addform__button">
                     <button onClick={handleCancel}>Cancel</button>
                     <button onClick={handleSubmit}>Add</button>
                 </div>
             </div>
         </div>
+
     );
 }
 

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faTrash, faSquareCheck, faSearch, faFilter, faSort, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { getDateTime } from '../utils/DateConverter'
 import '../styles/account.css'
+import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
 
@@ -87,10 +88,10 @@ function Account() {
     const [customer, setCustomer] = useState([]);
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 15;
-        if (screenHeight >= 750) return 13;
-        if (screenHeight >= 600) return 11;
-        return 9;
+        if (screenHeight >= 900) return 16;
+        if (screenHeight >= 750) return 14;
+        if (screenHeight >= 600) return 12;
+        return 7;
     }
 
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
@@ -119,12 +120,14 @@ function Account() {
 
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
+            setPage(1);
         };
 
         window.addEventListener("resize", handleResize);
 
         return () => {
             window.removeEventListener("resize", handleResize);
+
         };
     }, []);
 
@@ -195,11 +198,11 @@ function Account() {
     }, [sortBy]);
 
     return (
-        <div className="account">
-            <div className="account__feature">
-                <div className="account__feature__sortfilter">
-                    <div className="account__feature__item">
-                        <div className="account__feature__item__icon">
+        <div className="board board--account">
+            <div className="board__feature">
+                <div className="board__feature__sortfilter">
+                    <div className="board__feature__item">
+                        <div className="board__feature__item__icon">
                             <FontAwesomeIcon icon={faSort} className='icon__check' />
                         </div>
                         <select
@@ -212,8 +215,8 @@ function Account() {
                             <option value="registertime">Register Time</option>
                         </select>
                     </div>
-                    <div className="account__feature__item">
-                        <div className="account__feature__item__icon">
+                    <div className="board__feature__item">
+                        <div className="board__feature__item__icon">
                             <FontAwesomeIcon icon={faFilter} className='icon__check' />
                         </div>
                         <select>
@@ -223,7 +226,7 @@ function Account() {
                         </select>
                     </div>
                 </div>
-                <div className="account__feature__search">
+                <div className="board__feature__search">
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -234,70 +237,72 @@ function Account() {
                 </div>
             </div>
 
-            <div className="account__table">
-                <div className="account__table__header">
-                    <div className="account__table__attribute">
+            <div className="board__table">
+                <div className="board__table__header">
+                    <div className="board__table__attribute">
                         <button>
                             <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
                         </button>
                     </div>
 
-                    <div className="account__table__attribute">
+                    <div className="board__table__attribute">
                         <span>ID</span>
                     </div>
-                    <div className="account__table__attribute">
+                    <div className="board__table__attribute">
                         <span>Name</span>
                     </div>
 
-                    <div className="account__table__attribute">
+                    <div className="board__table__attribute">
                         <span>Email</span>
                     </div>
 
-                    <div className="account__table__attribute">
+                    <div className="board__table__attribute">
                         <span>Register Time</span>
                     </div>
 
-                    <div className="account__table__attribute">
-                        <span>Status</span>
+                    <div className="board__table__attribute">
+                        <span>
+                            <div className="board__table__attribute__status"></div>
+                        </span>
                     </div>
                 </div>
 
-                <div className="account__table__data">
+                <div className="board__table__data">
                     {customer.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
-                        <div key={account.id} className="account__table__row">
-                            <div className="account__table__attribute">
+                        <div key={account.id} className="board__table__row">
+                            <div className="board__table__attribute">
                                 <button onClick={() => {
                                     updateAccount(account._id);
                                 }}>
                                     <FontAwesomeIcon icon={faPencil} className='icon__edit' />
                                 </button>
                             </div>
-                            <div className="account__table__attribute">{account._id.slice(-4)}</div>
-                            <div className="account__table__attribute">{account.customerName}</div>
-                            <div className="account__table__attribute">{account.customerEmail}</div>
-                            <div className="account__table__attribute">{getDateTime(new Date(account.customerRegisterDateTime))}</div>
-                            <div className="account__table__attribute" >
-                                <div className="account__table__attribute__status" style={{ backgroundColor: account.customerAccountStatus === 'ACTIVE' ? 'green' : 'red' }}></div>
+                            <div className="board__table__attribute">{account._id.slice(-4)}</div>
+                            <div className="board__table__attribute">{account.customerName}</div>
+                            <div className="board__table__attribute">{account.customerEmail}</div>
+                            <div className="board__table__attribute">{getDateTime(new Date(account.customerRegisterDateTime))}</div>
+                            <div className="board__table__attribute" >
+                                <div className="board__table__attribute__status" style={{ backgroundColor: account.customerAccountStatus === 'ACTIVE' ? 'green' : 'red' }}></div>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="account__table__footer">
-                    <div className="account__table__selected">
+                <div className="board__table__footer">
+                    <div className="board__table__selected">
                         <span>{customer.length} account</span>
                         <button>
                             <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                         </button>
                     </div>
 
-                    <div className="account__table__paging">
-                        <div className="account__table__paging__page">
+                    <div className="board__table__paging">
+                        <div className="board__table__paging__page">
                             <span>{page}</span>|
                             <span>{Math.ceil(customer.length / amountItem)}</span>
                         </div>
 
-                        <div className="account__table__paging__button">
+                        <div className="board__table__paging__button">
                             <button onClick={decreasePage}>
                                 <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
                             </button>
@@ -308,7 +313,8 @@ function Account() {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
+
     );
 }
 

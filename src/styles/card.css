@@ -1,0 +1,447 @@
+:root {
+    --main-card-color: #FE3939;
+    --main-card-opa-color: #80002bd8;
+    --text-in-card-color: #8a8a8adb;
+    --text-in-card-header-color: #ffffff;
+}
+
+.card-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 30;
+}
+
+.card {
+    position: relative;
+    width: 450px;
+    height: 250px;
+    animation: slideIn 0.4s;
+}
+
+.card .card__clickme {
+    position: absolute;
+    top: -55px;
+    right: -120px;
+    font-size: 25px;
+    font-weight: 700;
+    color: #fff;
+    rotate: -45deg;
+}
+
+.card input {
+    display: none;
+}
+
+.card .card__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.5s;
+    border-radius: 20px;
+}
+
+#btn-flip:checked+.card__container {
+    transform: rotateY(180deg);
+}
+
+.card .card__container .card__side {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #fff;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius);
+    border: 4px solid var(--text-in-card-header-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* background: var(--main-card-color); */
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/background-card.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+/* .card .card__container .card__side::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/pic/img/background-card.avif');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.1;
+} */
+
+.card__side .card__text-header {
+    color: #FE3939;
+}
+
+.card .card__container .card__frontside {}
+
+.card .card__container .card__backside {
+    transform: rotateY(180deg);
+}
+
+.card__container .card__side .card__header {
+    color: #fff;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    top: 8px;
+    left: 8px;
+    width: 50%;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    padding: 5px;
+}
+
+.card__side .card__header .icon__card__header {
+    color: #fff;
+    transition: all 0.4s;
+}
+
+.card__container .card__side .card__QR {
+    color: #fff;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 30px;
+    font-weight: 700;
+    transition: all 0.4s;
+}
+
+.card__container .card__side .card__QR:hover {
+    cursor: pointer;
+    font-size: 32px;
+}
+
+
+.card__container .card__frontside .card__picture-container {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 22%;
+    height: 55%;
+    transform: translateY(-50%);
+    border-radius: var(--border-radius);
+    padding: 20px 5px;
+    border-radius: var(--border-radius);
+    border: 3px solid #fff;
+    transition: all 0.4s;
+}
+
+.card__frontside .card__picture-container .card__picture {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 0.4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card__frontside .card__picture-container .card__picture .icon__card__picture {
+    font-size: 80px;
+
+    color: #fff;
+    transition: all 0.4s;
+
+}
+
+.card__frontside .card__picture-container:hover .card__picture {
+    transform: scale(1.1);
+}
+
+.card__container .card__side .card__title {
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    font-weight: 700;
+    font-size: 12px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__container .card__side .card__title .card__icon-title {
+    font-size: 16px;
+    color: #fff;
+    padding: 0 5px;
+    margin: 0 5px;
+}
+
+.card__container .card__frontside .card__information {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 65%;
+    height: 50%;
+}
+
+.card__frontside .card__information .card__content {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+
+.card__frontside .card__information .special {
+    line-height: 80%
+}
+
+.card__information .card__content .card__content-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+}
+
+.card__content .card__content-item .card__id {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 0 5px;
+}
+
+.card__content-item .card__id .card__id-item {
+    padding: 0 2px;
+    width: 25px;
+    border: 2px solid #fff;
+    font-weight: 700;
+    font-size: 12px;
+    font-style: italic;
+    color: #fff;
+    list-style: none;
+    text-align: center;
+}
+
+.card__content .card__content-item .card__content-header {
+    font-weight: 700;
+    font-size: 12px;
+    font-style: italic;
+    text-align: left;
+    padding: 0 5px;
+    color: #FE3939;
+}
+
+.card__content .card__content-item .card__content-body {
+    padding: 0 5px;
+    font-weight: 700;
+    font-size: 12px;
+    font-style: italic;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.card__frontside .card__footer {
+    position: absolute;
+    bottom: 5%;
+    left: 48%;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__frontside .card__footer .card__content-body {
+    padding: 0 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FE3939;
+}
+
+.card__side .card__expiry {
+    position: absolute;
+    bottom: 7%;
+    left: 3%;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FE3939;
+}
+
+.card__side .card__expiry .icon-card-expiry {
+    font-size: 16px;
+    color: #fff;
+    padding: 0 5px;
+}
+
+.card__container .card__side .card__disc {
+    position: absolute;
+    bottom: -10%;
+    right: -5%;
+    font-size: 60px;
+    font-weight: 700;
+    font-style: italic;
+    z-index: 1000;
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.card__container .card__side .card__disc:hover {
+    transform: rotate(180deg);
+}
+
+/*-------------------------------------------*/
+.card__backside .card__title-social {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(rgba(118, 118, 118, 0.828), rgba(255, 255, 255, 0.3));
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.card__social {
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.card__social span {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.card__social span span {
+    color: #FE3939;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.card__backside .card__social-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    margin: 0 10px;
+}
+
+.card__backside .card__information-social {
+    position: absolute;
+    bottom: 10%;
+    right: 0;
+    width: 50%;
+}
+
+.card__backside .card__information-social .card__social {
+    list-style: none;
+}
+
+.card__information-social .card__social .card__social-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    width: 200px;
+}
+
+.card__social .card__social-item .card__social-icon {
+    font-size: 18px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.card__social-item .card__social-icon i {
+    width: 30px;
+    font-size: 24px;
+}
+
+.card__social .card__social-item .card__social-link {
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+    padding: 0 5px;
+
+}
+
+.card__social-item .card__social-link a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.card__backside .card__line {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(rgba(118, 118, 118, 0.828), rgba(255, 255, 255, 0.3));
+    z-index: 0;
+}
+
+/*----------------------FIRSTPERSON---------------------*/
+/* .card--firstperson .card__side .card__text-header {
+    color: #fff;
+}
+
+.card--firstperson .card__side .card__title,
+.card--firstperson .card__side .card__content-header,
+.card--firstperson .card__frontside .card__expiry i,
+.card--firstperson .card__backside .card__text-title-social {
+    color: #fff;
+}
+
+.card--firstperson .card__side .card__disc {
+    color: #fff;
+} */
+
+
+/*----------------------FIRSTPERSON---------------------*/

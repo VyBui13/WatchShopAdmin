@@ -1,47 +1,46 @@
 /* Container chính */
-.form {
+.addform {
     padding: 20px;
     background-color: var(--item-color);
     border-radius: var(--border-radius);
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
 
-.form__header {
-    margin-bottom: 20px;
+.addform__header {
     padding: 0 10px;
 }
 
 /* Tiêu đề form */
-.form__header h1 {
+.addform__header h1 {
     font-size: 30px;
     font-weight: 700;
     color: var(--main-color);
 }
 
-.form__header p {
+.addform__header p {
     color: var(--text-color);
     font-weight: 700;
 }
 
-.form .form__data {
+.addform .addform__data {
     display: flex;
     flex-direction: column;
 }
 
-.form .form__data .form__line {
+.addform .addform__data .addform__line {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.form .form__data .form__line .form__group {
+.addform .addform__data .addform__line .addform__group {
     display: flex;
     width: 100%;
     padding: 10px;
     align-items: center;
 }
 
-.form .form__line .form__group textarea {
+.addform .addform__line .addform__group textarea {
     width: 100%;
     color: var(--text-color);
     background: transparent;
@@ -50,14 +49,14 @@
     border: 2px solid var(--text-color);
 }
 
-.form .form__data .form__line .form__group label {
+.addform .addform__data .addform__line .addform__group label {
     min-width: 150px;
     font-weight: 700;
     color: var(--text-color);
 }
 
-.form .form__data .form__line .form__group input,
-.form .form__data .form__line .form__group select {
+.addform .addform__data .addform__line .addform__group input,
+.addform .addform__data .addform__line .addform__group select {
     width: 100%;
     color: var(--text-color);
     padding: 5px 10px;
@@ -67,21 +66,21 @@
     border-bottom: 2px solid var(--text-color);
 }
 
-.form .form__data .form__line .form__group input[type="file"] {
+.addform .addform__data .addform__line .addform__group input[type="file"] {
     cursor: pointer;
 }
 
-.form .form__data .form__line .form__group input[type="file"]::-webkit-file-upload-button {
+.addform .addform__data .addform__line .addform__group input[type="file"]::-webkit-file-upload-button {
     display: none;
 }
 
-.form__button {
+.addform__button {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
 }
 
-.form__button button {
+.addform__button button {
     padding: 10px 20px;
     border: none;
     outline: none;

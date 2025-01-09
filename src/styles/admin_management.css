@@ -1,0 +1,362 @@
+.management {
+    width: 100%;
+    height: 100%;
+    background-color: var(--item-color);
+    display: flex;
+}
+
+.management .management__left {
+    width: 15%;
+    height: 100%;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.management__role {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.management__role .management__card {
+    padding: 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    color: var(--text-color);
+    background: var(--item-color);
+    margin: 5px;
+}
+
+.management__role .management__card .management__card-icon {
+    width: 35px;
+    height: 35px;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    color: var(--text-in-background-color);
+    position: relative;
+}
+
+.management__role .management__card .management__card-icon::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.4s;
+}
+
+.management__role .management__card:hover {
+    color: var(--text-in-background-color);
+}
+
+.management__role .management__card:hover .management__card-icon::before {
+    width: 450px;
+    height: 450px;
+}
+
+
+.management__role .management__card .management__card-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    min-width: 120px;
+    flex: 1;
+}
+
+.management .management__right {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    position: relative;
+}
+
+.management__list {
+    width: 100%;
+    height: calc(100% - 30px);
+
+}
+
+.management__listwrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.management__list .management__card {
+    width: 400px;
+    height: 100px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+    margin: 7px 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.management__list .management__card .management__card__avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid var(--main-color);
+    background: var(--item-color);
+    padding: 10px;
+    position: relative;
+    cursor: pointer;
+    z-index: 4;
+}
+
+/* .management__list .management__card .management__card__avatar::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    position: absolute;
+    transition: all 0.3s;
+    z-index: -1;
+} */
+.clone1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main-color);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    z-index: -1;
+    transition: all 0.2s;
+    border-radius: var(--border-radius);
+}
+
+.clone1 span {
+    color: var(--text-in-background-color);
+    font-size: 28px;
+    font-weight: 700;
+    margin-left: 60px;
+}
+
+.management__list .management__card .management__card__avatar:hover~.clone1 {
+    opacity: 1;
+    z-index: 3;
+}
+
+.management__list .management__card .management__card__avatar:hover~.management__card__body {
+    opacity: 0;
+}
+
+
+.management__list .management__card .management__card__avatar .icon__card {
+    font-size: 40px;
+    color: var(--main-color);
+}
+
+.management__list .management__card .management__card__body {
+    margin-left: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.management__list .management__card .management__card__body .management__card__title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+.management__list .management__card .management__card__body .management__card__title h2 {
+    font-size: 18px;
+}
+
+.management__list .management__card .management__card__body .management__card__content {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 5px;
+}
+
+.management__list .management__card .management__card__body .management__card__content span {
+    margin-left: 5px;
+}
+
+.management__card__delete {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 35px;
+    height: 35px;
+    border-bottom-left-radius: var(--border-radius);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--main-color);
+    color: transparent;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 2;
+}
+
+.management__card__change {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    border-top-left-radius: var(--border-radius);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--main-color);
+    color: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 2;
+}
+
+.management__card__delete:hover {
+    top: 0;
+    right: 0;
+    color: var(--text-in-background-color);
+}
+
+.icon__card__button {
+    font-size: 14px;
+    color: var(--text-in-background-color);
+    font-weight: 700;
+    transition: all 0.4s;
+}
+
+.management__card__delete:hover .icon__card__button,
+.management__card__change:hover .icon__card__button {
+    transform: rotate(360deg);
+}
+
+.management__card__change:hover {
+    bottom: 0;
+    right: 0;
+    color: var(--text-in-background-color);
+}
+
+.management__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.management__button button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--main-color);
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+
+}
+
+.management__button button .icon__paging {
+    font-size: 16px;
+    color: var(--main-color);
+    transition: all 0.3s;
+}
+
+.management__button button:hover {
+    background: var(--main-color);
+}
+
+.management__button button:hover .icon__paging {
+    color: var(--text-in-background-color);
+}
+
+@media screen and (max-width: 1100px) {
+    .management {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .management .management__left {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 10px;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .management__role {
+        flex-direction: row;
+        justify-content: space-around;
+
+    }
+
+    .management .management__right {
+        margin-left: 0;
+        height: unset;
+    }
+
+    .management__role .management__card {
+        width: calc(100% / 3 - 20px);
+    }
+
+    .management__list {
+        height: unset;
+    }
+
+    .management .management__button {
+        margin: 10px 0;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .management__role .management__card {
+        width: 100%;
+    }
+
+    .management__list .management__card {
+        width: calc(100% - 20px);
+        margin: 10px;
+    }
+}

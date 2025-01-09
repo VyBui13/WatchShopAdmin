@@ -58,7 +58,7 @@ function Header() {
                                 <span>Management</span>
                             </div>
                         </Link>
-                        <Link to='/'>
+                        <Link to='/order'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faClipboard} className='icon__item' />
                                 <span>Order</span>

@@ -64,6 +64,7 @@ function Category() {
         fetchData();
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
+            setPage(1);
         };
 
         window.addEventListener("resize", handleResize);
@@ -123,15 +124,15 @@ function Category() {
 
     return (
         <>
-            <div className="category">
-                <div className="category__feature">
-                    <div className="category__feature__add">
+            <div className="board board--category">
+                <div className="board__feature">
+                    <div className="board__feature__add">
                         <button onClick={() => navigate('/category/addition')}>
                             <FontAwesomeIcon icon={faPlus} className='icon__add' />
                             Add
                         </button>
                     </div>
-                    <div className="category__feature__search">
+                    <div className="board__feature__search">
                         <input type="text" placeholder="Search..." />
                         <button>
                             <FontAwesomeIcon icon={faSearch} className='icon__search' />
@@ -139,72 +140,72 @@ function Category() {
                     </div>
                 </div>
 
-                <div className="category__table">
-                    <div className="category__table__header">
-                        <div className="category__table__attribute">
+                <div className="board__table">
+                    <div className="board__table__header">
+                        <div className="board__table__attribute">
                             <span>X</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="board__table__attribute">
                             <span>ID</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Name</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Description</span>
                         </div>
 
-                        <div className="category__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Size</span>
                         </div>
 
-                        <div className="category__table__attribute">
-                            <span>Status</span>
+                        <div className="board__table__attribute">
+                            <div className="board__table__status"></div>
                         </div>
-
                     </div>
 
-                    <div className="category__table__data">
+                    <div className="board__table__data">
                         {categories.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((category, index) => (
                             <div
                                 key={category._id}
-                                className="category__table__row">
-                                <div className="category__table__attribute">
+                                className="board__table__row">
+                                <div className="board__table__attribute">
                                     <button onClick={() => {
                                         handleRemove(category);
                                     }}>X</button>
                                 </div>
-                                <div className="category__table__attribute">{category._id.slice(-4)}</div>
-                                <div className="category__table__attribute">{category.categoryName}</div>
-                                <div className="category__table__attribute">{category.categoryDescription}</div>
-                                <div className="category__table__attribute">{category.products.length}</div>
-                                <div className="category__table__attribute">
+                                <div className="board__table__attribute">{category._id.slice(-4)}</div>
+                                <div className="board__table__attribute">{category.categoryName}</div>
+                                <div className="board__table__attribute">{category.categoryDescription}</div>
+                                <div className="board__table__attribute">{category.products.length}</div>
+                                <div className="board__table__attribute">
                                     <div
                                         // style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
-                                        className="category__table__status"></div>
+                                        style={{ backgroundColor: "green" }}
+                                        className="board__table__status"></div>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <div className="category__table__footer">
-                        <div className="category__table__selected">
+                    <div className="board__table__footer">
+                        <div className="board__table__selected">
                             <span>1 selected</span>
                             <button>
                                 <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                             </button>
                         </div>
 
-                        <div className="category__table__paging">
-                            <div className="category__table__paging__page">
+                        <div className="board__table__paging">
+                            <div className="board__table__paging__page">
                                 <span>{page}</span>|
                                 <span>{Math.ceil(categories.length / amountItem)}</span>
                             </div>
 
-                            <div className="category__table__paging__button">
+                            <div className="board__table__paging__button">
                                 <button onClick={decreasePage}>
                                     <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
                                 </button>
@@ -216,6 +217,7 @@ function Category() {
                     </div>
                 </div>
             </div>
+
         </>
     );
 }

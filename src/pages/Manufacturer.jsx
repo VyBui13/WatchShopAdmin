@@ -1,4 +1,5 @@
 import '../styles/manufacturer.css';
+import '../styles/board.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faTrash, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -48,6 +49,7 @@ function Manufacturer() {
         fetchData();
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
+            setPage(1);
         };
 
         window.addEventListener("resize", handleResize);
@@ -102,15 +104,15 @@ function Manufacturer() {
 
     return (
         <>
-            <div className="manufacturer">
-                <div className="manufacturer__feature">
-                    <div className="manufacturer__feature__add">
+            <div className="board board--manufacturer">
+                <div className="board__feature">
+                    <div className="board__feature__add">
                         <button onClick={() => navigate('/manufacturer/addition')}>
                             <FontAwesomeIcon icon={faPlus} className='icon__add' />
                             Add
                         </button>
                     </div>
-                    <div className="manufacturer__feature__search">
+                    <div className="board__feature__search">
                         <input type="text" placeholder="Search..." />
                         <button>
                             <FontAwesomeIcon icon={faSearch} className='icon__search' />
@@ -118,69 +120,69 @@ function Manufacturer() {
                     </div>
                 </div>
 
-                <div className="manufacturer__table">
-                    <div className="manufacturer__table__header">
-                        <div className="manufacturer__table__attribute">
+                <div className="board__table">
+                    <div className="board__table__header">
+                        <div className="board__table__attribute">
                             <span>X</span>
                         </div>
 
-                        <div className="manufacturer__table__attribute">
+                        <div className="board__table__attribute">
                             <span>ID</span>
                         </div>
 
-                        <div className="manufacturer__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Image</span>
                         </div>
 
-                        <div className="manufacturer__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Name</span>
                         </div>
 
-                        <div className="manufacturer__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Description</span>
                         </div>
 
-                        <div className="manufacturer__table__attribute">
+                        <div className="board__table__attribute">
                             <span>Country</span>
                         </div>
-
                     </div>
 
-                    <div className="manufacturer__table__data">
+                    <div className="board__table__data">
                         {manufacturers.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((manufacturer, index) => (
                             <button
                                 key={manufacturer._id}
-                                className="manufacturer__table__row">
-                                <div className="manufacturer__table__attribute">
+                                className="board__table__row">
+                                <div className="board__table__attribute">
                                     <button onClick={() => {
                                         handleRemove(manufacturer._id);
                                     }}>X</button>
                                 </div>
-                                <div className="manufacturer__table__attribute">{manufacturer._id.slice(-4)}</div>
-                                <div className="manufacturer__table__attribute"> <img src={manufacturer.brandImage} alt="manufacturer" /></div>
-                                <div className="manufacturer__table__attribute">{manufacturer.brandName}</div>
-                                <div className="manufacturer__table__attribute">{manufacturer.brandDescription}</div>
-                                <div className="manufacturer__table__attribute">{manufacturer.brandCountry}</div>
-
+                                <div className="board__table__attribute">{manufacturer._id.slice(-4)}</div>
+                                <div className="board__table__attribute">
+                                    <img src={manufacturer.brandImage} alt="manufacturer" />
+                                </div>
+                                <div className="board__table__attribute">{manufacturer.brandName}</div>
+                                <div className="board__table__attribute">{manufacturer.brandDescription}</div>
+                                <div className="board__table__attribute">{manufacturer.brandCountry}</div>
                             </button>
                         ))}
                     </div>
 
-                    <div className="manufacturer__table__footer">
-                        <div className="manufacturer__table__selected">
+                    <div className="board__table__footer">
+                        <div className="board__table__selected">
                             <span>1 selected</span>
                             <button>
                                 <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                             </button>
                         </div>
 
-                        <div className="manufacturer__table__paging">
-                            <div className="manufacturer__table__paging__page">
+                        <div className="board__table__paging">
+                            <div className="board__table__paging__page">
                                 <span>{page}</span>|
                                 <span>{Math.ceil(manufacturers.length / amountItem)}</span>
                             </div>
 
-                            <div className="manufacturer__table__paging__button">
+                            <div className="board__table__paging__button">
                                 <button onClick={decreasePage}>
                                     <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
                                 </button>
@@ -192,6 +194,7 @@ function Manufacturer() {
                     </div>
                 </div>
             </div>
+
         </>
     );
 }

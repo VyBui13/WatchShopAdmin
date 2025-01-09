@@ -8,6 +8,8 @@ import Manufacturer from './pages/Manufacturer'
 import CategoryAddition from './pages/CategoryAddition'
 import ManufacturerAddition from './pages/ManufacturerAddition'
 import User from './pages/User'
+import AdminManagement from './pages/AdminManagement'
+import Order from './pages/Order'
 
 function App() {
 
@@ -22,8 +24,10 @@ function App() {
         <Route path="/category/addition" element={<CategoryAddition />} />
         <Route path="/manufacturer" element={<Manufacturer />} />
         <Route path="/manufacturer/addition" element={<ManufacturerAddition />} />
-
+        <Route path="/admin" element={<AdminManagement />} />
         <Route path="/user" element={<User />} />
+        <Route path="/order" element={<Order />} />
+
       </Routes>
     </>
   )
