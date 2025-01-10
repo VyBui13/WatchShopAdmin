@@ -2,15 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faScrewdriverWrench, faUser, faX, faGear, faArrowLeft, faArrowRight, faUserTie, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import '../styles/admin_management.css'
 import { useState, useEffect } from 'react'
-import StaffForm from '../components/StaffForm'
+import AccountForm from '../components/AccountForm'
 import { useConfirmPrompt } from '../components/ConfirmPromptContext'
 import { useNotification } from '../components/NotificationContext'
-import StaffRole from '../components/StaffRole'
+import RoleManagement from '../components/RoleManagement'
 import Card from '../components/Card'
 import { useLoading } from '../components/LoadingContext'
 import PagingButton from '../components/PagingButton'
 
-function StaffManagement({ setIsHide }) {
+function AdminManagement() {
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const [users, setUsers] = useState([]);
@@ -133,6 +133,7 @@ function StaffManagement({ setIsHide }) {
             try {
                 const response = await fetch('http://localhost:5000/api/user/' + id, {
                     method: 'DELETE',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -160,9 +161,9 @@ function StaffManagement({ setIsHide }) {
             <div className="management">
                 {theChosenUserCard._id && <Card theChosenUserCard={theChosenUserCard} setTheChosenUserCard={setTheChosenUserCard} />}
                 {/* {isPrompt && <ConfirmPrompt message="Delete Staff" action="Delete" onConfirm={() => { console.log("hehehe") }} onCancel={() => setIsPrompt(false)} />} */}
-                {isForm && <StaffForm setIsForm={setIsForm} setUsers={setUsers} />}
+                {isForm && <AccountForm setIsForm={setIsForm} setUsers={setUsers} />}
 
-                {theChosenUser._id && <StaffRole theChosenUser={theChosenUser} setTheChosenUser={setTheChosenUser} setUsers={setUsers} />}
+                {theChosenUser._id && <RoleManagement theChosenUser={theChosenUser} setTheChosenUser={setTheChosenUser} setUsers={setUsers} />}
                 <div className="management__header">
                     <div className="management__header__button">
                         <button onClick={() => setIsForm(true)} className="management__header__button__add">
@@ -245,4 +246,4 @@ function StaffManagement({ setIsHide }) {
     )
 }
 
-export default StaffManagement;
+export default AdminManagement;

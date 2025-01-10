@@ -7,7 +7,7 @@
     --customer-color: #7ef13b;
 }
 
-.form-container {
+.accountform-container {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -21,17 +21,17 @@
     z-index: 20;
 }
 
-.form {
+.accountform {
     position: relative;
     background-color: var(--item-color);
     width: 60%;
     border-radius: var(--border-radius);
     padding: 25px 30px;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-    animation: slideIn 0.3s;
+    animation: zoomIn 0.3s forwards, fadeIn 0.3s forwards;
 }
 
-.form .form__title {
+.accountform .accountform__title {
     font-size: 25px;
     display: inline-block;
     font-weight: 700;
@@ -39,31 +39,30 @@
     text-transform: uppercase;
 }
 
+.accountform .accountform__localtime .accountform__localtime-content {}
 
-.form .form__localtime .form__localtime-content {}
-
-.form .form__localtime .form__localtime-icon {
+.accountform .accountform__localtime .accountform__localtime-icon {
     margin-left: 10px;
 }
 
-.form form .form__userdetail {
+.accountform form .accountform__userdetail {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-form .form__userdetail .form__inputbox {
+form .accountform__userdetail .accountform__inputbox {
     position: relative;
     margin-bottom: 15px;
     width: calc(50% - 20px);
 }
 
-form .form__userdetail .form__inputbox span {
+form .accountform__userdetail .accountform__inputbox span {
     color: var(--main-color);
 }
 
-.form__userdetail .form__inputbox input,
-.form__userdetail .form__inputbox select {
+.accountform__userdetail .accountform__inputbox input,
+.accountform__userdetail .accountform__inputbox select {
     position: relative;
     width: 100%;
     height: var(--height-input, 45px);
@@ -78,7 +77,7 @@ form .form__userdetail .form__inputbox span {
     font-weight: 700;
 }
 
-.form__userdetail .form__inputbox input[type="date"] {
+.accountform__userdetail .accountform__inputbox input[type="date"] {
     font-weight: 700;
     background-color: var(--item-color);
     background-size: 30px;
@@ -88,20 +87,20 @@ form .form__userdetail .form__inputbox span {
     color: var(--text-color);
 }
 
-.form__userdetail .form__inputbox input[type="date"]::-webkit-calendar-picker-indicator {
+.accountform__userdetail .accountform__inputbox input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 24px;
     font-weight: 700;
     color: var(--text-color);
 }
 
-.form__userdetail .form__inputbox .form__detail {
+.accountform__userdetail .accountform__inputbox .accountform__detail {
     display: block;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
-.form__userdetail .form__inputbox .form__labelline {
+.accountform__userdetail .accountform__inputbox .accountform__labelline {
     position: absolute;
     opacity: 0.7;
     transform: translate(var(--x-translate), var(--y-translate));
@@ -112,19 +111,18 @@ form .form__userdetail .form__inputbox span {
     transition: all 0.3s;
 }
 
-.form__userdetail .form__inputbox input:focus+.form__labelline,
-.form__userdetail .form__inputbox input:valid+.form__labelline {
+.accountform__userdetail .accountform__inputbox input:focus+.accountform__labelline,
+.accountform__userdetail .accountform__inputbox input:valid+.accountform__labelline {
     color: var(--main-color);
 }
 
-.form__userdetail .form__inputbox input:focus,
-.form__userdetail .form__inputbox input:valid {
+.accountform__userdetail .accountform__inputbox input:focus,
+.accountform__userdetail .accountform__inputbox input:valid {
     border-color: var(--main-color);
 }
 
-
-.form__inputbox input:focus+.form__labelline,
-.form__inputbox input:valid+.form__labelline {
+.accountform__inputbox input:focus+.accountform__labelline,
+.accountform__inputbox input:valid+.accountform__labelline {
     opacity: 1;
     font-size: 12px;
     transform: translate(calc(4px + var(--x-translate)), calc(-20px + var(--y-translate)));
@@ -132,7 +130,7 @@ form .form__userdetail .form__inputbox span {
     margin-left: 5px;
 }
 
-.form .form__button {
+.accountform .accountform__button {
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -140,7 +138,7 @@ form .form__userdetail .form__inputbox span {
     margin-top: 10px;
 }
 
-.form .form__button button {
+.accountform .accountform__button button {
     margin: 0 5px;
     width: 100px;
     padding: 5px 10px;
@@ -155,33 +153,33 @@ form .form__userdetail .form__inputbox span {
 }
 
 @media (max-width: 900px) {
-    .form {
+    .accountform {
         width: 80%;
     }
 
-    form .form__userdetail .form__inputbox {
+    form .accountform__userdetail .accountform__inputbox {
         width: 90%;
     }
 }
 
 /*---------------BOOKIMPORT---------------*/
-.form--bookimport .form__title {
+.accountform--bookimport .accountform__title {
     background: linear-gradient(to left, var(--second-color), var(--book-import-color));
     background-clip: text;
     color: transparent;
 }
 
-.form--bookimport .form__inputbox input:focus+.form__labelline,
-.form--bookimport .form__inputbox input:valid+.form__labelline {
+.accountform--bookimport .accountform__inputbox input:focus+.accountform__labelline,
+.accountform--bookimport .accountform__inputbox input:valid+.accountform__labelline {
     color: var(--book-import-color);
 }
 
-.form--bookimport .form__inputbox input:focus,
-.form--bookimport .form__inputbox input:valid {
+.accountform--bookimport .accountform__inputbox input:focus,
+.accountform--bookimport .accountform__inputbox input:valid {
     border-image: linear-gradient(to bottom left, var(--second-color), var(--book-import-color)) 1;
 }
 
-.form--bookimport .form__button .form__submit:hover {
+.accountform--bookimport .accountform__button .accountform__submit:hover {
     background-color: var(--book-import-color);
     color: #fff;
 }
@@ -189,23 +187,23 @@ form .form__userdetail .form__inputbox span {
 /*---------------BOOKIMPORT---------------*/
 
 /*---------------BILL---------------*/
-.form--bill .form__title {
+.accountform--bill .accountform__title {
     background: linear-gradient(to left, var(--second-color), var(--bill-color));
     background-clip: text;
     color: transparent;
 }
 
-.form--bill .form__inputbox input:focus+.form__labelline,
-.form--bill .form__inputbox input:valid+.form__labelline {
+.accountform--bill .accountform__inputbox input:focus+.accountform__labelline,
+.accountform--bill .accountform__inputbox input:valid+.accountform__labelline {
     color: var(--bill-color);
 }
 
-.form--bill .form__inputbox input:focus,
-.form--bill .form__inputbox input:valid {
+.accountform--bill .accountform__inputbox input:focus,
+.accountform--bill .accountform__inputbox input:valid {
     border-image: linear-gradient(to bottom left, var(--second-color), var(--bill-color)) 1;
 }
 
-.form--bill .form__button .form__submit:hover {
+.accountform--bill .accountform__button .accountform__submit:hover {
     background-color: var(--bill-color);
     color: #fff;
 }
@@ -213,23 +211,23 @@ form .form__userdetail .form__inputbox span {
 /*---------------BILL---------------*/
 
 /*---------------CUSTOMER---------------*/
-.form--customer .form__title {
+.accountform--customer .accountform__title {
     background: linear-gradient(to left, var(--second-color), var(--customer-color));
     background-clip: text;
     color: transparent;
 }
 
-.form--cusomer .form__inputbox input:focus+.form__labelline,
-.form--cusomer .form__inputbox input:valid+.form__labelline {
+.accountform--customer .accountform__inputbox input:focus+.accountform__labelline,
+.accountform--customer .accountform__inputbox input:valid+.accountform__labelline {
     color: var(--customer-color);
 }
 
-.form--customer .form__inputbox input:focus,
-.form--customer .form__inputbox input:valid {
+.accountform--customer .accountform__inputbox input:focus,
+.accountform--customer .accountform__inputbox input:valid {
     border-image: linear-gradient(to bottom left, var(--second-color), var(--customer-color)) 1;
 }
 
-.form--customer .form__button .form__submit:hover {
+.accountform--customer .accountform__button .accountform__submit:hover {
     background-color: var(--customer-color);
     color: #fff;
 }

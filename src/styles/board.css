@@ -5,6 +5,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .board__table {
@@ -243,6 +244,11 @@
     color: var(--main-color);
     font-weight: 700;
     cursor: pointer;
+}
+
+.board__feature__sortfilter .board__feature__item select option {
+    background-color: var(--item-color);
+    color: var(--main-color);
 }
 
 .board__feature__sortfilter .board__feature__item select::-webkit-scrollbar {

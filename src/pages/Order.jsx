@@ -6,23 +6,36 @@ import '../styles/order.css'
 import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
+import OrderDetail from '../components/OrderDetail';
+import { use } from 'react';
 
 function Order() {
 
     const dataMock = [
         {
             _id: '1',
-            customerName: 'Nguyen Van A',
+            customer: {
+                customerName: 'Nguyen Van A',
+                customerPhone: '0000000001',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Iphone 12',
+                    product: {
+                        productName: 'Iphone 12',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
+
                     productPrice: 10000,
                 },
                 {
-                    productName: 'Iphone 11',
+                    product: {
+                        productName: 'Iphone 11',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
+
                     productPrice: 20000,
                 },
             ],
@@ -30,181 +43,263 @@ function Order() {
             shippingName: 'Standard Shipping',
             orderShippingFee: 20000,
             orderTotalPrice: 50000,
-            orderPayment: 0,
             orderStatus: 'Pending',
+            shipper: {
+                userName: 'Shipper A',
+                userPhone: '0000000002',
+                userEmail: 'nguyenvanv@gmail.com'
+            }
         },
         {
             _id: '2',
-            customerName: 'Tran Thi B',
+            customer: {
+                customerName: 'Tran Thi B',
+                customerPhone: '0000000003',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Samsung Galaxy S21',
+                    product: {
+                        productName: 'Samsung Galaxy S21',
+                        productBrand: 'Apple'
+                    },
                     quantity: 2,
+
                     productPrice: 15000,
-                },
+                }
             ],
-            orderShippingAddress: '45 Le Loi',
-            shippingName: 'Overnight Shipping',
-            orderShippingFee: 40000,
-            orderTotalPrice: 70000,
-            orderPayment: 70000,
-            orderStatus: 'Completed',
+            orderShippingAddress: '456 Le Loi',
+            shippingName: 'Express Shipping',
+            orderShippingFee: 30000,
+            orderTotalPrice: 60000,
+            orderStatus: 'Processing',
+            shipper: {
+                userName: 'Shipper B',
+                userPhone: '0000000004',
+                userEmail: 'tranthib@gmail.com'
+            }
         },
         {
             _id: '3',
-            customerName: 'Pham Van C',
+            customer: {
+                customerName: 'Le Van C',
+                customerPhone: '0000000005',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'MacBook Pro',
+                    product: {
+                        productName: 'MacBook Air M1',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 100000,
+
+                    productPrice: 80000,
                 },
             ],
-            orderShippingAddress: '78 Tran Phu',
-            shippingName: 'International Shipping',
-            orderShippingFee: 50000,
-            orderTotalPrice: 150000,
-            orderPayment: 50000,
-            orderStatus: 'Processing',
+            orderShippingAddress: '789 Tran Hung Dao',
+            shippingName: 'Standard Shipping',
+            orderShippingFee: 5000,
+            orderTotalPrice: 85000,
+            orderStatus: 'Delivered',
+            shipper: {
+                userName: 'Shipper C',
+                userPhone: '0000000006',
+                userEmail: 'levanc@gmail.com'
+            }
         },
         {
             _id: '4',
-            customerName: 'Le Thi D',
+            customer: {
+                customerName: 'Pham Thi D',
+                customerPhone: '0000000007',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Dell XPS 13',
+                    product: {
+                        productName: 'AirPods Pro',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 80000,
+
+                    productPrice: 5000,
                 },
                 {
-                    productName: 'Mouse Logitech',
+                    product: {
+                        productName: 'iPad Pro',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 2000,
-                },
+
+                    productPrice: 100000,
+                }
             ],
-            orderShippingAddress: '99 Bach Dang',
-            shippingName: 'Expedited Shipping',
-            orderShippingFee: 27000,
-            orderTotalPrice: 109000,
-            orderPayment: 109000,
-            orderStatus: 'Shipped',
+            orderShippingAddress: '101 Nguyen Hue',
+            shippingName: 'Express Shipping',
+            orderShippingFee: 10000,
+            orderTotalPrice: 115000,
+            orderStatus: 'Pending',
+            shipper: {
+                userName: 'Shipper D',
+                userPhone: '0000000008',
+                userEmail: 'phamthid@gmail.com'
+            }
         },
         {
             _id: '5',
-            customerName: 'Nguyen Van E',
+            customer: {
+                customerName: 'Hoang Van E',
+                customerPhone: '0000000009',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Apple Watch',
+                    product: {
+                        productName: 'Sony WH-1000XM4',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 12000,
-                },
+
+                    productPrice: 15000,
+                }
             ],
-            orderShippingAddress: '321 Cach Mang Thang 8',
-            shippingName: 'Overnight Shipping',
-            orderShippingFee: 40000,
-            orderTotalPrice: 52000,
-            orderPayment: 0,
-            orderStatus: 'Pending',
+            orderShippingAddress: '202 Hai Ba Trung',
+            shippingName: 'Standard Shipping',
+            orderShippingFee: 2000,
+            orderTotalPrice: 17000,
+            orderStatus: 'Cancelled',
+            shipper: {
+                userName: 'Shipper E',
+                userPhone: '0000000010',
+                userEmail: 'hoangvane@gmail.com'
+            }
         },
         {
             _id: '6',
-            customerName: 'Pham Thi F',
+            customer: {
+                customerName: 'Vo Thi F',
+                customerPhone: '0000000011',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'AirPods Pro',
-                    quantity: 2,
-                    productPrice: 5000,
-                },
+                    product: {
+                        productName: 'Dell XPS 13',
+                        productBrand: 'Apple'
+                    },
+                    quantity: 1,
+
+                    productPrice: 120000,
+                }
             ],
-            orderShippingAddress: '14 Hung Vuong',
-            shippingName: 'Standard Shipping',
-            orderShippingFee: 20000,
-            orderTotalPrice: 30000,
-            orderPayment: 15000,
-            orderStatus: 'Processing',
+            orderShippingAddress: '303 Ly Thuong Kiet',
+            shippingName: 'Express Shipping',
+            orderShippingFee: 15000,
+            orderTotalPrice: 135000,
+            orderStatus: 'Completed',
+            shipper: {
+                userName: 'Shipper F',
+                userPhone: '0000000012',
+                userEmail: 'vothif@gmail.com'
+            }
         },
         {
             _id: '7',
-            customerName: 'Tran Van G',
+            customer: {
+                customerName: 'Nguyen Van G',
+                customerPhone: '0000000013',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Google Pixel 7',
+                    product: {
+                        productName: 'Google Pixel 6',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 70000,
+
+                    productPrice: 90000,
                 },
             ],
-            orderShippingAddress: '66 Hoang Dieu',
-            shippingName: 'Expedited Shipping',
-            orderShippingFee: 27000,
-            orderTotalPrice: 97000,
-            orderPayment: 97000,
-            orderStatus: 'Completed',
+            orderShippingAddress: '404 Phan Chau Trinh',
+            shippingName: 'Standard Shipping',
+            orderShippingFee: 10000,
+            orderTotalPrice: 100000,
+            orderStatus: 'Processing',
+            shipper: {
+                userName: 'Shipper G',
+                userPhone: '0000000014',
+                userEmail: 'nguyenvang@gmail.com'
+            }
         },
         {
             _id: '8',
-            customerName: 'Le Van H',
+            customer: {
+                customerName: 'Tran Thi H',
+                customerPhone: '0000000015',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Sony WH-1000XM5',
+                    product: {
+                        productName: 'Xbox Series X',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 30000,
+
+                    productPrice: 50000,
                 },
                 {
-                    productName: 'Sony SRS-XB13',
+                    product: {
+                        productName: 'PlayStation 5',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 10000,
-                },
+
+                    productPrice: 50000,
+                }
             ],
-            orderShippingAddress: '88 Hai Ba Trung',
-            shippingName: 'International Shipping',
-            orderShippingFee: 50000,
-            orderTotalPrice: 90000,
-            orderPayment: 0,
-            orderStatus: 'Cancelled',
+            orderShippingAddress: '505 Bach Dang',
+            shippingName: 'Express Shipping',
+            orderShippingFee: 15000,
+            orderTotalPrice: 115000,
+            orderStatus: 'Pending',
+            shipper: {
+                userName: 'Shipper H',
+                userPhone: '0000000016',
+                userEmail: 'tranthih@gmail.com'
+            }
         },
         {
             _id: '9',
-            customerName: 'Nguyen Thi I',
+            customer: {
+                customerName: 'Pham Van I',
+                customerPhone: '0000000017',
+            },
             orderCreatedDateTime: new Date().toString(),
             orderListProduct: [
                 {
-                    productName: 'Canon EOS R10',
+                    product: {
+                        productName: 'Apple Watch Series 7',
+                        productBrand: 'Apple'
+                    },
                     quantity: 1,
-                    productPrice: 50000,
+
+                    productPrice: 20000,
                 },
             ],
-            orderShippingAddress: '456 Ly Thuong Kiet',
-            shippingName: 'Overnight Shipping',
-            orderShippingFee: 40000,
-            orderTotalPrice: 90000,
-            orderPayment: 45000,
-            orderStatus: 'Processing',
-        },
-        {
-            _id: '10',
-            customerName: 'Pham Van J',
-            orderCreatedDateTime: new Date().toString(),
-            orderListProduct: [
-                {
-                    productName: 'Xbox Series X',
-                    quantity: 1,
-                    productPrice: 150000,
-                },
-            ],
-            orderShippingAddress: '789 Nguyen Hue',
-            shippingName: 'Expedited Shipping',
-            orderShippingFee: 27000,
-            orderTotalPrice: 177000,
-            orderPayment: 177000,
-            orderStatus: 'Shipped',
-        },
+            orderShippingAddress: '606 Hoang Dieu',
+            shippingName: 'Standard Shipping',
+            orderShippingFee: 5000,
+            orderTotalPrice: 25000,
+            orderStatus: 'Delivered',
+            shipper: {
+                userName: 'Shipper I',
+                userPhone: '0000000018',
+                userEmail: 'phamvani@gmail.com'
+            }
+        }
     ];
 
     const { notify } = useNotification();
@@ -213,6 +308,41 @@ function Order() {
     const [sortBy, setSortBy] = useState('');
     const [search, setSearch] = useState('');
     const [orders, setOrders] = useState(dataMock);
+    const [theChosenOrder, setTheChosenOrder] = useState(null);
+
+    const [displayOrders, setDisplayOrders] = useState(dataMock);
+    const [statusFilter, setStatusFilter] = useState('');
+
+    function filterStatus() {
+        if (statusFilter === '') {
+            setDisplayOrders(orders);
+        } else {
+            setDisplayOrders(orders.filter((order) => order.orderStatus === statusFilter));
+        }
+    }
+
+    function sortOrders() {
+        if (sortBy === '') {
+            return;
+        }
+
+        if (sortBy === 'id') {
+            setDisplayOrders([...displayOrders].sort((a, b) => a._id.localeCompare(b._id)));
+        }
+
+        if (sortBy === 'creation-time') {
+            setDisplayOrders([...displayOrders].sort((a, b) => a.orderCreatedDateTime.localeCompare(b.orderCreatedDateTime)));
+        }
+    }
+
+    useEffect(() => {
+        sortOrders();
+    }, [sortBy]);
+
+    useEffect(() => {
+        filterStatus();
+    }, [statusFilter]);
+
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 15;
@@ -224,7 +354,6 @@ function Order() {
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
 
     useEffect(() => {
-
         const handleResize = () => {
             setAmountItem(calculateItemsPerPage());
             setPage(1);
@@ -249,255 +378,215 @@ function Order() {
         }
     }
 
-    // async function updateAccount(id) {
-    //     setIsLoading(true);
-    //     try {
-    //         const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
-    //             method: 'PUT',
-    //         });
-    //         const data = await res.json();
-    //         notify({ type: data.status, msg: data.message });
-    //         if (data.status !== 'success') {
-    //             console.log('Error deleting data');
-    //             return;
-    //         }
-    //         const newArray = orders.map(order => {
-    //             if (order._id === id) {
-    //                 order.customerAccountStatus = order.customerAccountStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
-    //             }
-    //             return order;
-    //         });
-    //         setOrders(newArray);
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-
-    // }
-
-    // async function handleFilter() {
-    //     setIsLoading(true);
-    //     const query = {
-    //         sortBy: sortBy === 'name' ? 'customerName' : sortBy === 'email' ? 'customerEmail' : sortBy === 'register-time' ? 'customerRegisterDateTime' : '',
-    //         sortType: 'asc',
-    //         keySearch: search,
-    //     }
-    //     try {
-    //         const res = await fetch('http://localhost:5000/api/orders/filter?' + new URLSearchParams(query));
-    //         const data = await res.json();
-    //         if (data.status !== 'success') {
-    //             console.log('Error fetching data');
-    //             return;
-    //         }
-    //         setOrders(data.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     handleFilter();
-    // }, [sortBy]);
-
     return (
-        <div className="board board--order">
-            <div className="board__feature">
-                <div className="board__feature__sortfilter">
-                    <div className="board__feature__item">
-                        <div className="board__feature__item__icon">
-                            <FontAwesomeIcon icon={faSort} className="icon__check" />
-                        </div>
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                        >
-                            <option value="" disabled>
-                                Sort
-                            </option>
-                            <option value="name">Name</option>
-                            <option value="email">Email</option>
-                            <option value="registertime">Register Time</option>
-                        </select>
-                    </div>
-                    <div className="board__feature__item">
-                        <div className="board__feature__item__icon">
-                            <FontAwesomeIcon icon={faFilter} className="icon__check" />
-                        </div>
-                        <select>
-                            <option value="" disabled>
-                                Filter
-                            </option>
-                            <option value="name">Name</option>
-                            <option value="email">Email</option>
-                        </select>
-                    </div>
-
-                    <div className="board__feature__item">
-                        <div className="board__feature__item__icon">
-                            <FontAwesomeIcon icon={faFilter} className="icon__check" />
-                        </div>
-                        <select>
-                            <option value="" disabled>
-                                Filter
-                            </option>
-                            <option value="name">
-                                <div className="status__filter"></div>
-                                <div className="status__text">
-                                    Processing
-                                </div>
-                            </option>
-                            <option value="name">
-                                <div className="status__filter"></div>
-                                <div className="status__text">
-                                    Pending
-                                </div>
-                            </option>
-                            <option value="name">
-                                <div className="status__filter"></div>
-                                <div className="status__text">
-                                    Shipped
-                                </div>
-                            </option>
-                            <option value="name">
-                                <div className="status__filter"></div>
-                                <div className="status__text">
-                                    Completed
-                                </div>
-                            </option>
-                            <option value="name">
-                                <div className="status__filter"></div>
-                                <div className="status__text">
-                                    Cancelled
-                                </div>
-                            </option>
-                        </select>
-                    </div>
-
-                </div>
-                <div className="board__feature__search">
-                    <input
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        type="text"
-                        placeholder="Search..."
-                    />
-                    <button>
-                        <FontAwesomeIcon icon={faSearch} className="icon__search" />
-                    </button>
-                </div>
-            </div>
-
-            <div className="board__table">
-                <div className="board__table__header">
-                    <div className="board__table__attribute">
-                        <button>
-                            <FontAwesomeIcon icon={faSquareCheck} className="icon__check" />
-                        </button>
-                    </div>
-                    <div className="board__table__attribute">
-                        <span>ID</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>Name</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>Method</span>
-                    </div>
-                    <div className="board__table__attribute">
-                        <span>Price</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>DateTime</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <div className="board__table__attribute__status"></div>
-
-                    </div>
-                </div>
-
-                <div className="board__table__data">
-                    {orders
-                        .slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem)
-                        .map((order) => (
-                            <div key={order.id} className="board__table__row">
-                                <div className="board__table__attribute">
-                                    <button
-                                        onClick={() => {
-                                            updateAccount(order._id);
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faPencil} className="icon__edit" />
-                                    </button>
-                                </div>
-                                <div className="board__table__attribute">{order._id.slice(-4)}</div>
-                                <div className="board__table__attribute">{order.customerName}</div>
-                                <div className="board__table__attribute">{order.shippingName.split(' ')[0]}</div>
-                                <div className="board__table__attribute">{new Intl.NumberFormat('de-DE').format(order.orderTotalPrice)}</div>
-                                <div className="board__table__attribute">
-                                    {getDateTime(new Date(order.orderCreatedDateTime))}
-                                </div>
-                                <div className="board__table__attribute">
-                                    <div
-                                        className="board__table__attribute__status"
-                                        style={{
-                                            backgroundColor: (() => {
-                                                switch (order.orderStatus) {
-                                                    case "Processing":
-                                                        return "blue";
-                                                    case "Pending":
-                                                        return "orange";
-                                                    case "Shipped":
-                                                        return "purple";
-                                                    case "Completed":
-                                                        return "green";
-                                                    case "Cancelled":
-                                                        return "red";
-                                                    default:
-                                                        return "gray"; // Fallback color
-                                                }
-                                            })(),
-                                        }}
-                                    ></div>
-                                </div>
+        <>
+            <div className="board board--order">
+                {theChosenOrder && <OrderDetail theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} />}
+                <div className="board__feature">
+                    <div className="board__feature__sortfilter">
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
+                                <FontAwesomeIcon icon={faSort} className="icon__check" />
                             </div>
-                        ))}
-                </div>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <option value="" disabled>
+                                    Sort
+                                </option>
+                                <option value="id">ID</option>
+                                <option value="creation-time">Creation Time</option>
+                                <option value="">None</option>
 
-                <div className="board__table__footer">
-                    <div className="board__table__selected">
-                        <span>{orders.length} order</span>
-                        <button>
-                            <FontAwesomeIcon icon={faTrash} className="icon__deleted" />
-                        </button>
-                    </div>
-
-                    <div className="board__table__paging">
-                        <div className="board__table__paging__page">
-                            <span>{page}</span>|<span>{Math.ceil(orders.length / amountItem)}</span>
+                            </select>
+                        </div>
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
+                                <FontAwesomeIcon icon={faFilter} className="icon__check" />
+                            </div>
+                            <select>
+                                <option value="" disabled>
+                                    MethodShipping
+                                </option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                            </select>
                         </div>
 
-                        <div className="board__table__paging__button">
-                            <button onClick={decreasePage}>
-                                <FontAwesomeIcon icon={faArrowLeft} className="icon__paging" />
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
+                                <FontAwesomeIcon icon={faFilter} className="icon__check" />
+                            </div>
+                            <select
+                                value={statusFilter}
+                                onChange={(e) => {
+                                    setStatusFilter(e.target.value);
+                                }}
+                            >
+                                <option value="" disabled>
+                                    Filter
+                                </option>
+                                <option value="Processing">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        Processing
+                                    </div>
+                                </option>
+                                <option value="Pending">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        Pending
+                                    </div>
+                                </option>
+                                <option value="Delivered">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        Delivered
+                                    </div>
+                                </option>
+                                <option value="Completed">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        Completed
+                                    </div>
+                                </option>
+                                <option value="Cancelled">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        Cancelled
+                                    </div>
+                                </option>
+
+                                <option value="">
+                                    <div className="status__filter"></div>
+                                    <div className="status__text">
+                                        None
+                                    </div>
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div className="board__feature__search">
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text"
+                            placeholder="Search..."
+                        />
+                        <button>
+                            <FontAwesomeIcon icon={faSearch} className="icon__search" />
+                        </button>
+                    </div>
+                </div>
+
+                <div className="board__table">
+                    <div className="board__table__header">
+                        <div className="board__table__attribute">
+                            <button>
+                                <FontAwesomeIcon icon={faSquareCheck} className="icon__check" />
                             </button>
-                            <button onClick={increasePage}>
-                                <FontAwesomeIcon icon={faArrowRight} className="icon__paging" />
+                        </div>
+                        <div className="board__table__attribute">
+                            <span>ID</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>Name</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>Method</span>
+                        </div>
+                        <div className="board__table__attribute">
+                            <span>Price</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>DateTime</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <div className="board__table__attribute__status"></div>
+
+                        </div>
+                    </div>
+
+                    <div className="board__table__data">
+                        {displayOrders
+                            .slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem)
+                            .map((order) => (
+                                <div key={order.id} className="board__table__row">
+                                    <div className="board__table__attribute">
+                                        <button
+                                            onClick={() => {
+                                                setTheChosenOrder(order);
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faPencil} className="icon__edit" />
+                                        </button>
+                                    </div>
+                                    <div className="board__table__attribute">{order._id.slice(-4)}</div>
+                                    <div className="board__table__attribute">{order.customer.customerName}</div>
+                                    <div className="board__table__attribute">{order.shippingName.split(' ')[0]}</div>
+                                    <div className="board__table__attribute">{new Intl.NumberFormat('de-DE').format(order.orderTotalPrice)}</div>
+                                    <div className="board__table__attribute">
+                                        {getDateTime(new Date(order.orderCreatedDateTime))}
+                                    </div>
+                                    <div className="board__table__attribute">
+                                        <div
+                                            className="board__table__attribute__status"
+                                            style={{
+                                                backgroundColor: (() => {
+                                                    switch (order.orderStatus) {
+                                                        case "Processing":
+                                                            return "blue";
+                                                        case "Pending":
+                                                            return "orange";
+                                                        case "Delivered":
+                                                            return "purple";
+                                                        case "Completed":
+                                                            return "green";
+                                                        case "Cancelled":
+                                                            return "red";
+                                                        default:
+                                                            return "gray"; // Fallback color
+                                                    }
+                                                })(),
+                                            }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+
+                    <div className="board__table__footer">
+                        <div className="board__table__selected">
+                            <span>{orders.length} order</span>
+                            <button>
+                                <FontAwesomeIcon icon={faTrash} className="icon__deleted" />
                             </button>
+                        </div>
+
+                        <div className="board__table__paging">
+                            <div className="board__table__paging__page">
+                                <span>{page}</span>|<span>{Math.ceil(orders.length / amountItem)}</span>
+                            </div>
+
+                            <div className="board__table__paging__button">
+                                <button onClick={decreasePage}>
+                                    <FontAwesomeIcon icon={faArrowLeft} className="icon__paging" />
+                                </button>
+                                <button onClick={increasePage}>
+                                    <FontAwesomeIcon icon={faArrowRight} className="icon__paging" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
+        </>
     );
 }
 

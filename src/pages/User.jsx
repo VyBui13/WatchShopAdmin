@@ -7,11 +7,13 @@ import { useState } from "react";
 import { useNotification } from "../components/NotificationContext"
 import { getDate } from "../utils/DateConverter";
 import { useLoading } from "../components/LoadingContext";
+import { useConfirmPrompt } from '../components/ConfirmPromptContext'
 
 function User() {
     const { notify } = useNotification();
     const { user, setUser } = useAuthorizations();
     const { setIsLoading } = useLoading();
+    const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
 
     const [isEditableName, setIsEditableName] = useState(false);
     const [isEditableEmail, setIsEditableEmail] = useState(false);
@@ -42,6 +44,7 @@ function User() {
             try {
                 const response = await fetch(url, {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -87,7 +90,16 @@ function User() {
                                     <FontAwesomeIcon icon={faPencil} className="icon__edit" />
                                     Edit
                                 </button>}
-                                {isEditableName && <button onClick={() => handleSaveInfo('userName', user.userName, setIsEditableName)}>
+                                {isEditableName && <button onClick={() => {
+                                    setConfirmPromptData({
+                                        message: `Update name`,
+                                        action: 'Update',
+                                        onConfirm: () => handleSaveInfo('userName', user.userName, setIsEditableName)
+                                    }
+                                    );
+                                    setIsConfirmPrompt(true);
+                                }}>
+
                                     <FontAwesomeIcon icon={faCheck} className="icon__edit" />
                                     Done
                                 </button>}
@@ -116,7 +128,15 @@ function User() {
                                         <FontAwesomeIcon icon={faPencil} className="icon__edit" />
                                     </button>}
 
-                                    {isEditableEmail && <button onClick={() => handleSaveInfo('userEmail', user.userEmail, setIsEditableEmail)}>
+                                    {isEditableEmail && <button onClick={() => {
+                                        setConfirmPromptData({
+                                            message: `Update email`,
+                                            action: 'Update',
+                                            onConfirm: () => handleSaveInfo('userEmail', user.userEmail, setIsEditableEmail)
+                                        }
+                                        );
+                                        setIsConfirmPrompt(true);
+                                    }}>
                                         <FontAwesomeIcon icon={faCheck} className="icon__edit" />
                                     </button>}
                                 </div>
@@ -141,7 +161,15 @@ function User() {
                                         <FontAwesomeIcon icon={faPencil} className="icon__edit" />
                                     </button>}
 
-                                    {isEditablePhone && <button onClick={() => handleSaveInfo('userPhone', user.userPhone, setIsEditablePhone)}>
+                                    {isEditablePhone && <button onClick={() => {
+                                        setConfirmPromptData({
+                                            message: `Update phone number`,
+                                            action: 'Update',
+                                            onConfirm: () => handleSaveInfo('userPhone', user.userPhone, setIsEditablePhone)
+                                        }
+                                        );
+                                        setIsConfirmPrompt(true);
+                                    }}>
                                         <FontAwesomeIcon icon={faCheck} className="icon__edit" />
                                     </button>}
                                     {/* <p>{user.userPhone}</p>
@@ -168,7 +196,15 @@ function User() {
                                         <FontAwesomeIcon icon={faPencil} className="icon__edit" />
                                     </button>}
 
-                                    {isEditableAddress && <button onClick={() => handleSaveInfo('userAddress', user.userAddress, setIsEditableAddress)}>
+                                    {isEditableAddress && <button onClick={() => {
+                                        setConfirmPromptData({
+                                            message: `Update address`,
+                                            action: 'Update',
+                                            onConfirm: () => handleSaveInfo('userAddress', user.userAddress, setIsEditableAddress)
+                                        }
+                                        );
+                                        setIsConfirmPrompt(true);
+                                    }}>
                                         <FontAwesomeIcon icon={faCheck} className="icon__edit" />
                                     </button>}
                                     {/* <p>{user.userAddress}</p>
@@ -196,7 +232,15 @@ function User() {
                                         <FontAwesomeIcon icon={faPencil} className="icon__edit" />
                                     </button>}
 
-                                    {isEditableDateOfBirth && <button onClick={() => handleSaveInfo('userDateOfBirth', user.userDateOfBirth, setIsEditableDateOfBirth)}>
+                                    {isEditableDateOfBirth && <button onClick={() => {
+                                        setConfirmPromptData({
+                                            message: `Update date of birth`,
+                                            action: 'Update',
+                                            onConfirm: () => handleSaveInfo('userDateOfBirth', user.userDateOfBirth, setIsEditableDateOfBirth)
+                                        }
+                                        );
+                                        setIsConfirmPrompt(true);
+                                    }}>
                                         <FontAwesomeIcon icon={faCheck} className="icon__edit" />
                                     </button>}
                                     {/* <p>{user.userAddress}</p>
@@ -215,7 +259,6 @@ function User() {
                     </div>
 
                     <div className="user__option">
-
                         <div className="user__option__btn">
                             <button>Change password</button>
                         </div>

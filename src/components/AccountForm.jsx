@@ -2,9 +2,11 @@ import { useState } from "react";
 import "../styles/account_form.css";
 import { useNotification } from "./NotificationContext";
 import { useLoading } from "./LoadingContext";
+import { useConfirmPrompt } from './ConfirmPromptContext'
 
-function StaffForm({ setIsForm, setUsers }) {
+function AccountForm({ setIsForm, setUsers }) {
     const { setIsLoading } = useLoading();
+    const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const { notify } = useNotification();
     const [staff, setStaff] = useState({
         name: "",
@@ -71,48 +73,48 @@ function StaffForm({ setIsForm, setUsers }) {
 
     return (
         <>
-            <div className="form-container">
-                <div class="form">
+            <div className="accountform-container">
+                <div class="accountform">
                     <form action="#">
-                        <div class="form__userdetail">
-                            <div class="form__inputbox">
-                                <span class="form__detail">Name</span>
+                        <div class="accountform__userdetail">
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Name</span>
                                 <input
                                     value={staff.name}
                                     onChange={(e) => setStaff({ ...staff, name: e.target.value })}
                                     type="text" required />
-                                <div class="form__labelline">Enter staff name</div>
+                                <div class="accountform__labelline">Enter staff name</div>
                             </div>
 
-                            <div class="form__inputbox">
-                                <span class="form__detail">Phone</span>
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Phone</span>
                                 <input
                                     value={staff.phone}
                                     onChange={(e) => setStaff({ ...staff, phone: e.target.value })}
                                     type="text" required />
-                                <div class="form__labelline">Enter staff phone</div>
+                                <div class="accountform__labelline">Enter staff phone</div>
                             </div>
 
-                            <div class="form__inputbox">
-                                <span class="form__detail">Email</span>
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Email</span>
                                 <input
                                     value={staff.email}
                                     onChange={(e) => setStaff({ ...staff, email: e.target.value })}
                                     type="text" required />
-                                <div class="form__labelline">Enter staff email</div>
+                                <div class="accountform__labelline">Enter staff email</div>
                             </div>
 
-                            <div class="form__inputbox">
-                                <span class="form__detail">Address</span>
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Address</span>
                                 <input
                                     value={staff.address}
                                     onChange={(e) => setStaff({ ...staff, address: e.target.value })}
                                     type="text" required />
-                                <div class="form__labelline">Enter staff address</div>
+                                <div class="accountform__labelline">Enter staff address</div>
                             </div>
 
-                            <div class="form__inputbox">
-                                <span class="form__detail">Role</span>
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Role</span>
                                 <select
                                     value={staff.role}
                                     onChange={(e) => setStaff({ ...staff, role: e.target.value })}
@@ -125,25 +127,32 @@ function StaffForm({ setIsForm, setUsers }) {
                                 </select>
                             </div>
 
-                            <div class="form__inputbox">
-                                <span class="form__detail">Date of birth</span>
+                            <div class="accountform__inputbox">
+                                <span class="accountform__detail">Date of birth</span>
                                 <input
-
                                     type="date"
                                     required />
                             </div>
                         </div>
                     </form>
 
-                    <div class="form__button">
+                    <div class="accountform__button">
                         <button onClick={handleCancel}>Cancel</button>
-                        <button onClick={handleAdd}>Add</button>
+                        <button onClick={() => {
+                            setConfirmPromptData({
+                                message: `Add account`,
+                                action: 'Add',
+                                onConfirm: handleAdd
+                            });
+                            setIsConfirmPrompt(true);
+                        }}>Add</button>
                     </div>
 
                 </div>
             </div>
+
         </>
     );
 }
 
-export default StaffForm;
+export default AccountForm;

@@ -6,7 +6,7 @@ import { useNotification } from "./NotificationContext";
 import { useConfirmPrompt } from "./ConfirmPromptContext";
 import { useLoading } from "./LoadingContext";
 
-function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
+function RoleManagement({ theChosenUser, setTheChosenUser, setUsers }) {
     const { setIsLoading } = useLoading();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const { notify } = useNotification();
@@ -144,4 +144,4 @@ function StaffRole({ theChosenUser, setTheChosenUser, setUsers }) {
     )
 }
 
-export default StaffRole;
+export default RoleManagement;
