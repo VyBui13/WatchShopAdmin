@@ -3,15 +3,22 @@ import "../styles/product_import.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { uploadImage } from '../utils/UploadImageProvider';
+import { useLoading } from '../components/LoadingContext';
+import { useNotification } from "../components/NotificationContext";
+import { useConfirmPrompt } from "../components/ConfirmPromptContext";
 
 function ProductImport() {
+    const { setIsLoading } = useLoading();
+    const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
+    const { notify } = useNotification();
 
     const [brands, setBrands] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const productStatus = ["On Stock", "Out Of Stock", "Suspended"];
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const fetchData = async () => {
+            const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
                 const response = await fetch("http://localhost:5000/api/category");
                 const data = await response.json();
@@ -20,29 +27,25 @@ function ProductImport() {
                     return;
                 }
                 setCategoryList(data.data);
+
+                const response2 = await fetch("http://localhost:5000/api/brand");
+                const data2 = await response2.json();
+                if (data2.status !== "success") {
+                    console.error("Failed to fetch brands:", data2.message);
+                    return;
+                }
+                setBrands(data2.data);
             }
             catch (error) {
                 console.error("Failed to fetch categories:", error);
+            } finally {
+                clearTimeout(loadingRef);
+                setIsLoading(false);
             }
         }
 
-        const fetchBrands = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/api/brand");
-                const data = await response.json();
-                if (data.status !== "success") {
-                    console.error("Failed to fetch brands:", data.message);
-                    return;
-                }
-                setBrands(data.data);
-            }
-            catch (error) {
-                console.error("Failed to fetch brands:", error);
-            }
-        }
+        fetchData();
 
-        fetchCategories();
-        fetchBrands();
     }, []);
 
     const [product, setProduct] = useState({
@@ -72,7 +75,25 @@ function ProductImport() {
         setMainImage(e.target.files[0]);
     };
 
-    const handleUpload = async () => {
+    // const handleUpload = async () => {
+    //     try {
+    //         const mainImageUrl = await uploadImage(mainImage);
+    //         const relatedImagesUrls = [];
+    //         for (const image of relatedImages) {
+    //             const url = await uploadImage(image);
+    //             relatedImagesUrls.push(url);
+    //         }
+    //         console.log(mainImageUrl, relatedImagesUrls);
+    //         setProduct({ ...product, productMainImage: mainImageUrl, productRelatedImages: relatedImagesUrls });
+
+    //     } catch (error) {
+    //         alert(error.message);
+    //     }
+
+    // };
+
+    async function handleSubmit() {
+        const loadingRef = setTimeout(() => setIsLoading(true), 500);
         try {
             const mainImageUrl = await uploadImage(mainImage);
             const relatedImagesUrls = [];
@@ -80,40 +101,29 @@ function ProductImport() {
                 const url = await uploadImage(image);
                 relatedImagesUrls.push(url);
             }
-            console.log(mainImageUrl, relatedImagesUrls);
-            setProduct({ ...product, productMainImage: mainImageUrl, productRelatedImages: relatedImagesUrls });
+
+            const response = await fetch("http://localhost:5000/api/product", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...product, productMainImage: mainImageUrl, productRelatedImages: relatedImagesUrls }),
+            });
+
+            const data = await response.json();
+            if (data.status !== "success") {
+                console.error("Failed to add product:", data.message);
+                return;
+            }
+
+            notify({ type: data.status, msg: data.message });
 
         } catch (error) {
-            alert(error.message);
+            console.error("Failed to add product:", error);
+        } finally {
+            setIsLoading(false);
+            clearTimeout(loadingRef);
         }
-
-    };
-
-    async function handleSubmit() {
-        await handleUpload();
-        const addData = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/api/product", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(product),
-                });
-
-                const data = await response.json();
-                if (data.status !== "success") {
-                    console.error("Failed to add product:", data.message);
-                    return;
-                }
-                console.log("Product added successfully:", data.data);
-            }
-            catch (error) {
-                console.error("Failed to add product:", error);
-            }
-        }
-        await addData();
-        console.log(product);
     }
 
     return (
@@ -243,14 +253,21 @@ function ProductImport() {
                             onChange={handleRelatedImagesChange}
                             id='relatedimage__product__import'
                         />
-                        <label htmlFor="relatedimage__product__import">{relatedImages.length === 0 ? "Upload Related Images" : (relatedImages.length + " Related Image" + relatedImages.length === 1 ? "" : "s")}</label>
+                        <label htmlFor="relatedimage__product__import">{relatedImages.length === 0 ? "Upload Related Images" : relatedImages.length + " Related Images"}</label>
                     </div>
                 </div>
 
                 <div className="productimport__form__footer">
                     <div className="productimport__form__button">
                         <button>Reset</button>
-                        <button onClick={handleSubmit}>Import</button>
+                        <button onClick={() => {
+                            setConfirmPromptData({
+                                message: `Add product`,
+                                action: 'Add',
+                                onConfirm: handleSubmit
+                            });
+                            setIsConfirmPrompt(true);
+                        }}>Import</button>
                     </div>
                 </div>
             </div>

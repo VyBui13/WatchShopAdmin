@@ -4,8 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { uploadImage } from '../utils/UploadImageProvider';
 import { useNotification } from './NotificationContext';
+import { useLoading } from "./LoadingContext";
+import { useConfirmPrompt } from './ConfirmPromptContext'
 
 function ProductDetail({ product, setProductSelected, products, setProducts }) {
+    const { setIsLoading } = useLoading();
+    const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const { notify } = useNotification();
     const [productInfo, setProductInfo] = useState(product);
     const [isEditName, setIsEditName] = useState(false);
@@ -25,7 +29,8 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
     const [addMainImage, setAddMainImage] = useState('');
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const fetchData = async () => {
+            const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
                 const response = await fetch("http://localhost:5000/api/category");
                 const data = await response.json();
@@ -34,29 +39,26 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                     return;
                 }
                 setCategoryList(data.data);
+
+                const response2 = await fetch("http://localhost:5000/api/brand");
+                const data2 = await response2.json();
+                if (data2.status !== "success") {
+                    console.error("Failed to fetch brandList:", data2.message);
+                    return;
+                }
+                setBrandList(data2.data);
             }
             catch (error) {
                 console.error("Failed to fetch categories:", error);
             }
-        }
-
-        const fetchBrands = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/api/brand");
-                const data = await response.json();
-                if (data.status !== "success") {
-                    console.error("Failed to fetch brandList:", data.message);
-                    return;
-                }
-                setBrandList(data.data);
-            }
-            catch (error) {
-                console.error("Failed to fetch brandList:", error);
+            finally {
+                clearTimeout(loadingRef);
+                setIsLoading(false);
             }
         }
 
-        fetchCategories();
-        fetchBrands();
+
+        fetchData();
     }, []);
 
     function handleCancel() {
@@ -91,7 +93,8 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
     }
 
     async function handleSave() {
-        const updateProduct = async () => {
+        const loadingRef = setTimeout(() => setIsLoading(true), 500);
+        try {
             let mainImageUrlUpload = '';
             let relatedImageUrlUpload = [];
             if (addMainImage !== '') {
@@ -115,40 +118,54 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 }));
                 relatedImageUrlUpload = relatedImages;
             }
-            try {
-                const response = await fetch(`http://localhost:5000/api/product/${productInfo._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        ...productInfo,
-                        productMainImage: mainImageUrlUpload !== '' ? mainImageUrlUpload : productInfo.productMainImage,
-                        productRelatedImages: relatedImageUrlUpload.length > 0 ? [...productInfo.productRelatedImages, ...relatedImageUrlUpload] : productInfo.productRelatedImages
-                    }),
-                });
 
-                const data = await response.json();
-                notify({ type: data.status, msg: data.message });
-                if (data.status !== "success") {
-                    console.error("Failed to update product:", data.message);
-                    return;
-                }
-                console.log("Product updated successfully");
+            const response = await fetch(`http://localhost:5000/api/product/${productInfo._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...productInfo,
+                    productMainImage: mainImageUrlUpload !== '' ? mainImageUrlUpload : productInfo.productMainImage,
+                    productRelatedImages: relatedImageUrlUpload.length > 0 ? [...productInfo.productRelatedImages, ...relatedImageUrlUpload] : productInfo.productRelatedImages
+                }),
+            });
+
+            const data = await response.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== "success") {
+                console.error("Failed to update product:", data.message);
+                return;
             }
-            catch (error) {
-                console.error("Failed to update product:", error);
+
+            const resProduct = await fetch(`http://localhost:5000/api/product`);
+            const dataProduct = await resProduct.json();
+            if (dataProduct.status !== "success") {
+                console.error("Failed to fetch products:", dataProduct.message);
+                return;
             }
+            setProducts(dataProduct.data);
+            setProductSelected(null);
+
+        } catch (error) {
+            console.error("Failed to update product:", error);
+        } finally {
+            clearTimeout(loadingRef);
+            setIsLoading(false);
         }
 
-        await updateProduct();
 
-        const newProducts = [...products];
-        const index = newProducts.findIndex((p) => p._id === productInfo._id);
-        newProducts[index] = productInfo;
-        setProducts(newProducts);
-        setProductSelected(null);
     }
+
+
+    // await updateProduct();
+
+    // const newProducts = [...products];
+    // const index = newProducts.findIndex((p) => p._id === productInfo._id);
+    // newProducts[index] = productInfo;
+    // setProducts(newProducts);
+    // setProductSelected(null);
+
 
     return (
         <>
@@ -267,7 +284,14 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                         <div className="productdetail__footer">
                             <div className="productdetail__button">
                                 <button onClick={handleCancel}>Cancel</button>
-                                <button onClick={handleSave}>Save</button>
+                                <button onClick={() => {
+                                    setConfirmPromptData({
+                                        message: `Update product`,
+                                        action: 'Update',
+                                        onConfirm: handleSave
+                                    });
+                                    setIsConfirmPrompt(true);
+                                }}>Save</button>
                             </div>
                         </div>
                     </div>

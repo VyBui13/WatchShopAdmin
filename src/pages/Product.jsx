@@ -16,6 +16,7 @@ function Product() {
     const [sortBy, setSortBy] = useState("");
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [search, setSearch] = useState("");
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 10;
@@ -97,11 +98,11 @@ function Product() {
                 brands: theChosenBrand,
                 categories: theChosenCategory,
                 sortBy: sortBy === "creation-time" ? "productUpdatedDateTime" : sortBy === "price" ? "productPrice" : sortBy === "total-purchase" ? "productTotalPurchase" : "",
-                sortType: "asc"
+                sortType: "asc",
+                keySearch: search
             };
-            console.log(query);
 
-            const res = await fetch(`http://localhost:5000/api/product/filter?brands=${query.brands}&categories=${query.categories}&sortBy=${query.sortBy}&sortType=${query.sortType}`);
+            const res = await fetch(`http://localhost:5000/api/product/filter?brands=${query.brands}&categories=${query.categories}&sortBy=${query.sortBy}&sortType=${query.sortType}&keySearch=${query.keySearch}`);
             const data = await res.json();
             if (data.status !== 'success') {
                 console.log('Error fetching data');
@@ -179,8 +180,12 @@ function Product() {
                         </div>
                     </div>
                     <div className="board__feature__search">
-                        <input type="text" placeholder="Search..." />
-                        <button>
+                        <input
+                            value={search}
+                            onChange={(e) => { setSearch(e.target.value) }}
+                            type="text"
+                            placeholder="Search..." />
+                        <button onClick={handleFilter}>
                             <FontAwesomeIcon icon={faSearch} className='icon__search' />
                         </button>
                     </div>
