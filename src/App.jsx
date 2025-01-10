@@ -10,6 +10,7 @@ import ManufacturerAddition from './pages/ManufacturerAddition'
 import User from './pages/User'
 import AdminManagement from './pages/AdminManagement'
 import Order from './pages/Order'
+import './styles/media.css'
 
 function App() {
 

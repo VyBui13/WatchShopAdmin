@@ -1,10 +1,11 @@
 import './styles/sub_header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSun, faMoon, faBell, faUser, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faMoon, faBell, faUser, faGear, faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function SubHeader() {
+    const [isSidebar, setIsSidebar] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     const lightTheme = {
@@ -40,6 +41,82 @@ function SubHeader() {
 
     return (
         <div className="subheader">
+            <div className="subheader__nav">
+                <button onClick={() => setIsSidebar(!isSidebar)}>
+                    <FontAwesomeIcon icon={faBars} className='icon__nav' />
+                </button>
+                <div
+                    style={{ left: isSidebar ? '0' : '-100%', opacity: isSidebar ? '1' : '0' }}
+                    className="subheader__nav__sidebar">
+                    <div className="subheader__close__btn">
+                        <button onClick={() => setIsSidebar(!isSidebar)}>
+                            <FontAwesomeIcon icon={faArrowLeft} className='icon__nav' />
+                        </button>
+                    </div>
+                    <div className="subheader__nav__data">
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Dashboard
+                            </div>
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Home</Link>
+                            </div>
+                        </div>
+
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Product
+                            </div>
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Managament</Link>
+                            </div>
+
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Addition</Link>
+                            </div>
+                        </div>
+
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Account
+                            </div>
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Managament</Link>
+                            </div>
+
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Order</Link>
+                            </div>
+                        </div>
+
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Kind
+                            </div>
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Category</Link>
+                            </div>
+
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Manufacturer</Link>
+                            </div>
+                        </div>
+
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Report
+                            </div>
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Best seller</Link>
+                            </div>
+
+                            <div className="subheader__nav__item">
+                                <Link to='/'>Account</Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="subheader__title">
                 <span>Dashboard</span>
             </div>

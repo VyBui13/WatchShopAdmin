@@ -1,0 +1,93 @@
+@media (max-width: 1000px) {
+    .board__table .board__table__header {
+        width: 1000px !important;
+    }
+
+    .board__table__data {
+        width: 1000px !important;
+    }
+
+    .board__feature__sortfilter {
+        flex-direction: column !important;
+    }
+
+    .board__feature__sortfilter .board__feature__item {
+        width: 170px !important;
+        margin: unset !important;
+    }
+
+    .productdetail {
+        flex-direction: column !important;
+    }
+
+    .productdetail__left {
+        flex-direction: row !important;
+    }
+
+    .productdetail .productdetail__right {
+        padding: 5px !important;
+    }
+
+    .productdetail__related__image {
+        flex-direction: column !important;
+        height: unset !important;
+    }
+
+    .productdetail__right .productdetail__info .productdetail__info__item select,
+    .productdetail__info .productdetail__info__item input {
+        width: 200px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard__left {
+        display: none !important;
+    }
+
+    .subheader__nav {
+        display: inline-block !important;
+    }
+
+    .subheader__title {
+        display: none !important;
+    }
+}
+
+@media (max-width: 650px) {
+    .productimport__form__item {
+        width: 100% !important;
+    }
+
+
+}
+
+@media (max-width: 900px) {
+    .dashboard__data {
+        height: unset !important;
+    }
+
+    .user {
+        flex-direction: column !important;
+    }
+
+    .user .user__left {
+        width: 100% !important;
+    }
+
+    .user__left .user__detail {
+        height: auto !important;
+    }
+
+    .user .user__right {
+        margin-left: 0 !important;
+        margin-top: 20px !important;
+    }
+
+    .user__activity {
+        height: auto !important;
+    }
+
+    .user__option {
+        height: auto !important;
+    }
+}

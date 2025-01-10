@@ -40,7 +40,7 @@ function Header() {
                         <Link to='/product/import'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faPen} className='icon__item' />
-                                <span>Creation</span>
+                                <span>Addition</span>
                             </div>
                         </Link>
                     </div>
