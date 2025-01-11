@@ -1,0 +1,57 @@
+.statusmanagement-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.statusmanagement {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: var(--item-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.statusmanagement__item {}
+
+.statusmanagement__item button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: var(--border-radius);
+    background-color: transparent;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.statusmanagement__item:nth-child(1) button {
+    color: blue;
+    border: 2px solid blue;
+}
+
+.statusmanagement__item:nth-child(2) button {
+    color: orange;
+    border: 2px solid orange;
+}
+
+.statusmanagement__item:nth-child(3) button {
+    color: purple;
+    border: 2px solid purple;
+}
+
+.statusmanagement__item:nth-child(4) button {
+    color: green;
+    border: 2px solid green;
+}
+
+.statusmanagement__item:nth-child(5) button {
+    color: red;
+    border: 2px solid red;
+}

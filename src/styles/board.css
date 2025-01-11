@@ -223,6 +223,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
+    position: relative;
     margin-bottom: 5px;
 }
 

@@ -6,11 +6,14 @@ import { faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { useLoading } from './LoadingContext';
 import { useNotification } from './NotificationContext';
 import { useConfirmPrompt } from './ConfirmPromptContext';
+import StatusManagement from './StatusManagement';
 
 function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
+
+    const [isStatusManagement, setIsStatusManagement] = useState(false);
 
     const [shipper, setShipper] = useState("");
     const [orderDetail, setOrderDetail] = useState(theChosenOrder);
@@ -47,6 +50,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     return (
         <>
             <div className="orderdetail-wrapper">
+                {isStatusManagement && <StatusManagement orderDetail={orderDetail} setOrderDetail={setOrderDetail} setIsStatusManagement={setIsStatusManagement} />}
                 <div className="orderdetail">
                     <div className="orderdetail__header">
                         <h1>Order Details</h1>
@@ -55,6 +59,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                             <span>{getDateTime(new Date(orderDetail.orderCreatedDateTime))}</span>
                             <div className="orderdetail__status">
                                 <button
+                                    onClick={() => setIsStatusManagement(true)}
                                     style={{
                                         color: (() => {
                                             switch (orderDetail.orderStatus) {

@@ -6,6 +6,7 @@ import '../styles/account.css'
 import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
+import AccountDetail from '../components/AccountDetail';
 
 function Account() {
     // const customer = [
@@ -86,6 +87,8 @@ function Account() {
     const [sortBy, setSortBy] = useState('');
     const [search, setSearch] = useState('');
     const [customer, setCustomer] = useState([]);
+    const [theChosenAccount, setTheChosenAccount] = useState(null);
+
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
         if (screenHeight >= 900) return 16;
@@ -198,123 +201,125 @@ function Account() {
     }, [sortBy]);
 
     return (
-        <div className="board board--account">
-            <div className="board__feature">
-                <div className="board__feature__sortfilter">
-                    <div className="board__feature__item">
-                        <div className="board__feature__item__icon">
-                            <FontAwesomeIcon icon={faSort} className='icon__check' />
+        <>
+            <div className="board board--account">
+                {theChosenAccount && <AccountDetail theChosenAccount={theChosenAccount} setTheChosenAccount={setTheChosenAccount} customer={customer} setCustomer={setCustomer} />}
+                <div className="board__feature">
+                    <div className="board__feature__sortfilter">
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
+                                <FontAwesomeIcon icon={faSort} className='icon__check' />
+                            </div>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <option value="" disabled>Sort</option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                                <option value="registertime">Register Time</option>
+                            </select>
                         </div>
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                        >
-                            <option value="" disabled>Sort</option>
-                            <option value="name">Name</option>
-                            <option value="email">Email</option>
-                            <option value="registertime">Register Time</option>
-                        </select>
-                    </div>
-                    <div className="board__feature__item">
-                        <div className="board__feature__item__icon">
-                            <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                        <div className="board__feature__item">
+                            <div className="board__feature__item__icon">
+                                <FontAwesomeIcon icon={faFilter} className='icon__check' />
+                            </div>
+                            <select>
+                                <option value="" disabled>Filter</option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                            </select>
                         </div>
-                        <select>
-                            <option value="" disabled>Filter</option>
-                            <option value="name">Name</option>
-                            <option value="email">Email</option>
-                        </select>
                     </div>
-                </div>
-                <div className="board__feature__search">
-                    <input
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        type="text" placeholder="Search..." />
-                    <button onClick={handleFilter}>
-                        <FontAwesomeIcon icon={faSearch} className='icon__search' />
-                    </button>
-                </div>
-            </div>
-
-            <div className="board__table">
-                <div className="board__table__header">
-                    <div className="board__table__attribute">
-                        <button>
-                            <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
+                    <div className="board__feature__search">
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text" placeholder="Search..." />
+                        <button onClick={handleFilter}>
+                            <FontAwesomeIcon icon={faSearch} className='icon__search' />
                         </button>
                     </div>
-
-                    <div className="board__table__attribute">
-                        <span>ID</span>
-                    </div>
-                    <div className="board__table__attribute">
-                        <span>Name</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>Email</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>Register Time</span>
-                    </div>
-
-                    <div className="board__table__attribute">
-                        <span>
-                            <div className="board__table__attribute__status"></div>
-                        </span>
-                    </div>
                 </div>
 
-                <div className="board__table__data">
-                    {customer.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
-                        <div key={account.id} className="board__table__row">
-                            <div className="board__table__attribute">
-                                <button onClick={() => {
-                                    updateAccount(account._id);
-                                }}>
-                                    <FontAwesomeIcon icon={faPencil} className='icon__edit' />
+                <div className="board__table">
+                    <div className="board__table__header">
+                        <div className="board__table__attribute">
+                            <button>
+                                <FontAwesomeIcon icon={faSquareCheck} className='icon__check' />
+                            </button>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>ID</span>
+                        </div>
+                        <div className="board__table__attribute">
+                            <span>Name</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>Email</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>Register Time</span>
+                        </div>
+
+                        <div className="board__table__attribute">
+                            <span>
+                                <div className="board__table__attribute__status"></div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="board__table__data">
+                        {customer.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
+                            <div key={account.id} className="board__table__row">
+                                <div className="board__table__attribute">
+                                    <button onClick={() => {
+                                        setTheChosenAccount(account);
+                                    }}>
+                                        <FontAwesomeIcon icon={faPencil} className='icon__edit' />
+                                    </button>
+                                </div>
+                                <div className="board__table__attribute">{account._id.slice(-4)}</div>
+                                <div className="board__table__attribute">{account.customerName}</div>
+                                <div className="board__table__attribute">{account.customerEmail}</div>
+                                <div className="board__table__attribute">{getDateTime(new Date(account.customerRegisterDateTime))}</div>
+                                <div className="board__table__attribute" >
+                                    <div className="board__table__attribute__status" style={{ backgroundColor: account.customerAccountStatus === 'ACTIVE' ? 'green' : 'red' }}></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="board__table__footer">
+                        <div className="board__table__selected">
+                            <span>{customer.length} account</span>
+                            <button>
+                                <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
+                            </button>
+                        </div>
+
+                        <div className="board__table__paging">
+                            <div className="board__table__paging__page">
+                                <span>{page}</span>|
+                                <span>{Math.ceil(customer.length / amountItem)}</span>
+                            </div>
+
+                            <div className="board__table__paging__button">
+                                <button onClick={decreasePage}>
+                                    <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
+                                </button>
+                                <button onClick={increasePage}>
+                                    <FontAwesomeIcon icon={faArrowRight} className='icon__paging' />
                                 </button>
                             </div>
-                            <div className="board__table__attribute">{account._id.slice(-4)}</div>
-                            <div className="board__table__attribute">{account.customerName}</div>
-                            <div className="board__table__attribute">{account.customerEmail}</div>
-                            <div className="board__table__attribute">{getDateTime(new Date(account.customerRegisterDateTime))}</div>
-                            <div className="board__table__attribute" >
-                                <div className="board__table__attribute__status" style={{ backgroundColor: account.customerAccountStatus === 'ACTIVE' ? 'green' : 'red' }}></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="board__table__footer">
-                    <div className="board__table__selected">
-                        <span>{customer.length} account</span>
-                        <button>
-                            <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
-                        </button>
-                    </div>
-
-                    <div className="board__table__paging">
-                        <div className="board__table__paging__page">
-                            <span>{page}</span>|
-                            <span>{Math.ceil(customer.length / amountItem)}</span>
-                        </div>
-
-                        <div className="board__table__paging__button">
-                            <button onClick={decreasePage}>
-                                <FontAwesomeIcon icon={faArrowLeft} className='icon__paging' />
-                            </button>
-                            <button onClick={increasePage}>
-                                <FontAwesomeIcon icon={faArrowRight} className='icon__paging' />
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </>
     );
 }
 
