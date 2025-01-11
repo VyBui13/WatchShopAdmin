@@ -47,3 +47,7 @@
     color: var(--text-color);
     font-weight: 700;
 }
+
+.revenue__item .revenue__title .revenue__title__value {
+    text-align: center;
+}

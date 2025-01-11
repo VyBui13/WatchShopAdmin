@@ -1,3 +1,21 @@
+@media (max-width: 1100px) {
+    .report__body {
+        flex-direction: column !important;
+    }
+
+    .report__chart {
+        width: 100% !important;
+        height: 300px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .report__form {
+        width: 100% !important;
+        height: unset !important;
+        margin: 0 !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .board__table .board__table__header {
         width: 1000px !important;
@@ -51,12 +69,21 @@
     .subheader__title {
         display: none !important;
     }
+
+    .report__chart {
+        height: 400px !important;
+    }
+
+    .revenue {
+        flex-direction: column !important;
+    }
 }
 
 @media (max-width: 650px) {
     .productimport__form__item {
         width: 100% !important;
     }
+
 
 
 }

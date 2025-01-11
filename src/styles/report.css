@@ -10,6 +10,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 10px;
 }
@@ -22,6 +23,7 @@
 .report__header__right {
     display: flex;
     align-items: center;
+    margin-top: 5px;
 }
 
 .report__header__right button {
@@ -33,7 +35,10 @@
     border: none;
     cursor: pointer;
     font-weight: 700;
-    margin-left: 10px;
+}
+
+.report__header__right button+button {
+    margin-left: 5px;
 }
 
 .report__header__btn {
