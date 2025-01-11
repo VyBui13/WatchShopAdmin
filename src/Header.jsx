@@ -93,10 +93,12 @@ function Header() {
                         Report
                     </div>
                     <div className="header__nav__items__content">
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faBell} className='icon__item' />
-                            <span>Best seller</span>
-                        </div>
+                        <Link to="/bestseller">
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faBell} className='icon__item' />
+                                <span>Best seller</span>
+                            </div>
+                        </Link>
                         <div className="header__nav__item">
                             <FontAwesomeIcon icon={faBell} className='icon__item' />
                             <span>Account</span>

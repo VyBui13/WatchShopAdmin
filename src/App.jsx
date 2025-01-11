@@ -10,6 +10,7 @@ import ManufacturerAddition from './pages/ManufacturerAddition'
 import User from './pages/User'
 import AdminManagement from './pages/AdminManagement'
 import Order from './pages/Order'
+import BestSeller from './pages/BestSeller'
 import './styles/media.css'
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <Route path="/admin" element={<AdminManagement />} />
         <Route path="/user" element={<User />} />
         <Route path="/order" element={<Order />} />
-
+        <Route path="/bestseller" element={<BestSeller />} />
       </Routes>
     </>
   )
