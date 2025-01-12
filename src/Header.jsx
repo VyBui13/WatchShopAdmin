@@ -2,8 +2,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faList, faRightFromBracket, faClock, faPen, faFilter, faClipboard, faBell } from '@fortawesome/free-solid-svg-icons'
 import './styles/header.css'
 import { Link } from 'react-router-dom'
+import { useAuthorizations } from './components/AuthorizationContext'
+import { useNotification } from './components/NotificationContext'
+import { useNavigate } from 'react-router-dom'
+import { useLoading } from './components/LoadingContext'
 
 function Header() {
+    const navigate = useNavigate();
+    const { setIsLoading } = useLoading();
+    const { notify } = useNotification();
+    const { authorization } = useAuthorizations();
+
+    async function logout() {
+        setIsLoading(true);
+        try {
+            const res = await fetch('http://localhost:5000/api/user/logout', {
+                method: 'GET',
+                header: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                return
+            }
+
+            navigate('/login');
+        } catch (error) {
+            console.log(error);
+            notify({ type: 'error', msg: error.message });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className="header">
             <div className="header__logo">
@@ -26,7 +61,7 @@ function Header() {
                     </Link>
                 </div>
 
-                <div className="header__nav__items">
+                {authorization.productManagement && <div className="header__nav__items">
                     <div className="header__nav__items__title">
                         Product
                     </div>
@@ -44,30 +79,30 @@ function Header() {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div>}
 
 
-                <div className="header__nav__items">
+                {(authorization.accountManagement || authorization.orderManagement || authorization.orderAcceptance) && <div className="header__nav__items">
                     <div className="header__nav__items__title">
                         Account
                     </div>
                     <div className="header__nav__items__content">
-                        <Link to='/account'>
+                        {authorization.accountManagement && <Link to='/account'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faList} className='icon__item' />
                                 <span>Management</span>
                             </div>
-                        </Link>
-                        <Link to='/order'>
+                        </Link>}
+                        {authorization.orderManagement && <Link to='/order'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faClipboard} className='icon__item' />
                                 <span>Order</span>
                             </div>
-                        </Link>
+                        </Link>}
                     </div>
-                </div>
+                </div>}
 
-                <div className="header__nav__items">
+                {authorization.categoryManagement && <div className="header__nav__items">
                     <div className="header__nav__items__title">
                         Kind
                     </div>
@@ -85,10 +120,10 @@ function Header() {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div>}
 
 
-                <div className="header__nav__items">
+                {authorization.reportManagement && <div className="header__nav__items">
                     <div className="header__nav__items__title">
                         Report
                     </div>
@@ -99,15 +134,11 @@ function Header() {
                                 <span>Best seller</span>
                             </div>
                         </Link>
-                        <div className="header__nav__item">
-                            <FontAwesomeIcon icon={faBell} className='icon__item' />
-                            <span>Account</span>
-                        </div>
                     </div>
-                </div>
+                </div>}
             </div>
             <div className="header__footer">
-                <div className="header__footer__item">
+                <div className="header__footer__item" onClick={logout}>
                     <FontAwesomeIcon icon={faRightFromBracket} className='icon__logout' />
                     <span>Logout</span>
                 </div>

@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 function Dashboard() {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const { setUser } = useAuthorizations();
+    const { authorizateUser, setUser } = useAuthorizations();
     useEffect(() => {
         const fetchData = async () => {
             console.log('fetching data');
@@ -23,11 +23,9 @@ function Dashboard() {
                         // 'Authorization': 'Bearer ' + Cookies.get('accessToken')
                     },
                 });
-                console.log(resUser);
 
 
                 const dataUser = await resUser.json();
-                console.log(dataUser);
                 if (dataUser.status !== 'success') {
                     setIsAuthenticated(false);
                     navigate('/login');
@@ -35,6 +33,7 @@ function Dashboard() {
                 }
 
                 setUser(dataUser.user);
+                authorizateUser(dataUser.user.userRole);
                 setIsAuthenticated(true);
 
             } catch (error) {

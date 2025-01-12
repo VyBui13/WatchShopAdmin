@@ -3,8 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon, faBell, faUser, faGear, faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthorizations } from './components/AuthorizationContext';
+import { useNotification } from './components/NotificationContext';
+import { useLoading } from './components/LoadingContext';
+import { useNavigate } from 'react-router-dom';
 
 function SubHeader() {
+    const navigate = useNavigate();
+    const { authorization } = useAuthorizations();
+    const { setIsLoading } = useLoading();
+    const { notify } = useNotification();
     const [isSidebar, setIsSidebar] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -39,6 +47,33 @@ function SubHeader() {
         setIsDarkMode(!isDarkMode);
     };
 
+    async function logout() {
+        setIsLoading(true);
+        try {
+            const res = await fetch('http://localhost:5000/api/user/logout', {
+                method: 'GET',
+                header: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                return
+            }
+
+            navigate('/login');
+        } catch (error) {
+            console.log(error);
+            notify({ type: 'error', msg: error.message });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+
     return (
         <div className="subheader">
             <div className="subheader__nav">
@@ -63,7 +98,7 @@ function SubHeader() {
                             </div>
                         </div>
 
-                        <div className="subheader__nav__items">
+                        {authorization.productManagement && <div className="subheader__nav__items">
                             <div className="subheader__nav__title">
                                 Product
                             </div>
@@ -74,9 +109,9 @@ function SubHeader() {
                             <div className="subheader__nav__item">
                                 <Link to='/'>Addition</Link>
                             </div>
-                        </div>
+                        </div>}
 
-                        <div className="subheader__nav__items">
+                        {(authorization.accountManagement || authorization.orderManagement || authorization.orderAcceptance) && <div className="subheader__nav__items">
                             <div className="subheader__nav__title">
                                 Account
                             </div>
@@ -87,9 +122,9 @@ function SubHeader() {
                             <div className="subheader__nav__item">
                                 <Link to='/'>Order</Link>
                             </div>
-                        </div>
+                        </div>}
 
-                        <div className="subheader__nav__items">
+                        {authorization.categoryManagement && <div className="subheader__nav__items">
                             <div className="subheader__nav__title">
                                 Kind
                             </div>
@@ -100,9 +135,9 @@ function SubHeader() {
                             <div className="subheader__nav__item">
                                 <Link to='/'>Manufacturer</Link>
                             </div>
-                        </div>
+                        </div>}
 
-                        <div className="subheader__nav__items">
+                        {authorization.reportManagement && <div className="subheader__nav__items">
                             <div className="subheader__nav__title">
                                 Report
                             </div>
@@ -112,6 +147,15 @@ function SubHeader() {
 
                             <div className="subheader__nav__item">
                                 <Link to='/'>Account</Link>
+                            </div>
+                        </div>}
+
+                        <div className="subheader__nav__items">
+                            <div className="subheader__nav__title">
+                                Exit
+                            </div>
+                            <div className="subheader__nav__item">
+                                Logout
                             </div>
                         </div>
                     </div>
