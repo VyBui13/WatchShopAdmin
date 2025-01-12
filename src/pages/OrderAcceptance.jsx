@@ -6,7 +6,6 @@ import '../styles/order.css'
 import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
-import OrderDetail from '../components/OrderDetail';
 
 function Order() {
 
@@ -307,7 +306,6 @@ function Order() {
     const [sortBy, setSortBy] = useState('');
     const [search, setSearch] = useState('');
     const [orders, setOrders] = useState([]);
-    const [theChosenOrder, setTheChosenOrder] = useState(null);
     const [displayOrders, setDisplayOrders] = useState([]);
     const [shippingMethods, setShippingMethods] = useState([]);
 
@@ -315,7 +313,7 @@ function Order() {
         const fetchOrders = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch('http://localhost:5000/api/customer/order/list', {
+                const res = await fetch('http://localhost:5000/api/customer/order/list?status=Processing', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -361,16 +359,7 @@ function Order() {
         fetchOrders();
     }, []);
 
-    const [statusFilter, setStatusFilter] = useState('');
     const [shippingFilter, setShippingFilter] = useState('');
-
-    function filterStatus() {
-        if (statusFilter === '') {
-            setDisplayOrders(orders);
-        } else {
-            setDisplayOrders(orders.filter((order) => order.orderStatus === statusFilter));
-        }
-    }
 
     function sortOrders() {
         if (sortBy === '') {
@@ -401,10 +390,6 @@ function Order() {
     useEffect(() => {
         sortOrders();
     }, [sortBy]);
-
-    useEffect(() => {
-        filterStatus();
-    }, [statusFilter]);
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
@@ -441,10 +426,38 @@ function Order() {
         }
     }
 
+    async function handleAcceptOrder(orderID) {
+        setIsLoading(true);
+        try {
+            const res = await fetch('http://localhost:5000/api/user/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ orderID: orderID }),
+            });
+
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                return;
+            }
+
+            const newOrders = orders.filter((order) => order._id !== orderID);
+            setOrders(newOrders);
+            setDisplayOrders(newOrders);
+        } catch (error) {
+            console.log(error);
+            notify({ type: 'error', msg: error.message });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <>
             <div className="board board--order">
-                {theChosenOrder && <OrderDetail theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} />}
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">
                         <div className="board__feature__item">
@@ -482,59 +495,6 @@ function Order() {
                                         {method}
                                     </option>
                                 ))}
-                                <option value="">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        None
-                                    </div>
-                                </option>
-                            </select>
-                        </div>
-
-                        <div className="board__feature__item">
-                            <div className="board__feature__item__icon">
-                                <FontAwesomeIcon icon={faFilter} className="icon__check" />
-                            </div>
-                            <select
-                                value={statusFilter}
-                                onChange={(e) => {
-                                    setStatusFilter(e.target.value);
-                                }}
-                            >
-                                <option value="" disabled>
-                                    Filter
-                                </option>
-                                <option value="Processing">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Processing
-                                    </div>
-                                </option>
-                                <option value="Pending">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Pending
-                                    </div>
-                                </option>
-                                <option value="Delivered">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Delivered
-                                    </div>
-                                </option>
-                                <option value="Completed">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Completed
-                                    </div>
-                                </option>
-                                <option value="Cancelled">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Cancelled
-                                    </div>
-                                </option>
-
                                 <option value="">
                                     <div className="status__filter"></div>
                                     <div className="status__text">
@@ -598,7 +558,7 @@ function Order() {
                                     <div className="board__table__attribute">
                                         <button
                                             onClick={() => {
-                                                setTheChosenOrder(order);
+                                                handleAcceptOrder(order._id);
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPencil} className="icon__edit" />

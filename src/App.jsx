@@ -11,6 +11,8 @@ import User from './pages/User'
 import AdminManagement from './pages/AdminManagement'
 import Order from './pages/Order'
 import BestSeller from './pages/BestSeller'
+import OrderAcceptance from './pages/OrderAcceptance'
+import PersonalOrder from './pages/PersonalOrder'
 import './styles/media.css'
 import { useAuthorizations } from './components/AuthorizationContext'
 
@@ -31,6 +33,8 @@ function App() {
         {authorization.profileManagement && <Route path="/user" element={<User />} />}
         {authorization.orderManagement && <Route path="/order" element={<Order />} />}
         {authorization.reportManagement && <Route path="/bestseller" element={<BestSeller />} />}
+        {authorization.orderAcceptance && <Route path="/order" element={<OrderAcceptance />} />}
+        {authorization.orderAcceptance && <Route path="/order/list" element={<PersonalOrder />} />}
       </Routes>
     </>
   )

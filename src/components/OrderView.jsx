@@ -6,46 +6,14 @@ import { faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { useLoading } from './LoadingContext';
 import { useNotification } from './NotificationContext';
 import { useConfirmPrompt } from './ConfirmPromptContext';
-import StatusManagement from './StatusManagement';
 
-function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
+function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders }) {
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
-    const [isStatusManagement, setIsStatusManagement] = useState(false);
-    const [shipper, setShipper] = useState(theChosenOrder.shipper._id);
     const [orderDetail, setOrderDetail] = useState(theChosenOrder);
-    const [shippers, setShippers] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const loadingRef = setTimeout(() => setIsLoading(true), 500);
-            try {
-                const res = await fetch('http://localhost:5000/api/user?role=Shipper', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                });
-
-                const data = await res.json();
-
-                if (data.status === 'success') {
-                    setShippers(data.data);
-                }
-
-            } catch (error) {
-                console.log(error);
-            } finally {
-                clearTimeout(loadingRef);
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }, [])
-
-    async function saveOrder() {
+    async function completeOrder() {
         setIsLoading(true);
         try {
             const res = await fetch(`http://localhost:5000/api/customer/order/${theChosenOrder._id}`, {
@@ -55,17 +23,26 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    shipperID: shipper,
-                    orderStatus: orderDetail.orderStatus,
+                    orderStatus: 'Delivered',
                 }),
             });
 
             const data = await res.json();
             notify({ type: data.status, msg: data.message });
 
-            if (data.status === 'success') {
-                setTheChosenOrder(null);
+            if (data.status !== 'success') {
+                return;
             }
+
+            const updatedOrders = orders.map(order => {
+                if (order._id === theChosenOrder._id) {
+                    return { ...order, orderStatus: 'Delivered' };
+                }
+                return order;
+            });
+
+            setOrders(updatedOrders);
+            setTheChosenOrder(null);
 
         } catch (error) {
             console.log(error);
@@ -78,7 +55,6 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     return (
         <>
             <div className="orderdetail-wrapper">
-                {isStatusManagement && <StatusManagement orderDetail={orderDetail} setOrderDetail={setOrderDetail} setIsStatusManagement={setIsStatusManagement} />}
                 <div className="orderdetail">
                     <div className="orderdetail__header">
                         <h1>Order Details</h1>
@@ -87,7 +63,6 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                             <span>{getDateTime(new Date(orderDetail.orderCreatedDateTime))}</span>
                             <div className="orderdetail__status">
                                 <button
-                                    onClick={() => setIsStatusManagement(true)}
                                     style={{
                                         color: (() => {
                                             switch (orderDetail.orderStatus) {
@@ -193,17 +168,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                                             <div className="orderdetail__item__content__fieldheader">
                                                 Shipper:
                                             </div>
-                                            <select
-                                                value={shipper}
-                                                onChange={(e) => setShipper(e.target.value)}
-                                            >
-                                                <option value="">None</option>
-                                                {shippers.map((shipper, index) => {
-                                                    return (
-                                                        <option key={index} value={shipper._id}>{shipper.userName}</option>
-                                                    )
-                                                })}
-                                            </select>
+                                            <span>{theChosenOrder.shipper.userName}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -266,7 +231,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                             setConfirmPromptData({
                                 message: `Update order`,
                                 action: 'order',
-                                onConfirm: saveOrder
+                                onConfirm: completeOrder
                             });
                             setIsConfirmPrompt(true);
                         }}>Save</button>
@@ -278,4 +243,4 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     )
 }
 
-export default OrderDetail;
+export default OrderView;

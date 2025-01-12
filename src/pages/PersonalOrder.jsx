@@ -6,9 +6,9 @@ import '../styles/order.css'
 import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
-import OrderDetail from '../components/OrderDetail';
+import OrderView from '../components/OrderView';
 
-function Order() {
+function PersonalOrder() {
 
     // const dataMock = [
     //     {
@@ -315,7 +315,7 @@ function Order() {
         const fetchOrders = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch('http://localhost:5000/api/customer/order/list', {
+                const res = await fetch('http://localhost:5000/api/user/order', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -347,8 +347,6 @@ function Order() {
                     };
                 });
 
-
-                console.log(orders[0]);
                 setOrders(orders);
                 setDisplayOrders(orders);
             } catch (error) {
@@ -444,7 +442,7 @@ function Order() {
     return (
         <>
             <div className="board board--order">
-                {theChosenOrder && <OrderDetail theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} />}
+                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} orders={orders} setOrders={setOrders} />}
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">
                         <div className="board__feature__item">
@@ -503,12 +501,6 @@ function Order() {
                             >
                                 <option value="" disabled>
                                     Filter
-                                </option>
-                                <option value="Processing">
-                                    <div className="status__filter"></div>
-                                    <div className="status__text">
-                                        Processing
-                                    </div>
                                 </option>
                                 <option value="Pending">
                                     <div className="status__filter"></div>
@@ -667,4 +659,4 @@ function Order() {
     );
 }
 
-export default Order;
+export default PersonalOrder;

@@ -93,12 +93,19 @@ function Header() {
                                 <span>Management</span>
                             </div>
                         </Link>}
-                        {authorization.orderManagement && <Link to='/order'>
+                        {(authorization.orderManagement || authorization.orderAcceptance) && <Link to='/order'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faClipboard} className='icon__item' />
-                                <span>Order</span>
+                                <span>Order List</span>
                             </div>
                         </Link>}
+                        {authorization.orderAcceptance && <Link to='/order/list'>
+                            <div className="header__nav__item">
+                                <FontAwesomeIcon icon={faClipboard} className='icon__item' />
+                                <span>Process</span>
+                            </div>
+                        </Link>}
+
                     </div>
                 </div>}
 
