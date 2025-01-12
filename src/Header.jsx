@@ -102,7 +102,7 @@ function Header() {
                         {authorization.orderAcceptance && <Link to='/order/list'>
                             <div className="header__nav__item">
                                 <FontAwesomeIcon icon={faClipboard} className='icon__item' />
-                                <span>Process</span>
+                                <span>Personal</span>
                             </div>
                         </Link>}
 

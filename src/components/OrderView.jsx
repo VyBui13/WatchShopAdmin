@@ -7,7 +7,7 @@ import { useLoading } from './LoadingContext';
 import { useNotification } from './NotificationContext';
 import { useConfirmPrompt } from './ConfirmPromptContext';
 
-function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders }) {
+function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders, setDisplayOrders }) {
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
@@ -42,6 +42,7 @@ function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders }) {
             });
 
             setOrders(updatedOrders);
+            setDisplayOrders(updatedOrders);
             setTheChosenOrder(null);
 
         } catch (error) {

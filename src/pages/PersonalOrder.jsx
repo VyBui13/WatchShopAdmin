@@ -311,6 +311,7 @@ function PersonalOrder() {
     const [displayOrders, setDisplayOrders] = useState([]);
     const [shippingMethods, setShippingMethods] = useState([]);
 
+
     useEffect(() => {
         const fetchOrders = async () => {
             setIsLoading(true);
@@ -442,7 +443,7 @@ function PersonalOrder() {
     return (
         <>
             <div className="board board--order">
-                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} orders={orders} setOrders={setOrders} />}
+                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} orders={orders} setOrders={setOrders} setDisplayOrders={setDisplayOrders} />}
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">
                         <div className="board__feature__item">

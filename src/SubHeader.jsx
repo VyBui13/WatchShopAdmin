@@ -103,11 +103,11 @@ function SubHeader() {
                                 Product
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/'>Managament</Link>
+                                <Link to='/product'>Managament</Link>
                             </div>
 
                             <div className="subheader__nav__item">
-                                <Link to='/'>Addition</Link>
+                                <Link to='/product/import'>Addition</Link>
                             </div>
                         </div>}
 
@@ -115,13 +115,17 @@ function SubHeader() {
                             <div className="subheader__nav__title">
                                 Account
                             </div>
-                            <div className="subheader__nav__item">
-                                <Link to='/'>Managament</Link>
-                            </div>
+                            {authorization.accountManagement && <div className="subheader__nav__item">
+                                <Link to='/account'>Managament</Link>
+                            </div>}
 
-                            <div className="subheader__nav__item">
-                                <Link to='/'>Order</Link>
-                            </div>
+                            {(authorization.orderManagement || authorization.orderAcceptance) && <div className="subheader__nav__item">
+                                <Link to='/order'>Order List</Link>
+                            </div>}
+
+                            {authorization.orderAcceptance && <div className="subheader__nav__item">
+                                <Link to='/order/list'>Personal</Link>
+                            </div>}
                         </div>}
 
                         {authorization.categoryManagement && <div className="subheader__nav__items">
@@ -129,11 +133,11 @@ function SubHeader() {
                                 Kind
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/'>Category</Link>
+                                <Link to='/category'>Category</Link>
                             </div>
 
                             <div className="subheader__nav__item">
-                                <Link to='/'>Manufacturer</Link>
+                                <Link to='/manufacturer'>Manufacturer</Link>
                             </div>
                         </div>}
 
@@ -142,11 +146,7 @@ function SubHeader() {
                                 Report
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/'>Best seller</Link>
-                            </div>
-
-                            <div className="subheader__nav__item">
-                                <Link to='/'>Account</Link>
+                                <Link to='/bestseller'>Best seller</Link>
                             </div>
                         </div>}
 
@@ -154,7 +154,7 @@ function SubHeader() {
                             <div className="subheader__nav__title">
                                 Exit
                             </div>
-                            <div className="subheader__nav__item">
+                            <div className="subheader__nav__item" onClick={logout}>
                                 Logout
                             </div>
                         </div>
