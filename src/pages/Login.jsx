@@ -5,14 +5,19 @@ import '../styles/login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
+import { useNotification } from '../components/NotificationContext';
+import { useLoading } from '../components/LoadingContext';
 
 function Login() {
+    const { notify } = useNotification();
+    const { setIsLoading } = useLoading();
     const [useraccount, setUseraccount] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     function handleSubmit() {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
                 const res = await fetch('http://localhost:5000/api/user/login', {
                     method: 'POST',
@@ -22,12 +27,16 @@ function Login() {
                 });
 
                 const data = await res.json();
+                notify({ type: data.status, msg: data.message });
                 if (data.status === 'success') {
                     navigate('/');
+                    return;
                 }
 
             } catch (error) {
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();

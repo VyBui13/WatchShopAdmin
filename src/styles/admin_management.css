@@ -8,6 +8,7 @@
 .management__header {
     width: 100%;
     display: flex;
+    justify-content: space-between;
     margin-bottom: 10px;
     align-items: center;
 }
@@ -31,6 +32,35 @@
 
 .management__header__button button .icon__button {
     margin-right: 5px;
+}
+
+.management__header__filter__item {
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color)
+}
+
+.management__header__filter__item .icon__filter {
+
+    margin-right: 10px;
+}
+
+.management__header__filter__item select {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--main-color);
+    color: var(--main-color);
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.management__header__filter__item option {
+    background: var(--item-color);
+    color: var(--main-color);
+    font-weight: 700;
 }
 
 .management__body {

@@ -221,7 +221,7 @@ function Account() {
                                 <option value="registertime">Register Time</option>
                             </select>
                         </div>
-                        <div className="board__feature__item">
+                        {/* <div className="board__feature__item">
                             <div className="board__feature__item__icon">
                                 <FontAwesomeIcon icon={faFilter} className='icon__check' />
                             </div>
@@ -230,7 +230,7 @@ function Account() {
                                 <option value="name">Name</option>
                                 <option value="email">Email</option>
                             </select>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="board__feature__search">
                         <input

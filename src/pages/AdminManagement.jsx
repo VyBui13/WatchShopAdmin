@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faScrewdriverWrench, faUser, faX, faGear, faArrowLeft, faArrowRight, faUserTie, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faScrewdriverWrench, faUser, faX, faGear, faFilter, faUserTie, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import '../styles/admin_management.css'
 import { useState, useEffect } from 'react'
 import AccountForm from '../components/AccountForm'
@@ -18,8 +18,13 @@ function AdminManagement() {
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const [theChosenUser, setTheChosenUser] = useState({});
     const [theChosenUserCard, setTheChosenUserCard] = useState({});
+    const [displayeUser, setDisplayUser] = useState([]);
 
     const [page, setPage] = useState(1);
+
+    useEffect(() => {
+        setDisplayUser(users);
+    }, [users])
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
@@ -79,51 +84,14 @@ function AdminManagement() {
         };
     }, [])
 
-    // function handleFilterByRole(role) {
-    //     const fetchData = async () => {
-    //         const loadingRef = setTimeout(() => {
-    //             setIsLoading(true);
-    //         }, 500);
-    //         try {
-    //             const response = await fetch('http://localhost:5000/api/user/role=' + role);
-    //             const data = await response.json();
-    //             if (data.status === 'error') {
-    //                 console.log(data.message);
-    //                 return;
-    //             }
-    //             setUsers(data.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         } finally {
-    //             clearTimeout(loadingRef);
-    //             setIsLoading(false);
-    //         }
-    //     }
-    //     fetchData();
-    // }
 
-    // function handleReset() {
-    //     const fetchData = async () => {
-    //         const loadingRef = setTimeout(() => {
-    //             setIsLoading(true);
-    //         }, 500);
-    //         try {
-    //             const response = await fetch('http://localhost:5000/api/user');
-    //             const data = await response.json();
-    //             if (data.status === 'error') {
-    //                 console.log(data.message);
-    //                 return;
-    //             }
-    //             setUsers(data.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         } finally {
-    //             clearTimeout(loadingRef);
-    //             setIsLoading(false);
-    //         }
-    //     }
-    //     fetchData();
-    // }
+    function filterByRole(role) {
+        if (role === '') {
+            setDisplayUser(users);
+        } else {
+            setDisplayUser(users.filter(user => user.userRole === role));
+        }
+    }
 
     function handleDeleteStaff(id) {
         const fetchData = async () => {
@@ -165,6 +133,22 @@ function AdminManagement() {
 
                 {theChosenUser._id && <RoleManagement theChosenUser={theChosenUser} setTheChosenUser={setTheChosenUser} setUsers={setUsers} />}
                 <div className="management__header">
+                    <div className="management__header__filter">
+                        <div className="management__header__filter__item">
+                            <FontAwesomeIcon icon={faFilter} className='icon__filter' />
+                            <select
+                                defaultValue=''
+                                onChange={(e) => filterByRole(e.target.value)}
+                            >
+                                <option value="" disabled>Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Shipper">Shipper</option>
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div className="management__header__button">
                         <button onClick={() => setIsForm(true)} className="management__header__button__add">
                             <FontAwesomeIcon icon={faScrewdriverWrench} className='icon__button' />
@@ -175,7 +159,7 @@ function AdminManagement() {
                 <div className="management__body">
                     <div className="management__list">
                         <div className="management__listwrapper">
-                            {users.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map(user => (
+                            {displayeUser.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map(user => (
                                 <div className="management__card" key={user._id}>
                                     <button onClick={() => {
                                         setTheChosenUserCard(user);

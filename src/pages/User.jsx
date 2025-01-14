@@ -8,6 +8,7 @@ import { useNotification } from "../components/NotificationContext"
 import { getDate } from "../utils/DateConverter";
 import { useLoading } from "../components/LoadingContext";
 import { useConfirmPrompt } from '../components/ConfirmPromptContext'
+import PasswordChange from "../components/PasswordChange";
 
 function User() {
     const { notify } = useNotification();
@@ -20,6 +21,7 @@ function User() {
     const [isEditablePhone, setIsEditablePhone] = useState(false);
     const [isEditableAddress, setIsEditableAddress] = useState(false);
     const [isEditableDateOfBirth, setIsEditableDateOfBirth] = useState(false);
+    const [isChangePassword, setIsChangePassword] = useState(false);
 
     function formatDate(dateString) {
         // 09/04/2004
@@ -67,6 +69,7 @@ function User() {
     return (
         <>
             <div className="user">
+                {isChangePassword && <PasswordChange setIsChangePassword={setIsChangePassword} />}
                 <div className="user__left">
                     <div className="user__general">
                         <div className="user__general__header">
@@ -260,7 +263,7 @@ function User() {
 
                     <div className="user__option">
                         <div className="user__option__btn">
-                            <button>Change password</button>
+                            <button onClick={() => setIsChangePassword(true)}>Change password</button>
                         </div>
                     </div>
                 </div>

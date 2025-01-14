@@ -20,12 +20,10 @@ function Dashboard() {
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
-                        // 'Authorization': 'Bearer ' + Cookies.get('accessToken')
                     },
                 });
-
-
                 const dataUser = await resUser.json();
+                console.log(dataUser)
                 if (dataUser.status !== 'success') {
                     setIsAuthenticated(false);
                     navigate('/login');
