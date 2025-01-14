@@ -1,0 +1,43 @@
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 100px);
+    padding: 20px;
+}
+
+.home__left {}
+
+.home__welcome__icon {
+    font-size: 100px;
+    color: var(--main-color);
+}
+
+.home__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.home__text h1 {
+    font-size: 30px;
+    color: var(--main-color);
+    font-weight: 600;
+    text-align: center;
+}
+
+.home__text p {
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 700;
+    text-align: center;
+}
+
+.home__text h5 {
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: 700;
+    text-align: center;
+}

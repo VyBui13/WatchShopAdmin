@@ -93,6 +93,10 @@
     .revenue {
         flex-direction: column !important;
     }
+
+    .home {
+        flex-direction: column !important;
+    }
 }
 
 @media (max-width: 650px) {

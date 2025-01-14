@@ -98,6 +98,7 @@
     text-decoration: none;
     transition: all 0.3s;
     width: 130px;
+    cursor: pointer;
     padding: 5px;
 }
 
@@ -106,5 +107,6 @@
 }
 
 .header__footer__item span {
+    user-select: none;
     flex: 1;
 }

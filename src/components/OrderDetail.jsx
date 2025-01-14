@@ -75,6 +75,17 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
         }
     }
 
+    useEffect(() => {
+        if (orderDetail.orderStatus === 'Processing') {
+            if (shipper !== '') {
+                setOrderDetail({
+                    ...orderDetail,
+                    orderStatus: 'Pending',
+                });
+            }
+        }
+    }, [shipper])
+
     return (
         <>
             <div className="orderdetail-wrapper">
