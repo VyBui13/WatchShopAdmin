@@ -7,6 +7,7 @@ import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
 import AccountDetail from '../components/AccountDetail';
+import NothingDisplay from '../components/NothingDisplay';
 
 function Account() {
     // const customer = [
@@ -273,6 +274,7 @@ function Account() {
                     </div>
 
                     <div className="board__table__data">
+                        {customer.length === 0 && <NothingDisplay />}
                         {customer.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((account) => (
                             <div key={account.id} className="board__table__row">
                                 <div className="board__table__attribute">

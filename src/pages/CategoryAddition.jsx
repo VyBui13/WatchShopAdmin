@@ -4,9 +4,11 @@ import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { uploadImage } from '../utils/UploadImageProvider';
 import { useNavigate } from 'react-router-dom';
+import { useConfirmPrompt } from '../components/ConfirmPromptContext';
 
 function Category() {
     const navigate = useNavigate();
+    const { setConfirmPromptData, setIsConfirmPrompt } = useConfirmPrompt();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
     const [categoryList, setCategoryList] = useState([]);
@@ -44,6 +46,10 @@ function Category() {
 
     async function handleSubmit() {
         try {
+            if (category.categoryName === '') {
+                notify({ type: "error", msg: "Category name is required" });
+                return;
+            }
             let imgUrl = "";
             if (image) {
                 imgUrl = await uploadImage(image);
@@ -142,7 +148,14 @@ function Category() {
 
                 <div className="form__button">
                     <button onClick={handleCancel}>Cancel</button>
-                    <button onClick={handleSubmit}>Add</button>
+                    <button onClick={() => {
+                        setConfirmPromptData({
+                            message: `Add category`,
+                            action: "Add",
+                            onConfirm: handleSubmit,
+                        });
+                        setIsConfirmPrompt(true);
+                    }}>Add</button>
                 </div>
             </div>
         </div>

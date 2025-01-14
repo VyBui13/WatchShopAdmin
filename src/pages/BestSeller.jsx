@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faSave, faRotateRight, faRepeat } from '@fortawesome/free-solid-svg-icons'
 import InputNumberRange from '../components/InputNumberRange';
 import Revenue from '../components/Revenue';
+import NothingDisplay from '../components/NothingDisplay';
 
 function BestSeller() {
     const { notify } = useNotification();
@@ -379,9 +380,10 @@ function BestSeller() {
                 </div>
                 <div className="report__body">
                     {!isRevenue && <div className="report__chart">
-                        <Bar className="chart"
+                        {products.length === 0 && <NothingDisplay />}
+                        {products.length !== 0 && <Bar className="chart"
                             data={chartProductSellerData} options={chartProductSellerOptions}
-                        />
+                        />}
                     </div>}
                     {!isRevenue && <div className="report__form">
                         <div className="report__form__header">
@@ -391,6 +393,7 @@ function BestSeller() {
                             </div>
                         </div>
                         <div className="report__form__table">
+                            {products.length === 0 && <NothingDisplay />}
                             {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product, index) => (
                                 <div className="report__form__items" key={index}>
                                     <div className="report__form__item">{product.productName}</div>

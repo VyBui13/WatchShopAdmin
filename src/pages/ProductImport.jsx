@@ -93,6 +93,51 @@ function ProductImport() {
     // };
 
     async function handleSubmit() {
+        if (product.productName === "") {
+            notify({ type: "error", msg: "Product name is required" });
+            return;
+        }
+
+        if (product.productPrice === "") {
+            notify({ type: "error", msg: "Product price is required" });
+            return;
+        }
+
+        if (product.productQuantity === "") {
+            notify({ type: "error", msg: "Product quantity is required" });
+            return;
+        }
+
+        if (product.productStatus === "") {
+            notify({ type: "error", msg: "Product status is required" });
+            return;
+        }
+
+        if (product.productDetail.productSize === "") {
+            notify({ type: "error", msg: "Product size is required" });
+            return;
+        }
+
+        if (product.productDetail.productMaterial === "") {
+            notify({ type: "error", msg: "Product material is required" });
+            return;
+        }
+
+        if (product.productBrand === "") {
+            notify({ type: "error", msg: "Product brand is required" });
+            return;
+        }
+
+        if (product.productCategory === "") {
+            notify({ type: "error", msg: "Product category is required" });
+            return;
+        }
+
+        if (mainImage === null) {
+            notify({ type: "error", msg: "Main image is required" });
+            return;
+        }
+
         const loadingRef = setTimeout(() => setIsLoading(true), 500);
         try {
             const mainImageUrl = await uploadImage(mainImage);
@@ -148,7 +193,17 @@ function ProductImport() {
                     <div className="productimport__form__item">
                         <input
                             value={product.productPrice}
-                            onChange={(e) => setProduct({ ...product, productPrice: e.target.value })}
+                            onChange={(e) => {
+                                if (!Number.isInteger(Number(e.target.value)) || Number(e.target.value) < 0) {
+                                    setProduct({ ...product, productPrice: '' });
+                                    notify({ type: 'error', msg: 'Do not enter invalid character' });
+                                    return;
+                                }
+
+                                setProduct({ ...product, productPrice: e.target.value })
+                            }
+
+                            }
                             type="text"
                             placeholder="Price" />
                     </div>

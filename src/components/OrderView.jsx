@@ -3,55 +3,11 @@ import { useState, useEffect } from 'react';
 import { getDateTime } from '../utils/DateConverter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { useLoading } from './LoadingContext';
-import { useNotification } from './NotificationContext';
 import { useConfirmPrompt } from './ConfirmPromptContext';
 
-function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders, setDisplayOrders }) {
-    const { setIsLoading } = useLoading();
-    const { notify } = useNotification();
+function OrderView({ theChosenOrder, setTheChosenOrder, saveFunction }) {
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const [orderDetail, setOrderDetail] = useState(theChosenOrder);
-
-    async function completeOrder() {
-        setIsLoading(true);
-        try {
-            const res = await fetch(`http://localhost:5000/api/customer/order/${theChosenOrder._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    orderStatus: 'Delivered',
-                }),
-            });
-
-            const data = await res.json();
-            notify({ type: data.status, msg: data.message });
-
-            if (data.status !== 'success') {
-                return;
-            }
-
-            const updatedOrders = orders.map(order => {
-                if (order._id === theChosenOrder._id) {
-                    return { ...order, orderStatus: 'Delivered' };
-                }
-                return order;
-            });
-
-            setOrders(updatedOrders);
-            setDisplayOrders(updatedOrders);
-            setTheChosenOrder(null);
-
-        } catch (error) {
-            console.log(error);
-            notify({ type: 'error', msg: error.message });
-        } finally {
-            setIsLoading(false);
-        }
-    }
 
     return (
         <>
@@ -163,13 +119,13 @@ function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders, setDi
                                             <div className="orderdetail__item__content__fieldheader">
                                                 Total price:
                                             </div>
-                                            <span>{orderDetail.orderTotalPrice}</span>
+                                            <span>{new Intl.NumberFormat('de-DE').format(orderDetail.orderTotalPrice)}</span>
                                         </div>
                                         <div className="orderdetail__item__content__field">
                                             <div className="orderdetail__item__content__fieldheader">
                                                 Shipper:
                                             </div>
-                                            <span>{theChosenOrder.shipper.userName}</span>
+                                            <span>{theChosenOrder.shipper ? theChosenOrder.shipper.userName : "None"}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +168,7 @@ function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders, setDi
                                                         {product.product.productBrand.brandName}
                                                     </div>
                                                     <div className="order__product__table__item">
-                                                        {product.productPrice}
+                                                        {new Intl.NumberFormat('de-DE').format(product.productPrice)}
                                                     </div>
                                                     <div className="order__product__table__item">
                                                         {product.quantity}
@@ -232,7 +188,7 @@ function OrderView({ theChosenOrder, setTheChosenOrder, orders, setOrders, setDi
                             setConfirmPromptData({
                                 message: `Update order`,
                                 action: 'order',
-                                onConfirm: completeOrder
+                                onConfirm: saveFunction
                             });
                             setIsConfirmPrompt(true);
                         }}>Save</button>

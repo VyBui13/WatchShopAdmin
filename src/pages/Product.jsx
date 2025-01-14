@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faCartShopping, faSquareCheck, faSearch, faFilter, faSort } from '@fortawesome/free-solid-svg-icons'
 import ProductDetail from '../components/ProductDetail';
 import { useLoading } from '../components/LoadingContext';
+import NothingDisplay from '../components/NothingDisplay';
 
 function Product() {
     const { setIsLoading } = useLoading();
@@ -139,7 +140,6 @@ function Product() {
                                 <option value="" disabled>Sort</option>
                                 <option value="creation-time">Creation Time</option>
                                 <option value="price">Price</option>
-                                <option value="total-purchase">Total Purchase</option>
                                 <option value="">None</option>
                             </select>
                         </div>
@@ -232,6 +232,7 @@ function Product() {
                     </div>
 
                     <div className="board__table__data">
+                        {products.length === 0 && <NothingDisplay />}
                         {products.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((product, index) => (
                             <button
                                 onClick={() => {

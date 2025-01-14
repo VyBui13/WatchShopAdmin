@@ -6,9 +6,12 @@ import { faArrowLeft, faArrowRight, faTrash, faPlus, faSearch } from '@fortaweso
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { useNavigate } from 'react-router-dom';
+import NothingDisplay from '../components/NothingDisplay';
+import { useConfirmPrompt } from '../components/ConfirmPromptContext';
 
 function Manufacturer() {
     const navigate = useNavigate();
+    const { setConfirmPromptData, setIsConfirmPrompt } = useConfirmPrompt();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
 
@@ -148,13 +151,20 @@ function Manufacturer() {
                     </div>
 
                     <div className="board__table__data">
+                        {manufacturers.length === 0 && <NothingDisplay />}
                         {manufacturers.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((manufacturer, index) => (
                             <button
                                 key={manufacturer._id}
                                 className="board__table__row">
                                 <div className="board__table__attribute">
                                     <button onClick={() => {
-                                        handleRemove(manufacturer._id);
+                                        setConfirmPromptData({
+                                            message: `Delete category`,
+                                            action: "Delete",
+                                            onConfirm: () => handleRemove(manufacturer._id),
+                                        });
+                                        setIsConfirmPrompt(true);
+
                                     }}>X</button>
                                 </div>
                                 <div className="board__table__attribute">{manufacturer._id.slice(-4)}</div>

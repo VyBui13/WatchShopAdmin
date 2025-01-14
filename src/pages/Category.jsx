@@ -5,10 +5,13 @@ import { faArrowLeft, faArrowRight, faTrash, faPlus, faSearch } from '@fortaweso
 import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { useNavigate } from 'react-router-dom';
+import NothingDisplay from '../components/NothingDisplay';
+import { useConfirmPrompt } from '../components/ConfirmPromptContext';
 
 function Category() {
     const navigate = useNavigate();
     const { setIsLoading } = useLoading();
+    const { setConfirmPromptData, setIsConfirmPrompt } = useConfirmPrompt();
     const { notify } = useNotification();
 
     const [categories, setCategories] = useState([]);
@@ -104,7 +107,7 @@ function Category() {
                         return;
                     }
                     notify({ type: data.status, msg: data.message });
-                    setCategories(categories.filter(category => category._id !== category._id));
+                    setCategories(categories.filter(item => item._id !== category._id));
                 }
                 catch (error) {
                     console.log(error);
@@ -168,13 +171,20 @@ function Category() {
                     </div>
 
                     <div className="board__table__data">
+                        {categories.length === 0 && <NothingDisplay />}
                         {categories.slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem).map((category, index) => (
                             <div
                                 key={category._id}
                                 className="board__table__row">
                                 <div className="board__table__attribute">
                                     <button onClick={() => {
-                                        handleRemove(category);
+                                        setConfirmPromptData({
+                                            message: `Delete category`,
+                                            action: "Delete",
+                                            onConfirm: () => handleRemove(category),
+                                        });
+                                        setIsConfirmPrompt(true);
+
                                     }}>X</button>
                                 </div>
                                 <div className="board__table__attribute">{category._id.slice(-4)}</div>

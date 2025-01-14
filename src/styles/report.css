@@ -1,6 +1,6 @@
 .report {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
 
@@ -86,7 +86,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--item-color);
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
@@ -146,7 +146,7 @@
 }
 
 .report__form__header .report__form__items .report__form__item {
-    color: var(--item-color);
+    color: var(--text-in-background-color);
     font-weight: 700;
 }
 
@@ -164,6 +164,7 @@
     font-size: 14px;
     height: 40px;
     font-weight: 700;
+    color: var(--text-color);
 }
 
 .report__form__table .report__form__items:hover {
@@ -188,4 +189,5 @@
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
     height: 100%;
     border-radius: var(--border-radius);
+    background-color: var(--item-color);
 }

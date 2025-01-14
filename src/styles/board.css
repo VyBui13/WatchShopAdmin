@@ -103,6 +103,7 @@
     background-color: var(--item-color);
     width: 100%;
     flex: 1;
+    padding-bottom: 50px;
 }
 
 .board__table__status {
@@ -159,6 +160,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    height: 50px;
     border-bottom-right-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
     display: flex;

@@ -10,296 +10,49 @@ import OrderView from '../components/OrderView';
 
 function PersonalOrder() {
 
-    // const dataMock = [
-    //     {
-    //         _id: '1',
-    //         customer: {
-    //             customerName: 'Nguyen Van A',
-    //             customerPhone: '0000000001',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Iphone 12',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
+    async function completeOrder() {
+        if (theChosenOrder.orderStatus === 'Delivered') {
+            notify({ type: 'error', msg: 'Order has been delivered' });
+            return;
+        }
+        setIsLoading(true);
+        try {
+            const res = await fetch(`http://localhost:5000/api/customer/order/${theChosenOrder._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    orderStatus: 'Delivered',
+                }),
+            });
 
-    //                 productPrice: 10000,
-    //             },
-    //             {
-    //                 product: {
-    //                     productName: 'Iphone 11',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
 
-    //                 productPrice: 20000,
-    //             },
-    //         ],
-    //         orderShippingAddress: '123 Nguyen Van Linh',
-    //         shippingName: 'Standard Shipping',
-    //         orderShippingFee: 20000,
-    //         orderTotalPrice: 50000,
-    //         orderStatus: 'Pending',
-    //         shipper: {
-    //             userName: 'Shipper A',
-    //             userPhone: '0000000002',
-    //             userEmail: 'nguyenvanv@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '2',
-    //         customer: {
-    //             customerName: 'Tran Thi B',
-    //             customerPhone: '0000000003',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Samsung Galaxy S21',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 2,
+            if (data.status !== 'success') {
+                return;
+            }
 
-    //                 productPrice: 15000,
-    //             }
-    //         ],
-    //         orderShippingAddress: '456 Le Loi',
-    //         shippingName: 'Express Shipping',
-    //         orderShippingFee: 30000,
-    //         orderTotalPrice: 60000,
-    //         orderStatus: 'Processing',
-    //         shipper: {
-    //             userName: 'Shipper B',
-    //             userPhone: '0000000004',
-    //             userEmail: 'tranthib@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '3',
-    //         customer: {
-    //             customerName: 'Le Van C',
-    //             customerPhone: '0000000005',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'MacBook Air M1',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
+            const updatedOrders = orders.map(order => {
+                if (order._id === theChosenOrder._id) {
+                    return { ...order, orderStatus: 'Delivered' };
+                }
+                return order;
+            });
 
-    //                 productPrice: 80000,
-    //             },
-    //         ],
-    //         orderShippingAddress: '789 Tran Hung Dao',
-    //         shippingName: 'Standard Shipping',
-    //         orderShippingFee: 5000,
-    //         orderTotalPrice: 85000,
-    //         orderStatus: 'Delivered',
-    //         shipper: {
-    //             userName: 'Shipper C',
-    //             userPhone: '0000000006',
-    //             userEmail: 'levanc@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '4',
-    //         customer: {
-    //             customerName: 'Pham Thi D',
-    //             customerPhone: '0000000007',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'AirPods Pro',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
+            setOrders(updatedOrders);
+            setDisplayOrders(updatedOrders);
+            setTheChosenOrder(null);
 
-    //                 productPrice: 5000,
-    //             },
-    //             {
-    //                 product: {
-    //                     productName: 'iPad Pro',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 100000,
-    //             }
-    //         ],
-    //         orderShippingAddress: '101 Nguyen Hue',
-    //         shippingName: 'Express Shipping',
-    //         orderShippingFee: 10000,
-    //         orderTotalPrice: 115000,
-    //         orderStatus: 'Pending',
-    //         shipper: {
-    //             userName: 'Shipper D',
-    //             userPhone: '0000000008',
-    //             userEmail: 'phamthid@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '5',
-    //         customer: {
-    //             customerName: 'Hoang Van E',
-    //             customerPhone: '0000000009',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Sony WH-1000XM4',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 15000,
-    //             }
-    //         ],
-    //         orderShippingAddress: '202 Hai Ba Trung',
-    //         shippingName: 'Standard Shipping',
-    //         orderShippingFee: 2000,
-    //         orderTotalPrice: 17000,
-    //         orderStatus: 'Cancelled',
-    //         shipper: {
-    //             userName: 'Shipper E',
-    //             userPhone: '0000000010',
-    //             userEmail: 'hoangvane@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '6',
-    //         customer: {
-    //             customerName: 'Vo Thi F',
-    //             customerPhone: '0000000011',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Dell XPS 13',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 120000,
-    //             }
-    //         ],
-    //         orderShippingAddress: '303 Ly Thuong Kiet',
-    //         shippingName: 'Express Shipping',
-    //         orderShippingFee: 15000,
-    //         orderTotalPrice: 135000,
-    //         orderStatus: 'Completed',
-    //         shipper: {
-    //             userName: 'Shipper F',
-    //             userPhone: '0000000012',
-    //             userEmail: 'vothif@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '7',
-    //         customer: {
-    //             customerName: 'Nguyen Van G',
-    //             customerPhone: '0000000013',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Google Pixel 6',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 90000,
-    //             },
-    //         ],
-    //         orderShippingAddress: '404 Phan Chau Trinh',
-    //         shippingName: 'Standard Shipping',
-    //         orderShippingFee: 10000,
-    //         orderTotalPrice: 100000,
-    //         orderStatus: 'Processing',
-    //         shipper: {
-    //             userName: 'Shipper G',
-    //             userPhone: '0000000014',
-    //             userEmail: 'nguyenvang@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '8',
-    //         customer: {
-    //             customerName: 'Tran Thi H',
-    //             customerPhone: '0000000015',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Xbox Series X',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 50000,
-    //             },
-    //             {
-    //                 product: {
-    //                     productName: 'PlayStation 5',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 50000,
-    //             }
-    //         ],
-    //         orderShippingAddress: '505 Bach Dang',
-    //         shippingName: 'Express Shipping',
-    //         orderShippingFee: 15000,
-    //         orderTotalPrice: 115000,
-    //         orderStatus: 'Pending',
-    //         shipper: {
-    //             userName: 'Shipper H',
-    //             userPhone: '0000000016',
-    //             userEmail: 'tranthih@gmail.com'
-    //         }
-    //     },
-    //     {
-    //         _id: '9',
-    //         customer: {
-    //             customerName: 'Pham Van I',
-    //             customerPhone: '0000000017',
-    //         },
-    //         orderCreatedDateTime: new Date().toString(),
-    //         orderListProduct: [
-    //             {
-    //                 product: {
-    //                     productName: 'Apple Watch Series 7',
-    //                     productBrand: 'Apple'
-    //                 },
-    //                 quantity: 1,
-
-    //                 productPrice: 20000,
-    //             },
-    //         ],
-    //         orderShippingAddress: '606 Hoang Dieu',
-    //         shippingName: 'Standard Shipping',
-    //         orderShippingFee: 5000,
-    //         orderTotalPrice: 25000,
-    //         orderStatus: 'Delivered',
-    //         shipper: {
-    //             userName: 'Shipper I',
-    //             userPhone: '0000000018',
-    //             userEmail: 'phamvani@gmail.com'
-    //         }
-    //     }
-    // ];
+        } catch (error) {
+            console.log(error);
+            notify({ type: 'error', msg: error.message });
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     const { notify } = useNotification();
     const { setIsLoading } = useLoading();
@@ -335,7 +88,6 @@ function PersonalOrder() {
                     notify({ type: data2.status, msg: data2.message });
                     return;
                 }
-
 
                 const shippingMethods = data2.data.map((method) => method.shippingName);
                 setShippingMethods(shippingMethods);
@@ -443,7 +195,7 @@ function PersonalOrder() {
     return (
         <>
             <div className="board board--order">
-                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} orders={orders} setOrders={setOrders} setDisplayOrders={setDisplayOrders} />}
+                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} saveFunction={completeOrder} />}
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">
                         <div className="board__feature__item">

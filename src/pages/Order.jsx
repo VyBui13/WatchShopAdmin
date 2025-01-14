@@ -7,6 +7,7 @@ import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
 import OrderDetail from '../components/OrderDetail';
+import NothingDisplay from '../components/NothingDisplay';
 
 function Order() {
 
@@ -591,6 +592,7 @@ function Order() {
                     </div>
 
                     <div className="board__table__data">
+                        {displayOrders.length === 0 && <NothingDisplay />}
                         {displayOrders
                             .slice((page - 1) * amountItem, (page - 1) * amountItem + amountItem)
                             .map((order) => (

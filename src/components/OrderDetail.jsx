@@ -13,7 +13,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     const { notify } = useNotification();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const [isStatusManagement, setIsStatusManagement] = useState(false);
-    const [shipper, setShipper] = useState(theChosenOrder.shipper._id);
+    const [shipper, setShipper] = useState(theChosenOrder.shipper ? theChosenOrder.shipper._id : '');
     const [orderDetail, setOrderDetail] = useState(theChosenOrder);
     const [shippers, setShippers] = useState([]);
 
@@ -187,7 +187,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                                             <div className="orderdetail__item__content__fieldheader">
                                                 Total price:
                                             </div>
-                                            <span>{orderDetail.orderTotalPrice}</span>
+                                            <span>{new Intl.NumberFormat('de-DE').format(orderDetail.orderTotalPrice)}</span>
                                         </div>
                                         <div className="orderdetail__item__content__field">
                                             <div className="orderdetail__item__content__fieldheader">
@@ -246,7 +246,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
                                                         {product.product.productBrand.brandName}
                                                     </div>
                                                     <div className="order__product__table__item">
-                                                        {product.productPrice}
+                                                        {new Intl.NumberFormat('de-DE').format(product.productPrice)}
                                                     </div>
                                                     <div className="order__product__table__item">
                                                         {product.quantity}

@@ -6,6 +6,7 @@ import '../styles/order.css'
 import '../styles/board.css'
 import { useLoading } from '../components/LoadingContext';
 import { useNotification } from '../components/NotificationContext';
+import OrderView from '../components/OrderView';
 
 function Order() {
 
@@ -306,6 +307,7 @@ function Order() {
     const [sortBy, setSortBy] = useState('');
     const [search, setSearch] = useState('');
     const [orders, setOrders] = useState([]);
+    const [theChosenOrder, setTheChosenOrder] = useState(null);
     const [displayOrders, setDisplayOrders] = useState([]);
     const [shippingMethods, setShippingMethods] = useState([]);
 
@@ -322,6 +324,7 @@ function Order() {
                 });
 
                 const data = await res.json();
+                console.log(data);
                 if (data.status !== 'success') {
                     notify({ type: data.status, msg: data.message });
                     return;
@@ -333,6 +336,8 @@ function Order() {
                     return;
                 }
 
+                console.log("DATA", data);
+                console.log("DATA2", data2);
 
                 const shippingMethods = data2.data.map((method) => method.shippingName);
                 setShippingMethods(shippingMethods);
@@ -426,7 +431,7 @@ function Order() {
         }
     }
 
-    async function handleAcceptOrder(orderID) {
+    async function handleAcceptOrder() {
         setIsLoading(true);
         try {
             const res = await fetch('http://localhost:5000/api/user/order', {
@@ -435,7 +440,7 @@ function Order() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ orderID: orderID }),
+                body: JSON.stringify({ orderID: theChosenOrder._id }),
             });
 
             const data = await res.json();
@@ -444,9 +449,10 @@ function Order() {
                 return;
             }
 
-            const newOrders = orders.filter((order) => order._id !== orderID);
+            const newOrders = orders.filter((order) => order._id !== theChosenOrder._id);
             setOrders(newOrders);
             setDisplayOrders(newOrders);
+            setTheChosenOrder(null);
         } catch (error) {
             console.log(error);
             notify({ type: 'error', msg: error.message });
@@ -458,6 +464,7 @@ function Order() {
     return (
         <>
             <div className="board board--order">
+                {theChosenOrder && <OrderView theChosenOrder={theChosenOrder} setTheChosenOrder={setTheChosenOrder} saveFunction={handleAcceptOrder} />}
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">
                         <div className="board__feature__item">
@@ -558,7 +565,7 @@ function Order() {
                                     <div className="board__table__attribute">
                                         <button
                                             onClick={() => {
-                                                handleAcceptOrder(order._id);
+                                                setTheChosenOrder(order);
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPencil} className="icon__edit" />

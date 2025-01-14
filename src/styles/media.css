@@ -57,6 +57,22 @@
     }
 }
 
+@media (max-width: 1000px) {
+    .orderdetail {
+        width: 90% !important;
+    }
+
+    .orderdetail__info {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .orderdetail__item {
+        width: 320px !important;
+    }
+}
+
 @media (max-width: 900px) {
     .dashboard__left {
         display: none !important;

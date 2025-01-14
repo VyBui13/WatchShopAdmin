@@ -5,7 +5,7 @@ import { useNotification } from "../components/NotificationContext"
 import { uploadImage } from '../utils/UploadImageProvider';
 import { useNavigate } from 'react-router-dom';
 
-function Category() {
+function Manufacturer() {
     const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
@@ -20,6 +20,10 @@ function Category() {
 
     async function handleSubmit() {
         try {
+            if (brand.brandName === "") {
+                notify({ type: "error", msg: "Brand name is required" });
+                return;
+            }
             let imgUrl = "";
             if (image) {
                 imgUrl = await uploadImage(image);
@@ -127,7 +131,14 @@ function Category() {
 
                 <div className="addform__button">
                     <button onClick={handleCancel}>Cancel</button>
-                    <button onClick={handleSubmit}>Add</button>
+                    <button onClick={() => {
+                        setConfirmPromptData({
+                            message: `Add brand`,
+                            action: "Add",
+                            onConfirm: handleSubmit,
+                        });
+                        setIsConfirmPrompt(true);
+                    }}>Add</button>
                 </div>
             </div>
         </div>
@@ -135,4 +146,4 @@ function Category() {
     );
 }
 
-export default Category;
+export default Manufacturer;
