@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faInfo, faExclamation, faX } from '@fortawesome/free-solid-svg-icons';
 import { useNotification } from './NotificationContext';
 
-function Error({ obj }) {
+function Error({ obj, setNotification }) {
     console.log(obj);
     return (
         <div className="nofi nofi--error">
@@ -20,14 +20,14 @@ function Error({ obj }) {
                     {obj.msg}
                 </div>
             </div>
-            <div className="nofi__close">
+            <div className="nofi__close" onClick={() => setNotification(null)}>
                 <FontAwesomeIcon icon={faX} className='icon__nofi' />
             </div>
         </div>
     )
 }
 
-function Success({ obj }) {
+function Success({ obj, setNotification }) {
     return (
         <div className="nofi nofi--success">
             <div className="nofi__icon">
@@ -41,14 +41,14 @@ function Success({ obj }) {
                     {obj.msg}
                 </div>
             </div>
-            <div className="nofi__close">
+            <div className="nofi__close" onClick={() => setNotification(null)}>
                 <FontAwesomeIcon icon={faX} className='icon__nofi' />
             </div>
         </div>
     )
 }
 
-function Warning({ obj }) {
+function Warning({ obj, setNotification }) {
     return (
         <div className="nofi nofi--warning">
             <div className="nofi__icon">
@@ -62,7 +62,7 @@ function Warning({ obj }) {
                     {obj.msg}
                 </div>
             </div>
-            <div className="nofi__close">
+            <div className="nofi__close" onClick={() => setNotification(null)}>
                 <FontAwesomeIcon icon={faX} className='icon__nofi' />
             </div>
         </div>
@@ -70,13 +70,13 @@ function Warning({ obj }) {
 }
 
 function Notify() {
-    const { notification } = useNotification();
+    const { notification, setNotification } = useNotification();
 
     return (
         <div id="nofi">
-            {notification && notification.type === 'error' && <Error obj={notification} />}
-            {notification && notification.type === 'success' && <Success obj={notification} />}
-            {notification && notification.type === 'warning' && <Warning obj={notification} />}
+            {notification && notification.type === 'error' && <Error obj={notification} setNotification={setNotification} />}
+            {notification && notification.type === 'success' && <Success obj={notification} setNotification={setNotification} />}
+            {notification && notification.type === 'warning' && <Warning obj={notification} setNotification={setNotification} />}
         </div>
     )
 }

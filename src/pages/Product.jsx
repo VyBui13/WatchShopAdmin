@@ -20,8 +20,8 @@ function Product() {
     const [search, setSearch] = useState("");
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 10;
-        if (screenHeight >= 750) return 8;
+        if (screenHeight >= 900) return 8;
+        if (screenHeight >= 750) return 7;
         if (screenHeight >= 600) return 6;
         return 4;
     }
@@ -123,7 +123,7 @@ function Product() {
 
     return (
         <>
-            {productSelected && <ProductDetail product={productSelected} setProductSelected={setProductSelected} products={products} setProducts={setProducts} />}
+            {productSelected && <ProductDetail product={productSelected} setProductSelected={setProductSelected} products={products} setProducts={setProducts} setPage={setPage} />}
             <div className="board board--product">
                 <div className="board__feature">
                     <div className="board__feature__sortfilter">

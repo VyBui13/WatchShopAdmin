@@ -34,7 +34,7 @@ function BestSeller() {
         if (screenHeight >= 900) return 16;
         if (screenHeight >= 750) return 14;
         if (screenHeight >= 600) return 12;
-        return 7;
+        return 6;
     }
     const [amountItem, setAmountItem] = useState(calculateItemsPerPage());
 

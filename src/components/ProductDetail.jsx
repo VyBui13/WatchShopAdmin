@@ -7,7 +7,7 @@ import { useNotification } from './NotificationContext';
 import { useLoading } from "./LoadingContext";
 import { useConfirmPrompt } from './ConfirmPromptContext'
 
-function ProductDetail({ product, setProductSelected, products, setProducts }) {
+function ProductDetail({ product, setProductSelected, products, setProducts, setPage }) {
     const { setIsLoading } = useLoading();
     const { setIsConfirmPrompt, setConfirmPromptData } = useConfirmPrompt();
     const { notify } = useNotification();
@@ -65,6 +65,32 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
         setProductSelected(null);
     }
 
+    async function handleDeleteProduct() {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`http://localhost:5000/api/product/${productInfo._id}`, {
+                method: 'DELETE',
+            });
+
+            const data = await response.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== "success") {
+                console.error("Failed to delete product:", data.message);
+                return;
+            }
+
+            const newProducts = products.filter((p) => p._id !== productInfo._id);
+            setProducts(newProducts);
+            setProductSelected(null);
+            setPage(1);
+
+        } catch (error) {
+            console.error("Failed to delete product:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     function handleRemoveRelatedImage(index) {
         const newRelatedImage = productInfo.productRelatedImages.filter((image, i) => i !== index);
         const newRelatedImageReview = relatedImagesReview.filter((image, i) => i !== index);
@@ -93,7 +119,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
     }
 
     async function handleSave() {
-        const loadingRef = setTimeout(() => setIsLoading(true), 500);
+        setIsLoading(true);
         try {
             let mainImageUrlUpload = '';
             let relatedImageUrlUpload = [];
@@ -150,7 +176,6 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
         } catch (error) {
             console.error("Failed to update product:", error);
         } finally {
-            clearTimeout(loadingRef);
             setIsLoading(false);
         }
 
@@ -284,6 +309,14 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                         <div className="productdetail__footer">
                             <div className="productdetail__button">
                                 <button onClick={handleCancel}>Cancel</button>
+                                <button onClick={() => {
+                                    setConfirmPromptData({
+                                        message: `Delete product`,
+                                        action: 'Delete',
+                                        onConfirm: handleDeleteProduct
+                                    });
+                                    setIsConfirmPrompt(true);
+                                }}>Delete</button>
                                 <button onClick={() => {
                                     setConfirmPromptData({
                                         message: `Update product`,

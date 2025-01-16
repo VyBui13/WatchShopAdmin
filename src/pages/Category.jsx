@@ -20,9 +20,11 @@ function Category() {
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 9;
-        if (screenHeight >= 750) return 7;
-        if (screenHeight >= 600) return 5;
+        if (screenHeight >= 900) return 13;
+        if (screenHeight >= 800) return 11;
+        if (screenHeight >= 700) return 9;
+        if (screenHeight >= 600) return 7;
+        if (screenHeight >= 500) return 5;
         return 4;
     }
 
@@ -30,7 +32,7 @@ function Category() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+            setIsLoading(true);
             try {
                 const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/category');
                 const data = await res.json();
@@ -59,7 +61,6 @@ function Category() {
             } catch (error) {
                 console.log(error);
             } finally {
-                clearTimeout(loadingRef);
                 setIsLoading(false);
             }
         }
@@ -89,6 +90,31 @@ function Category() {
         }
     }
 
+    async function handleHidden(category) {
+        setIsLoading(true);
+        try {
+            const res = await fetch(`http://localhost:5000/api/category/activation/${category._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                console.log('Error deleting data');
+                return;
+            }
+            setCategories(categories.map(item => item._id === category._id ? { ...item, categoryActive: item.categoryActive === "Visible" ? "Hidden" : "Visible" } : item));
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     async function handleRemove(category) {
         if (category.products.length > 0) {
             notify({ type: 'error', msg: 'Category must not contain any products when deleting' });
@@ -96,7 +122,7 @@ function Category() {
         }
         try {
             const fetchData = async () => {
-                const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+                setIsLoading(true);
                 try {
                     const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/category/${category._id}`, {
                         method: 'DELETE',
@@ -108,12 +134,12 @@ function Category() {
                     }
                     notify({ type: data.status, msg: data.message });
                     setCategories(categories.filter(item => item._id !== category._id));
+                    setPage(1);
                 }
                 catch (error) {
                     console.log(error);
                 }
                 finally {
-                    clearTimeout(loadingRef);
                     setIsLoading(false);
                 }
             }
@@ -194,8 +220,15 @@ function Category() {
                                 <div className="board__table__attribute">
                                     <div
                                         // style={{ backgroundColor: product.productStatus === "On Stock" ? "green" : (product.productStatus === "Out of Stock" ? "red" : "yellow") }}
-                                        style={{ backgroundColor: "green" }}
-                                        className="board__table__status"></div>
+                                        style={{ backgroundColor: category.categoryActive === "Visible" ? "green" : "red" }}
+                                        className="board__table__status" onClick={() => {
+                                            setConfirmPromptData({
+                                                message: category.categoryActive === "Visible" ? `Hidden category` : `Visible category`,
+                                                action: "Change",
+                                                onConfirm: () => handleHidden(category),
+                                            });
+                                            setIsConfirmPrompt(true);
+                                        }}></div>
                                 </div>
                             </div>
                         ))}
@@ -203,7 +236,7 @@ function Category() {
 
                     <div className="board__table__footer">
                         <div className="board__table__selected">
-                            <span>1 selected</span>
+                            <span>{categories.length} categories</span>
                             <button>
                                 <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                             </button>

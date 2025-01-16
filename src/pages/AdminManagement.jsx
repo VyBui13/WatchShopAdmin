@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faScrewdriverWrench, faUser, faX, faGear, faFilter, faUserTie, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faScrewdriverWrench, faUser, faX, faGear, faFilter, faUserTie, faUserSecret, faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import '../styles/admin_management.css'
 import { useState, useEffect } from 'react'
 import AccountForm from '../components/AccountForm'
@@ -93,6 +93,32 @@ function AdminManagement() {
         }
     }
 
+    async function handleChangeActivation(id) {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://localhost:5000/api/user/activation/' + id, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                console.log(data.message);
+                return;
+            }
+
+            setUsers(users.map(user => { return user._id === id ? { ...user, userAccountStatus: user.userAccountStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE' } : user }));
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     function handleDeleteStaff(id) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => {
@@ -175,7 +201,7 @@ function AdminManagement() {
 
                                         <div className="management__card__title">
                                             <h2>
-                                                {user.userName}
+                                                {user.userName} {user.userAccountStatus === 'ACTIVE' ? '' : ' - Banned'}
                                             </h2>
                                         </div>
 
@@ -197,7 +223,20 @@ function AdminManagement() {
                                     </div>
                                     <button onClick={() => {
                                         setConfirmPromptData({
-                                            message: `Delete ${user.userName}`,
+                                            message: user.userAccountStatus === 'ACTIVE' ? "Ban Staff" : "Unban Staff",
+                                            action: "Change",
+                                            onConfirm: () => {
+                                                handleChangeActivation(user._id);
+                                            },
+                                        });
+                                        setIsConfirmPrompt(true);
+                                    }} className="management__card__active">
+                                        <FontAwesomeIcon icon={faCircleHalfStroke} className='icon__card__button' />
+                                    </button>
+
+                                    <button onClick={() => {
+                                        setConfirmPromptData({
+                                            message: "Delete Staff",
                                             action: "Delete",
                                             onConfirm: () => {
                                                 handleDeleteStaff(user._id);
