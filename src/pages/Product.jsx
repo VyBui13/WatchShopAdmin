@@ -254,7 +254,7 @@ function Product() {
                                 <div className="board__table__attribute">{product.productName}</div>
                                 <div className="board__table__attribute">{brands.find((brand) => brand._id === product.productBrand)?.brandName || "Unknown Brand"}</div>
                                 <div className="board__table__attribute">{categories.find((category) => category._id === product.productCategory)?.categoryName || "Unknown Category"}</div>
-                                <div className="board__table__attribute">${product.productPrice}</div>
+                                <div className="board__table__attribute">{new Intl.NumberFormat('de-DE').format(product.productPrice)}</div>
                                 <div className="board__table__attribute">{product.productQuantity}</div>
                                 <div className="board__table__attribute">
                                     <div
