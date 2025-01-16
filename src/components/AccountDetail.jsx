@@ -20,7 +20,7 @@ function AccountDetail({ theChosenAccount, setTheChosenAccount, customer, setCus
         }
         const loadingRef = setTimeout(() => setIsLoading(true), 500);
         try {
-            const res = await fetch(`http://localhost:5000/api/customer/${account._id}`, {
+            const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/customer/${account._id}`, {
                 method: 'PUT',
             });
             const data = await res.json();

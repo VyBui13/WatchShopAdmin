@@ -21,7 +21,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const res = await fetch('http://localhost:5000/api/user?role=Shipper', {
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user?role=Shipper', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function OrderDetail({ theChosenOrder, setTheChosenOrder }) {
     async function saveOrder() {
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/customer/order/${theChosenOrder._id}`, {
+            const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/customer/order/${theChosenOrder._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

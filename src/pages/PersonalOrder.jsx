@@ -17,7 +17,7 @@ function PersonalOrder() {
         }
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/customer/order/${theChosenOrder._id}`, {
+            const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/customer/order/${theChosenOrder._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ function PersonalOrder() {
         const fetchOrders = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch('http://localhost:5000/api/user/order', {
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/order', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ function PersonalOrder() {
                     notify({ type: data.status, msg: data.message });
                     return;
                 }
-                const res2 = await fetch('http://localhost:5000/api/shipping');
+                const res2 = await fetch('https://watch-shop-nine-beryl.vercel.app/api/shipping');
                 const data2 = await res2.json();
                 if (data2.status !== 'success') {
                     notify({ type: data2.status, msg: data2.message });

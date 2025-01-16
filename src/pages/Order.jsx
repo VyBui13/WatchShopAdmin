@@ -316,7 +316,7 @@ function Order() {
         const fetchOrders = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch('http://localhost:5000/api/customer/order/list', {
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/customer/order/list', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -329,7 +329,7 @@ function Order() {
                     notify({ type: data.status, msg: data.message });
                     return;
                 }
-                const res2 = await fetch('http://localhost:5000/api/shipping');
+                const res2 = await fetch('https://watch-shop-nine-beryl.vercel.app/api/shipping');
                 const data2 = await res2.json();
                 if (data2.status !== 'success') {
                     notify({ type: data2.status, msg: data2.message });

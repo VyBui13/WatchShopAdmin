@@ -32,14 +32,14 @@ function Category() {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
-                const res = await fetch('http://localhost:5000/api/category');
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/category');
                 const data = await res.json();
                 if (data.status !== 'success') {
                     console.log('Error fetching data');
                     return;
                 }
 
-                const res2 = await fetch('http://localhost:5000/api/product/category');
+                const res2 = await fetch('https://watch-shop-nine-beryl.vercel.app/api/product/category');
                 const data2 = await res2.json();
                 if (data2.status !== 'success') {
                     console.log('Error fetching data');
@@ -98,7 +98,7 @@ function Category() {
             const fetchData = async () => {
                 const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const res = await fetch(`http://localhost:5000/api/category/${category._id}`, {
+                    const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/category/${category._id}`, {
                         method: 'DELETE',
                     });
                     const data = await res.json();

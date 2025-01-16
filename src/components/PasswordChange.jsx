@@ -32,7 +32,7 @@ function PasswordChange({ setIsChangePassword }) {
         setIsLoading(true);
         try {
 
-            const response = await fetch('http://localhost:5000/api/user/password', {
+            const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/password', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function PasswordChange({ setIsChangePassword }) {
                 return;
             }
 
-            const res1 = await fetch('http://localhost:5000/api/user/logout', {
+            const res1 = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/logout', {
                 method: 'GET',
                 header: {
                     'Content-Type': 'application/json',

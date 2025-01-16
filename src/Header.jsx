@@ -16,7 +16,7 @@ function Header() {
     async function logout() {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/user/logout', {
+            const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/logout', {
                 method: 'GET',
                 header: {
                     'Content-Type': 'application/json',

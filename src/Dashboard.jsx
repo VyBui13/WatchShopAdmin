@@ -15,7 +15,7 @@ function Dashboard() {
         const fetchData = async () => {
             console.log('fetching data');
             try {
-                const resUser = await fetch('http://localhost:5000/api/user/auth', {
+                const resUser = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/auth', {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

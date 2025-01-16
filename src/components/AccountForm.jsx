@@ -25,7 +25,7 @@ function AccountForm({ setIsForm, setUsers }) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const response = await fetch('http://localhost:5000/api/user/', {
+                const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ function AccountForm({ setIsForm, setUsers }) {
                     setIsForm(false);
                     return;
                 }
-                const responseUsers = await fetch('http://localhost:5000/api/user');
+                const responseUsers = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user');
                 const dataUsers = await responseUsers.json();
                 if (dataUsers.status !== 'success') {
                     console.log(dataUsers.message);

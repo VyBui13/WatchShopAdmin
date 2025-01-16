@@ -32,7 +32,7 @@ function Product() {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true); }, 500);
             try {
-                const res = await fetch('http://localhost:5000/api/product');
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/product');
                 const data = await res.json();
                 console.log(data);
                 if (data.status !== 'success') {
@@ -41,7 +41,7 @@ function Product() {
                 }
                 setProducts(data.data);
 
-                const resBrand = await fetch('http://localhost:5000/api/brand');
+                const resBrand = await fetch('https://watch-shop-nine-beryl.vercel.app/api/brand');
                 const dataBrand = await resBrand.json();
                 if (dataBrand.status !== 'success') {
                     console.log('Error fetching data');
@@ -49,7 +49,7 @@ function Product() {
                 }
                 setBrands(dataBrand.data);
 
-                const resCategory = await fetch('http://localhost:5000/api/category');
+                const resCategory = await fetch('https://watch-shop-nine-beryl.vercel.app/api/category');
                 const dataCategory = await resCategory.json();
                 if (dataCategory.status !== 'success') {
                     console.log('Error fetching data');
@@ -103,7 +103,7 @@ function Product() {
                 keySearch: search
             };
 
-            const res = await fetch(`http://localhost:5000/api/product/filter?brands=${query.brands}&categories=${query.categories}&sortBy=${query.sortBy}&sortType=${query.sortType}&keySearch=${query.keySearch}`);
+            const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/product/filter?brands=${query.brands}&categories=${query.categories}&sortBy=${query.sortBy}&sortType=${query.sortType}&keySearch=${query.keySearch}`);
             const data = await res.json();
             if (data.status !== 'success') {
                 console.log('Error fetching data');

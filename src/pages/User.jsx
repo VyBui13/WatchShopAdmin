@@ -40,7 +40,7 @@ function User() {
     }
 
     function handleSaveInfo(type, data, setFunction) {
-        const url = `http://localhost:5000/api/user/edit?type=${type}&data=${data}`;
+        const url = `https://watch-shop-nine-beryl.vercel.app/api/user/edit?type=${type}&data=${data}`;
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {

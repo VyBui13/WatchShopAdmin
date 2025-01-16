@@ -33,7 +33,7 @@ function Manufacturer() {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
             try {
-                const res = await fetch('http://localhost:5000/api/brand');
+                const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/brand');
                 const data = await res.json();
                 if (data.status !== 'success') {
                     console.log('Error fetching data');
@@ -79,7 +79,7 @@ function Manufacturer() {
             const fetchData = async () => {
                 const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const res = await fetch(`http://localhost:5000/api/brand/${id}`, {
+                    const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/brand/${id}`, {
                         method: 'DELETE',
                     });
                     const data = await res.json();

@@ -54,7 +54,7 @@ function AdminManagement() {
                 loadingRef = setTimeout(() => {
                     setIsLoading(true);
                 }, 500);
-                const response = await fetch('http://localhost:5000/api/user');
+                const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user');
                 const data = await response.json();
                 if (data.status === 'error') {
                     console.log(data.message);
@@ -99,7 +99,7 @@ function AdminManagement() {
                 setIsLoading(true);
             }, 500);
             try {
-                const response = await fetch('http://localhost:5000/api/user/' + id, {
+                const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/' + id, {
                     method: 'DELETE',
                     credentials: 'include',
                     headers: {

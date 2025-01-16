@@ -104,7 +104,7 @@ function Account() {
         // const fetchData = async () => {
         //     const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
         //     try {
-        //         const res = await fetch('http://localhost:5000/api/customer');
+        //         const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/customer');
         //         const data = await res.json();
         //         console.log(data);
         //         if (data.status !== 'success') {
@@ -150,7 +150,7 @@ function Account() {
     async function updateAccount(id) {
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/customer/${id}`, {
+            const res = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/customer/${id}`, {
                 method: 'PUT',
             });
             const data = await res.json();
@@ -183,7 +183,7 @@ function Account() {
             keySearch: search,
         }
         try {
-            const res = await fetch('http://localhost:5000/api/customer/filter?' + new URLSearchParams(query));
+            const res = await fetch('https://watch-shop-nine-beryl.vercel.app/api/customer/filter?' + new URLSearchParams(query));
             const data = await res.json();
             if (data.status !== 'success') {
                 console.log('Error fetching data');

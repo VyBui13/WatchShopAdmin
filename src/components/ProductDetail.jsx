@@ -32,7 +32,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const response = await fetch("http://localhost:5000/api/category");
+                const response = await fetch("https://watch-shop-nine-beryl.vercel.app/api/category");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch categories:", data.message);
@@ -40,7 +40,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 }
                 setCategoryList(data.data);
 
-                const response2 = await fetch("http://localhost:5000/api/brand");
+                const response2 = await fetch("https://watch-shop-nine-beryl.vercel.app/api/brand");
                 const data2 = await response2.json();
                 if (data2.status !== "success") {
                     console.error("Failed to fetch brandList:", data2.message);
@@ -119,7 +119,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 relatedImageUrlUpload = relatedImages;
             }
 
-            const response = await fetch(`http://localhost:5000/api/product/${productInfo._id}`, {
+            const response = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/product/${productInfo._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ function ProductDetail({ product, setProductSelected, products, setProducts }) {
                 return;
             }
 
-            const resProduct = await fetch(`http://localhost:5000/api/product`);
+            const resProduct = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/product`);
             const dataProduct = await resProduct.json();
             if (dataProduct.status !== "success") {
                 console.error("Failed to fetch products:", dataProduct.message);

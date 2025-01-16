@@ -20,7 +20,7 @@ function ProductImport() {
         const fetchData = async () => {
             const loadingRef = setTimeout(() => setIsLoading(true), 500);
             try {
-                const response = await fetch("http://localhost:5000/api/category");
+                const response = await fetch("https://watch-shop-nine-beryl.vercel.app/api/category");
                 const data = await response.json();
                 if (data.status !== "success") {
                     console.error("Failed to fetch categories:", data.message);
@@ -28,7 +28,7 @@ function ProductImport() {
                 }
                 setCategoryList(data.data);
 
-                const response2 = await fetch("http://localhost:5000/api/brand");
+                const response2 = await fetch("https://watch-shop-nine-beryl.vercel.app/api/brand");
                 const data2 = await response2.json();
                 if (data2.status !== "success") {
                     console.error("Failed to fetch brands:", data2.message);
@@ -147,7 +147,7 @@ function ProductImport() {
                 relatedImagesUrls.push(url);
             }
 
-            const response = await fetch("http://localhost:5000/api/product", {
+            const response = await fetch("https://watch-shop-nine-beryl.vercel.app/api/product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

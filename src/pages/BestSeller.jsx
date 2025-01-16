@@ -43,7 +43,7 @@ function BestSeller() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:5000/api/product', {
+                const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/product', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function BestSeller() {
                     return;
                 }
 
-                const response1 = await fetch('http://localhost:5000/api/customer/order/total-purchase/list', {
+                const response1 = await fetch('https://watch-shop-nine-beryl.vercel.app/api/customer/order/total-purchase/list', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ function BestSeller() {
             }
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:5000/api/product', {
+                const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/product', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ function BestSeller() {
                     return;
                 }
 
-                const response2 = await fetch(`http://localhost:5000/api/customer/order/total-purchase/list?` + new URLSearchParams(query), {
+                const response2 = await fetch(`https://watch-shop-nine-beryl.vercel.app/api/customer/order/total-purchase/list?` + new URLSearchParams(query), {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -31,7 +31,7 @@ function Manufacturer() {
             const fetchData = async () => {
                 const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
                 try {
-                    const response = await fetch("http://localhost:5000/api/brand", {
+                    const response = await fetch("https://watch-shop-nine-beryl.vercel.app/api/brand", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
