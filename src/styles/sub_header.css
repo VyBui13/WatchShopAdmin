@@ -124,11 +124,27 @@
 }
 
 .subheader__nav__item {
-    font-size: 14px;
+    margin: 2px 0;
     padding: 0 10px;
+    font-size: 14px;
     cursor: pointer;
     font-weight: 700;
-    margin: 2px 0;
+    color: var(--text-in-background-color);
+}
+
+.subheader__nav__item button {
+
+    background-color: transparent;
+    border: none;
+}
+
+.subheader__nav__item button a {
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-in-background-color);
+    font-family: "Varela Round";
+
 }
 
 .subheader__close__btn {

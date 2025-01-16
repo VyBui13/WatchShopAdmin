@@ -20,9 +20,11 @@ function Category() {
 
     function calculateItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight >= 900) return 9;
-        if (screenHeight >= 750) return 7;
-        if (screenHeight >= 600) return 5;
+        if (screenHeight >= 900) return 13;
+        if (screenHeight >= 800) return 11;
+        if (screenHeight >= 700) return 9;
+        if (screenHeight >= 600) return 7;
+        if (screenHeight >= 500) return 5;
         return 4;
     }
 
@@ -30,7 +32,7 @@ function Category() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+            setIsLoading(true);
             try {
                 const res = await fetch('http://localhost:5000/api/category');
                 const data = await res.json();
@@ -59,7 +61,6 @@ function Category() {
             } catch (error) {
                 console.log(error);
             } finally {
-                clearTimeout(loadingRef);
                 setIsLoading(false);
             }
         }
@@ -90,6 +91,7 @@ function Category() {
     }
 
     async function handleHidden(category) {
+        setIsLoading(true);
         try {
             const res = await fetch(`http://localhost:5000/api/category/activation/${category._id}`, {
                 method: 'PUT',
@@ -108,6 +110,8 @@ function Category() {
 
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -118,7 +122,7 @@ function Category() {
         }
         try {
             const fetchData = async () => {
-                const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+                setIsLoading(true);
                 try {
                     const res = await fetch(`http://localhost:5000/api/category/${category._id}`, {
                         method: 'DELETE',
@@ -130,12 +134,12 @@ function Category() {
                     }
                     notify({ type: data.status, msg: data.message });
                     setCategories(categories.filter(item => item._id !== category._id));
+                    setPage(1);
                 }
                 catch (error) {
                     console.log(error);
                 }
                 finally {
-                    clearTimeout(loadingRef);
                     setIsLoading(false);
                 }
             }

@@ -31,7 +31,7 @@ function Manufacturer() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+            setIsLoading(true);
             try {
                 const res = await fetch('http://localhost:5000/api/brand');
                 const data = await res.json();
@@ -44,7 +44,6 @@ function Manufacturer() {
             } catch (error) {
                 console.log(error);
             } finally {
-                clearTimeout(loadingRef);
                 setIsLoading(false);
             }
         }
