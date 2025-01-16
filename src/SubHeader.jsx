@@ -94,7 +94,9 @@ function SubHeader() {
                                 Dashboard
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/'>Home</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/'>Home</Link>
+                                </button>
                             </div>
                         </div>
 
@@ -103,11 +105,15 @@ function SubHeader() {
                                 Product
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/product'>Managament</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/product'>Managament</Link>
+                                </button>
                             </div>
 
                             <div className="subheader__nav__item">
-                                <Link to='/product/import'>Addition</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/product/import'>Addition</Link>
+                                </button>
                             </div>
                         </div>}
 
@@ -116,15 +122,21 @@ function SubHeader() {
                                 Account
                             </div>
                             {authorization.accountManagement && <div className="subheader__nav__item">
-                                <Link to='/account'>Managament</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/account'>Managament</Link>
+                                </button>
                             </div>}
 
                             {(authorization.orderManagement || authorization.orderAcceptance) && <div className="subheader__nav__item">
-                                <Link to='/order'>Order List</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/order'>Order List</Link>
+                                </button>
                             </div>}
 
                             {authorization.orderAcceptance && <div className="subheader__nav__item">
-                                <Link to='/order/list'>Personal</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/order/list'>Personal</Link>
+                                </button>
                             </div>}
                         </div>}
 
@@ -133,11 +145,15 @@ function SubHeader() {
                                 Kind
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/category'>Category</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/category'>Category</Link>
+                                </button>
                             </div>
 
                             <div className="subheader__nav__item">
-                                <Link to='/manufacturer'>Manufacturer</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+                                    <Link to='/manufacturer'>Manufacturer</Link>
+                                </button>
                             </div>
                         </div>}
 
@@ -146,7 +162,10 @@ function SubHeader() {
                                 Report
                             </div>
                             <div className="subheader__nav__item">
-                                <Link to='/bestseller'>Best seller</Link>
+                                <button onClick={() => setIsSidebar(!isSidebar)}>
+
+                                    <Link to='/bestseller'>Best seller</Link>
+                                </button>
                             </div>
                         </div>}
 

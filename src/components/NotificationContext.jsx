@@ -11,8 +11,9 @@ export const NotificationProvider = ({ children }) => {
         setTimeout(() => setNotification(null), 3500);
     };
 
+
     return (
-        <NotificationContext.Provider value={{ notification, notify }}>
+        <NotificationContext.Provider value={{ notification, notify, setNotification }}>
             {children}
         </NotificationContext.Provider>
     );

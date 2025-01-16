@@ -31,7 +31,7 @@ function Manufacturer() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const loadingRef = setTimeout(() => { setIsLoading(true) }, 500);
+            setIsLoading(true);
             try {
                 const res = await fetch('http://localhost:5000/api/brand');
                 const data = await res.json();
@@ -44,7 +44,6 @@ function Manufacturer() {
             } catch (error) {
                 console.log(error);
             } finally {
-                clearTimeout(loadingRef);
                 setIsLoading(false);
             }
         }
@@ -71,6 +70,29 @@ function Manufacturer() {
     function decreasePage() {
         if (page > 1) {
             setPage(page - 1);
+        }
+    }
+
+    async function handleHidden(id) {
+        try {
+            const res = await fetch(`http://localhost:5000/api/brand/activation/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const data = await res.json();
+            notify({ type: data.status, msg: data.message });
+            if (data.status !== 'success') {
+                console.log('Error deleting data');
+                return;
+            }
+
+            setManufacturers(manufacturers.map(manufacturer => { return manufacturer._id === id ? { ...manufacturer, brandActive: manufacturer.brandActive === "Visible" ? "Hidden" : "Visible" } : manufacturer }));
+
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -157,15 +179,19 @@ function Manufacturer() {
                                 key={manufacturer._id}
                                 className="board__table__row">
                                 <div className="board__table__attribute">
-                                    <button onClick={() => {
-                                        setConfirmPromptData({
-                                            message: `Delete category`,
-                                            action: "Delete",
-                                            onConfirm: () => handleRemove(manufacturer._id),
-                                        });
-                                        setIsConfirmPrompt(true);
+                                    <button
+                                        style={{ backgroundColor: manufacturer.brandActive === "Visible" ? "green" : "red" }}
+                                        onClick={() => {
+                                            setConfirmPromptData({
+                                                message: manufacturer.brandActive === "Visible" ? "Hidden brand" : "Visible brand",
+                                                action: "Change",
+                                                onConfirm: () => handleHidden(manufacturer._id),
+                                            });
+                                            setIsConfirmPrompt(true);
 
-                                    }}>X</button>
+                                        }}>
+                                        {manufacturer.brandActive === "Visible" ? "X" : "+"}
+                                    </button>
                                 </div>
                                 <div className="board__table__attribute">{manufacturer._id.slice(-4)}</div>
                                 <div className="board__table__attribute">
@@ -180,7 +206,7 @@ function Manufacturer() {
 
                     <div className="board__table__footer">
                         <div className="board__table__selected">
-                            <span>1 selected</span>
+                            <span>{manufacturers.length} brands</span>
                             <button>
                                 <FontAwesomeIcon icon={faTrash} className='icon__deleted' />
                             </button>

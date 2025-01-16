@@ -4,8 +4,10 @@ import { useLoading } from "../components/LoadingContext";
 import { useNotification } from "../components/NotificationContext"
 import { uploadImage } from '../utils/UploadImageProvider';
 import { useNavigate } from 'react-router-dom';
+import { useConfirmPrompt } from "../components/ConfirmPromptContext";
 
 function Manufacturer() {
+    const { setConfirmPromptData, setIsConfirmPrompt } = useConfirmPrompt();
     const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { notify } = useNotification();
