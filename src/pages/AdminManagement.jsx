@@ -96,7 +96,7 @@ function AdminManagement() {
     async function handleChangeActivation(id) {
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/user/activation/' + id, {
+            const response = await fetch('https://watch-shop-nine-beryl.vercel.app/api/user/activation/' + id, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
