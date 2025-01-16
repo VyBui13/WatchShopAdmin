@@ -24,7 +24,6 @@ function Category() {
         if (screenHeight >= 800) return 11;
         if (screenHeight >= 700) return 9;
         if (screenHeight >= 600) return 7;
-        if (screenHeight >= 500) return 5;
         return 4;
     }
 
